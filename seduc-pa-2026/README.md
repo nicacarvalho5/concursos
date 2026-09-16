@@ -1,6 +1,6 @@
 # Conteúdo Programático - Especialista em Educação
 
-Com base no **Anexo V do edital**, o conteúdo programático para o cargo de **Especialista em Educação** está dividido em duas partes principais: **Conhecimentos Básicos** e **Conhecimentos Específicos**. Abaixo estão as disciplinas e os tópicos detalhados de cada uma. 
+Com base no **[Anexo V do edital](https://github.com/nicacarvalho5/concursos/blob/main/seduc-pa-2026/edital/edital-no-001-de-28.08.2026-doe-no-36.749-de-31.08.2026-abertura-seduc.pdf)**, o conteúdo programático para o cargo de **Especialista em Educação** está dividido em duas partes principais: **Conhecimentos Básicos** e **Conhecimentos Específicos**. Abaixo estão as disciplinas e os tópicos detalhados de cada uma. 
 
 ## Conhecimentos Básicos
 
