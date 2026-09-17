@@ -1,7 +1,5 @@
 # 1. Interpretação e compreensão de texto
 
-> **Slide:** [Visualizar apresentação](https://nicacarvalho5.github.io/concursos/seduc-pa-2026/slides/1-conhecimentos-basicos/1-lingua-portuguesa/01-interpretacao-e-compreensao-de-texto/)
-
 O edital do Concurso Público C-223 da SEDUC-PA inclui **Língua Portuguesa** entre os conteúdos de Conhecimentos Básicos. Para o cargo de **Especialista em Educação**, o concurso prevê prova objetiva, prova discursiva e prova prática, o que exige domínio tanto da leitura objetiva quanto da análise crítica e argumentativa de textos.
 
 ## 1.1 Definição
