@@ -5,7 +5,7 @@
 ### 1. Língua Portuguesa
 
 [01. Interpretação e compreensão de texto](01-interpretacao-e-compreensao-de-texto.md)
-02. Organização estrutural dos textos
+[02. Organização estrutural dos textos](02-organizacao-estrutural-dos-textos.md)
 03. Marcas de textualidade: coesão, coerência e intertextualidade
 04. Modos de organização discursiva: descrição, narração, exposição, argumentação e injunção
 05. Tipos textuais e características específicas de cada tipo
