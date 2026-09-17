@@ -4,15 +4,15 @@
 
 ### 1. Língua Portuguesa
 
-[01. Interpretação e compreensão de texto](01-interpretacao-e-compreensao-de-texto.md)
-[02. Organização estrutural dos textos](02-organizacao-estrutural-dos-textos.md)
-03. Marcas de textualidade: coesão, coerência e intertextualidade
-04. Modos de organização discursiva: descrição, narração, exposição, argumentação e injunção
-05. Tipos textuais e características específicas de cada tipo
-06. Textos literários e não literários
-07. Tipologia da frase portuguesa
-08. Estrutura da frase portuguesa: operações de deslocamento, substituição, modificação e correção
-09. Problemas estruturais das frases
+1. [Interpretação e compreensão de texto](01-interpretacao-e-compreensao-de-texto.md)
+2. [Organização estrutural dos textos](02-organizacao-estrutural-dos-textos.md)
+3. Marcas de textualidade: coesão, coerência e intertextualidade
+4. Modos de organização discursiva: descrição, narração, exposição, argumentação e injunção
+5. Tipos textuais e características específicas de cada tipo
+6. Textos literários e não literários
+7. Tipologia da frase portuguesa
+8. Estrutura da frase portuguesa: operações de deslocamento, substituição, modificação e correção
+9. Problemas estruturais das frases
 10. Norma culta
 11. Pontuação e sinais gráficos
 12. Organização sintática das frases: termos e orações
