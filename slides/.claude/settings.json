@@ -1,0 +1,14 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node .mira/bin/version-notice.js"
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,8 @@
+/* Patrick Hand (Google Fonts, licença OFL), subconjunto latin, vendorizada para abrir offline por file:// */
+@font-face {
+  font-family: 'Patrick Hand';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(fonts/patrick-hand-latin.woff2) format('woff2');
+}

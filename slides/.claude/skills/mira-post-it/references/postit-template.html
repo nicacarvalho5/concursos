@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mira - Mural de post-its ao vivo</title>
+
+<!-- ==========================================================
+     MURAL DE POST-ITS AO VIVO  ·  /mira-post-it
+     ----------------------------------------------------------
+     Dois slides que trabalham juntos:
+
+       SLIDE 1 · a pergunta + o QR-code. A plateia escaneia,
+                 responde em texto livre no Google Forms.
+       SLIDE 2 · o mural. Cada resposta vira um post-it que
+                 ENTRA na tela, um a um.
+
+     O Mira nao hospeda nada. O Forms coleta, a planilha guarda
+     e o slide le a planilha pelo endpoint gviz com JSONP, que
+     fura o CORS e funciona com o deck aberto por file://.
+
+     UM POLLER SO, DOIS DESTINOS. O mesmo documento tem os dois
+     slides, entao existe um unico window.miraPostitPoll: ele
+     atualiza o contador do slide 1 e alimenta a fila do slide 2.
+     Dois pollers dariam duas chamadas JSONP correndo uma contra
+     a outra.
+
+     A REVELACAO E POR VISIBILIDADE, NAO POR CHEGADA. Enquanto o
+     slide 1 esta na tela as respostas se acumulam numa FILA. O
+     mural so drena a fila quando o slide 2 fica visivel, um
+     post-it de cada vez. Sem isso o apresentador viraria o slide
+     e daria de cara com um mural pronto e parado, que e
+     exatamente o efeito que este deck existe para nao ter.
+
+     CHAVE ESTAVEL. O gviz devolve a tabela inteira a cada leitura.
+     Cada post-it e identificado pelo indice da linha, e so vira
+     DOM uma vez. A inclinacao tambem sai do indice, nunca de
+     Math.random() no render, senao a parede inteira tremeria a
+     cada 3 segundos.
+
+     FILTRO DE PALAVRAS. Mural e projetado: resposta com palavrao
+     e descartada em silencio na leitura, nao vira post-it e nao
+     conta no contador. A lista e editavel no bloco CONFIG.
+     ========================================================== -->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+/* @MIRA:THEME:START */
+/* MIRA THEME: mira-dark (padrao) */
+:root {
+    --mira-primary: #FF904D;
+    --mira-bg: #000000;
+    --mira-text: #ffffff;
+    --mira-text-soft: rgba(255, 255, 255, 0.70);
+    --mira-text-softer: rgba(255, 255, 255, 0.50);
+    --mira-card-bg: rgba(255, 255, 255, 0.05);
+    --mira-card-border: rgba(255, 255, 255, 0.10);
+    --mira-glow-soft: rgba(255, 144, 77, 0.15);
+    --mira-glow-strong: rgba(255, 144, 77, 0.25);
+    --mira-icon-bg: rgba(255, 144, 77, 0.15);
+    --mira-icon-border: rgba(255, 144, 77, 0.30);
+    --mira-pill-bg: rgba(255, 255, 255, 0.04);
+    --mira-pill-border: rgba(255, 255, 255, 0.08);
+    --mira-stage-glow: rgba(255, 144, 77, 0.06);
+    --mira-accent-2: #FFC766;
+}
+/* @MIRA:THEME:END */
+
+:root {
+    --accent: var(--mira-primary);
+    --bg: var(--mira-bg);
+    --ink: var(--mira-text);
+    --muted: var(--mira-text-soft);
+    --line: var(--mira-card-border);
+    /* quadro 16:9 que cabe inteiro na janela */
+    --fmt-w: min(100vw, calc(100vh * 16 / 9));
+    --fmt-h: calc(var(--fmt-w) * 9 / 16);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { background: #000000; scroll-behavior: smooth; scroll-snap-type: y proximity; }
+html { scrollbar-width: none; overflow-x: hidden; }
+html::-webkit-scrollbar, body::-webkit-scrollbar { display: none; }
+
+body {
+    background: #000000;
+    color: var(--ink);
+    font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+body > section {
+    position: relative;
+    width: var(--fmt-w);
+    height: var(--fmt-h);
+    min-height: var(--fmt-h);
+    margin: calc((100vh - var(--fmt-h)) / 2) 0;
+    scroll-margin-top: calc((100vh - var(--fmt-h)) / 2);
+    overflow: hidden;
+    background: var(--bg);
+    scroll-snap-align: start;
+    display: flex;
+    flex-direction: column;
+    isolation: isolate;
+}
+/* DIRETIVA DA CAPA: o titulo do primeiro slide nunca quebra
+   deixando artigo ou preposicao sozinho na linha de baixo. */
+body > section:first-of-type h1,
+body > section:first-of-type h2 { text-wrap: balance; }
+
+.accent { color: var(--accent); }
+.eyebrow {
+    font-size: clamp(11px, 1.5vh, 15px); letter-spacing: .22em;
+    text-transform: uppercase; font-weight: 800; color: var(--accent);
+}
+
+/* ---------------- sinal de vida (os dois slides) ---------------- */
+.status { display: flex; align-items: center; gap: 10px; color: var(--muted); font-size: clamp(13px, 1.8vh, 18px); white-space: nowrap; }
+.dot { width: 10px; height: 10px; border-radius: 50%; background: #39d353; animation: pulse 1.6s infinite; flex: 0 0 auto; }
+.dot.off { background: #888; animation: none; box-shadow: none; }
+@keyframes pulse {
+    0%   { box-shadow: 0 0 0 0 rgba(57,211,83,.55); }
+    70%  { box-shadow: 0 0 0 11px rgba(57,211,83,0); }
+    100% { box-shadow: 0 0 0 0 rgba(57,211,83,0); }
+}
+
+/* ================= SLIDE 1 · PERGUNTA + QR ================= */
+.pergunta-slide {
+    flex: 1 1 auto; min-height: 0;
+    display: grid; grid-template-columns: 1fr auto;
+    gap: clamp(28px, 4vw, 64px);
+    padding: 50px;              /* area segura */
+    align-items: center;
+}
+.pergunta-texto { min-width: 0; display: flex; flex-direction: column; gap: clamp(14px, 2.4vh, 26px); }
+.pergunta-texto h1 {
+    font-size: clamp(30px, 6.2vh, 64px); line-height: 1.06;
+    letter-spacing: -.02em; font-weight: 800; text-wrap: balance;
+}
+.pergunta-texto .apoio { font-size: clamp(14px, 2.1vh, 21px); line-height: 1.5; color: var(--muted); max-width: 32ch; }
+
+.qr-bloco { display: flex; flex-direction: column; align-items: center; gap: clamp(12px, 2vh, 22px); }
+.qr-card {
+    background: #fff; padding: clamp(10px, 1.6vh, 18px); border-radius: 20px; line-height: 0;
+    animation: qr-glow 3.2s ease-in-out infinite;
+}
+.qr-card svg { width: clamp(260px, 60vh, 700px); height: clamp(260px, 60vh, 700px); display: block; }
+@keyframes qr-glow {
+    0%, 100% { box-shadow: 0 0 26px var(--mira-glow-soft); }
+    50%      { box-shadow: 0 0 54px var(--mira-glow-strong); }
+}
+.qr-legenda { text-align: center; font-size: clamp(13px, 1.9vh, 18px); line-height: 1.35; color: var(--muted); }
+.contador {
+    display: flex; align-items: baseline; gap: 12px;
+    background: var(--mira-pill-bg); border: 1px solid var(--mira-pill-border);
+    border-radius: 16px; padding: clamp(10px, 1.6vh, 16px) clamp(16px, 2vw, 24px);
+}
+.contador b { font-size: clamp(28px, 5vh, 48px); line-height: 1; font-variant-numeric: tabular-nums; }
+.contador span { font-size: clamp(12px, 1.6vh, 16px); color: var(--muted); }
+
+/* ================= SLIDE 2 · O MURAL ================= */
+.mural-slide { position: relative; flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; padding: 50px; }
+.mural-topo { flex: 0 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 24px; margin-bottom: clamp(12px, 2vh, 24px); }
+
+/* O mural: uma grade de VAGAS FIXAS. O JS mede quantas colunas e
+   linhas fazem o post-it maior possivel ainda cabendo no quadro para
+   a pagina CHEIA, e escreve grid-template-columns, grid-template-rows
+   e --fs de uma vez so. As vagas nao mudam quando uma resposta chega:
+   ela so ocupa a proxima. */
+.mural {
+    flex: 1 1 auto; min-height: 0; overflow: hidden;
+    display: grid;
+    gap: clamp(10px, 1.6vh, 20px);
+    justify-content: center;
+    align-content: center;
+}
+.postit {
+    position: relative;
+    height: 100%;
+    background: var(--papel, #FFD84D);
+    color: #2A2118;
+    border-radius: 3px;
+    padding: calc(var(--fs, 30px) * .55);
+    overflow: hidden;
+    display: flex; align-items: center; justify-content: center; text-align: center;
+    font-size: calc(var(--fs, 30px) * var(--k, 1));
+    font-weight: 700; line-height: 1.2; letter-spacing: -.01em;
+    overflow-wrap: break-word;
+    box-shadow: 0 10px 26px rgba(0,0,0,.45), 0 2px 6px rgba(0,0,0,.35);
+    transform: rotate(var(--tilt, 0deg));
+    transform-origin: 50% 12%;
+    /* Regra Zero: mesmo parado o mural respira. Cada post-it
+       balanca no proprio ritmo, com atraso vindo do indice. */
+    animation: postit-respira 6.5s ease-in-out infinite;
+    animation-delay: var(--sopro, 0s);
+    will-change: transform;
+}
+/* o vinco de cola no topo do papel */
+.postit::before {
+    content: ""; position: absolute; inset: 0 0 auto 0; height: 22%;
+    background: linear-gradient(180deg, rgba(0,0,0,.075), rgba(0,0,0,0));
+    border-radius: 3px 3px 0 0; pointer-events: none;
+}
+@keyframes postit-respira {
+    0%, 100% { transform: rotate(var(--tilt, 0deg)) translateY(0); }
+    50%      { transform: rotate(calc(var(--tilt, 0deg) * .55)) translateY(-4px); }
+}
+/* ENTRADA NO LUGAR.
+
+   O post-it nao vem voando de fora: ele SURGE ja na celula dele, no
+   tamanho final. A versao anterior entrava de cima e crescia, e como a
+   grade se refazia a cada resposta, o mural inteiro encolhia junto a
+   cada chegada. Uma resposta parecia um cartaz no centro, duas
+   parecia dois cartazes, e so la pelo decimo post-it a parede ficava
+   do tamanho certo. Movimento demais para o olho, e nenhum dele
+   contava nada.
+
+   Agora a grade ja nasce com as 15 vagas (ver densidade()), entao o
+   unico movimento e o do papel aparecendo onde vai ficar: um pop
+   curto de escala, sem deslocamento e sem giro, com o texto entrando
+   logo atras, como se estivesse sendo escrito ali. */
+.postit.entrando { animation: postit-surge var(--entrada, .31s) cubic-bezier(.2, 1.2, .35, 1) both; }
+@keyframes postit-surge {
+    0%   { opacity: 0; transform: rotate(var(--tilt, 0deg)) scale(.86); }
+    60%  { opacity: 1; transform: rotate(var(--tilt, 0deg)) scale(1.03); }
+    100% { opacity: 1; transform: rotate(var(--tilt, 0deg)) scale(1); }
+}
+/* o texto chega logo depois do papel: e o que da a sensacao de
+   escrita, em vez de card de UI aparecendo pronto */
+.postit .texto { display: block; }
+.postit.entrando .texto {
+    animation: texto-escreve calc(var(--entrada, .31s) * .65) ease-out both;
+    animation-delay: calc(var(--entrada, .31s) * .35);
+}
+@keyframes texto-escreve { from { opacity: 0; } to { opacity: 1; } }
+.postit.entrando::after {
+    content: ""; position: absolute; inset: -4px; border-radius: 6px;
+    box-shadow: 0 0 0 2px var(--mira-glow-strong), 0 0 30px var(--mira-glow-strong);
+    animation: halo-some calc(var(--entrada, .31s) * 1.6) ease-out forwards; pointer-events: none;
+}
+@keyframes halo-some { to { opacity: 0; } }
+
+.mural-vazio {
+    position: absolute; inset: 0; z-index: 1;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: 16px; text-align: center;
+    padding: 50px; pointer-events: none;
+    transition: opacity .5s ease;
+}
+.mural-vazio.escondido { opacity: 0; }
+.mural-vazio .marca-agua {
+    width: clamp(70px, 13vh, 130px); height: clamp(70px, 13vh, 130px);
+    border-radius: 4px; background: var(--mira-pill-bg);
+    border: 2px dashed var(--mira-card-border);
+    animation: postit-respira 6.5s ease-in-out infinite;
+    --tilt: -4deg;
+}
+.mural-vazio p { font-size: clamp(15px, 2.4vh, 24px); color: var(--muted); max-width: 34ch; line-height: 1.45; }
+
+.mural-rodape { flex: 0 0 auto; margin-top: clamp(8px, 1.4vh, 16px); display: flex; justify-content: space-between; align-items: center; gap: 20px; }
+.mural-rodape .atalho { font-size: clamp(11px, 1.4vh, 14px); color: var(--mira-text-softer); }
+.mural-rodape .paginacao {
+    font-size: clamp(12px, 1.6vh, 16px); color: var(--muted);
+    font-variant-numeric: tabular-nums; white-space: nowrap;
+}
+</style>
+</head>
+<body>
+
+<!-- ================= SLIDE 1 · A PERGUNTA ================= -->
+<section id="slide-pergunta">
+    <div class="pergunta-slide">
+        <div class="pergunta-texto">
+            <span class="eyebrow">Responda pelo celular</span>
+            <h1 id="pergunta-titulo">carregando a pergunta...</h1>
+            <p class="apoio">Três ou quatro palavras bastam. Sua resposta aparece no próximo slide, em tempo real.</p>
+            <div class="status"><span class="dot" id="dot-1"></span><span id="status-1">conectando...</span></div>
+        </div>
+
+        <div class="qr-bloco">
+            <div class="qr-card">
+                <!-- QR gerado localmente (pacote npm qrcode, ECC M) para LINK_VOTACAO -->
+                <!-- COLE AQUI o <svg> do QR gerado localmente -->
+            </div>
+            <p class="qr-legenda">Aponte a câmera do celular<br>para o QR-code</p>
+            <div class="contador"><b id="total-1">0</b><span>respostas até agora</span></div>
+        </div>
+    </div>
+</section>
+
+<!-- ================= SLIDE 2 · O MURAL ================= -->
+<section id="slide-mural">
+    <div class="mural-slide">
+        <div class="mural-topo">
+            <span class="eyebrow">O que a sala respondeu</span>
+            <div class="status"><span class="dot" id="dot-2"></span><span id="status-2">conectando...</span></div>
+        </div>
+
+        <div class="mural" id="mural"></div>
+
+        <div class="mural-vazio" id="mural-vazio">
+            <div class="marca-agua"></div>
+            <p>O mural está vazio. Assim que alguém responder, o primeiro post-it cola aqui.</p>
+        </div>
+
+        <div class="mural-rodape">
+            <div class="status"><b id="total-2" style="font-size:clamp(15px,2.2vh,22px)">0</b><span>respostas</span></div>
+            <span class="paginacao" id="paginacao"></span>
+            <span class="atalho">setas mudam de página · R reapresenta</span>
+        </div>
+    </div>
+</section>
+
+<script>
+(function () {
+    "use strict";
+
+    /* ===================== CONFIG ===================== */
+    var SHEET_ID   = "COLE_O_SHEET_ID_AQUI";
+    var PERGUNTA   = "COLE A PERGUNTA AQUI";
+    var POR_PAGINA = 15;    /* post-its por pagina do mural */
+    var INTERVALO  = 3000;  /* leitura da planilha, em ms */
+    var MAX_CHARS  = 90;    /* alguem vai colar um paragrafo. Corta. */
+
+    /* ===================== FILTRO DE PALAVRAS =====================
+       Resposta com palavrao NAO vira post-it: e descartada em
+       silencio, nao conta no contador e nao deixa vaga vazia.
+       Censurar com asterisco chamaria mais atencao que o palavrao.
+
+       A checagem normaliza o texto (minusculas, sem acento, leet
+       basico tipo m3rd4, letra repetida colapsada tipo merdaaa) e
+       compara PALAVRA INTEIRA: "curso" nao cai por causa de "cu".
+       Edite a lista a vontade; os termos entram ja SEM acento e em
+       minusculas. Lista vazia desliga o filtro. */
+    var FILTRO = [
+        /* pt */ "merda", "bosta", "porra", "caralho", "caraio", "carai", "krl", "crl",
+        "cacete", "foda", "fodase", "fodasse", "foder", "fodeu", "fodido", "fodida",
+        "fuder", "fude", "fudeu", "fudido", "fudida", "fudase",
+        "vaisefoder", "vaisefuder", "vsf", "puta", "puto", "putaria", "putinha", "putaquepariu", "pqp",
+        "fdp", "filhodaputa", "filhadaputa", "buceta", "boceta", "xereca", "xoxota",
+        "cu", "cuzao", "cuzinho", "tomanocu", "vaitomarnocu", "vtnc", "tnc",
+        "arrombado", "arrombada", "viado", "viadinho", "veado", "bicha", "sapatao",
+        "traveco", "boquete", "punheta", "siririca", "piroca",
+        "babaca", "otario", "otaria", "escroto", "escrota", "corno", "corna",
+        "vagabunda", "vagabundo", "retardado", "retardada", "mongoloide", "crioulo", "criolo",
+        /* en */ "fuck", "fucking", "fucker", "motherfucker", "shit", "bullshit",
+        "bitch", "asshole", "cunt", "dick", "pussy", "nigger", "nigga", "faggot",
+        /* es */ "mierda", "pendejo", "pendeja", "cabron", "cabrona", "joder", "jodete",
+        "cono", "verga", "polla", "gilipollas", "follar", "chingar", "chingada",
+        "carajo", "marica", "maricon"
+    ];
+    var FILTRO_SET = {};
+    for (var fi = 0; fi < FILTRO.length; fi++) FILTRO_SET[FILTRO[fi]] = true;
+
+    /* Sublista SEGURA para busca dentro de token (pega "putamerda",
+       "superfoda"): so palavras que nao aparecem dentro de palavra
+       legitima. "puta" fica de fora por "computador", "viado" por
+       "enviado", "verga" por "envergadura", "cu" por quase tudo:
+       essas continuam barrando so como palavra inteira. */
+    var FILTRO_SUB = ["merda", "caralho", "caraio", "buceta", "boceta", "xereca",
+        "xoxota", "piroca", "cacete", "cuzao", "cuzinho", "punheta", "boquete",
+        "siririca", "foda", "fodase", "fuder", "vaisefoder", "vaisefuder", "tomanocu", "vaitomarnocu",
+        "filhodaputa", "filhadaputa", "putaquepariu", "arrombado", "arrombada",
+        "retardado", "retardada", "mongoloide", "motherfucker", "bullshit",
+        "asshole", "nigger", "faggot", "fuck", "bitch", "mierda", "pendejo",
+        "gilipollas", "maricon", "cabron", "carajo", "chingada"];
+
+    function barrada(texto) {
+        var t = texto.toLowerCase();
+        if (t.normalize) t = t.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+        var LEET = { "@": "a", "$": "s", "0": "o", "1": "i", "3": "e", "4": "a", "5": "s", "7": "t" };
+        t = t.replace(/[@$013457]/g, function (c) { return LEET[c]; });
+        t = t.replace(/(.)\1{2,}/g, "$1");
+        var tokens = t.split(/[^a-z]+/);
+
+        /* palavra soletrada (m e r d a, m.e.r.d.a): uma sequencia de
+           letras soltas vira um token unico e entra na checagem junto
+           com os tokens normais */
+        var candidatos = [], soltas = "";
+        for (var i = 0; i <= tokens.length; i++) {
+            var tk = tokens[i] || "";
+            if (tk.length === 1) { soltas += tk; continue; }
+            if (soltas.length > 1) candidatos.push(soltas);
+            soltas = "";
+            if (tk) candidatos.push(tk);
+        }
+
+        for (var c = 0; c < candidatos.length; c++) {
+            var pal = candidatos[c];
+            if (FILTRO_SET[pal]) return true;      /* palavra inteira */
+            if (pal.length > 4) {                  /* palavrao colado em outra palavra */
+                for (var s = 0; s < FILTRO_SUB.length; s++) {
+                    if (pal.length > FILTRO_SUB[s].length &&
+                        pal.indexOf(FILTRO_SUB[s]) !== -1) return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /* @MIRA:VELOCIDADE 6/10
+       Um botao so para o ritmo da colagem, na escala de 1 a 10 do
+       Mira. Mexer nele muda as DUAS coisas que a plateia percebe como
+       velocidade, e sempre juntas: o intervalo entre um post-it e o
+       proximo, e a duracao da entrada de cada um. Mudar so uma das
+       duas da a sensacao errada, ou de espera parada, ou de tranco.
+
+       Ambas sao inversamente proporcionais a VELOCIDADE. Em 3/10, o
+       padrao antigo, dava 520ms de cadencia e 0,62s de entrada; em
+       6/10 fica na metade disso, e uma pagina cheia de 15 revela em
+       cerca de 4 segundos no lugar de 8. */
+    var VELOCIDADE = 6;
+    var CADENCIA = Math.round(1560 / VELOCIDADE);   /* ms entre um post-it e o proximo */
+    var ENTRADA  = 1.86 / VELOCIDADE;               /* segundos da animacao de cada um */
+
+    /* Papeis de post-it. Tons foscos de papel, escolhidos para ficar
+       na MESMA faixa de luminancia: a variacao e de matiz, nao de
+       brilho, entao nenhum post-it grita mais alto que os outros e a
+       parede le como uma coisa so. Contra a tinta #2A2118 todos ficam
+       entre 9,0:1 e 11,4:1 de contraste, bem acima do AAA da WCAG,
+       inclusive em projetor ruim.
+
+       O indice escolhe a cor, entao a mesma resposta fica sempre com
+       a mesma cor entre leituras. O passo 3 (em vez de 1) espalha as
+       cores: com 7 papeis, vizinho de lado e vizinho de cima nunca
+       caem no mesmo tom, que e o que criava listra diagonal. */
+    var PAPEIS = ["#F2D98B", "#F3BC96", "#B6DCC2", "#A9CBE3", "#E9B7BE", "#CBBEE0", "#E4DAC6"];
+    var PASSO_COR = 3;
+
+    /* ===================== ESTADO =====================
+       respostas guarda TUDO que a planilha ja entregou, na ordem em
+       que chegou. A pagina e so uma janela de POR_PAGINA sobre essa
+       lista: nada e descartado, e a seta anda pela janela. */
+    var respostas = [];     /* {i, texto} na ordem da planilha */
+    var vistos    = {};     /* linha da planilha ja lida */
+    var revelado  = {};     /* linha ja colada alguma vez */
+    var aColar    = [];     /* o que ainda falta colar NA PAGINA ATUAL */
+    var pagina    = 0;
+    var muralVisivel = false;
+    var drenando  = null;
+
+    var mural      = document.getElementById("mural");
+    var muralVazio = document.getElementById("mural-vazio");
+
+    /* a pergunta e escrita so no slide 1. O mural nao a repete: quem
+       chegou nele acabou de ler a pergunta, e o titulo ali so tirava
+       altura dos post-its. */
+    document.getElementById("pergunta-titulo").textContent = PERGUNTA;
+
+    /* ===================== LEITURA (JSONP) =====================
+       Um script por leitura, com responseHandler apontando para o
+       callback global. E o unico jeito de ler a planilha com o
+       deck aberto por file://, porque fetch esbarraria no CORS. */
+    function ler() {
+        var s = document.createElement("script");
+        s.src = "https://docs.google.com/spreadsheets/d/" + SHEET_ID +
+                "/gviz/tq?tqx=out:json;responseHandler:miraPostitPoll&headers=1&_=" + Date.now();
+        s.onerror = function () { sinal(false); s.remove(); };
+        s.onload  = function () { s.remove(); };
+        document.body.appendChild(s);
+    }
+
+    window.miraPostitPoll = function (resp) {
+        if (!resp || !resp.table) { sinal(false); return; }
+        var cols = resp.table.cols || [];
+        var rows = resp.table.rows || [];
+
+        /* A planilha do Forms e carimbo + resposta. A resposta e
+           sempre a ULTIMA coluna. Nao ha coluna de nome aqui, e
+           tentar adivinhar por cabecalho e fragil: o Forms guarda
+           o enunciado inteiro no label, com espacos no fim. */
+        var idx = cols.length - 1;
+
+        for (var i = 0; i < rows.length; i++) {
+            if (vistos[i]) continue;
+            var texto = celula(rows[i], idx);
+            if (!texto) continue;
+            vistos[i] = true;
+            if (barrada(texto)) continue;   /* palavrao: some em silencio */
+            var item = { i: i, texto: texto };
+            respostas.push(item);
+            /* so entra na fila de colagem quem cai na pagina aberta.
+               Quem cai numa pagina seguinte espera a seta. */
+            if (Math.floor((respostas.length - 1) / POR_PAGINA) === pagina) aColar.push(item);
+        }
+
+        document.getElementById("total-1").textContent = respostas.length;
+        rodape();
+        sinal(true);
+        if (muralVisivel) drenar();
+    };
+
+    function celula(row, idx) {
+        if (idx < 0 || !row || !row.c || !row.c[idx]) return "";
+        var v = row.c[idx].v;
+        return v === null || v === undefined ? "" : String(v).trim();
+    }
+
+    function sinal(ok) {
+        [["dot-1", "status-1"], ["dot-2", "status-2"]].forEach(function (par) {
+            var d = document.getElementById(par[0]);
+            var t = document.getElementById(par[1]);
+            if (!d || !t) return;
+            d.className = ok ? "dot" : "dot off";
+            t.textContent = ok ? "ao vivo" : "sem conexão com a planilha";
+        });
+    }
+
+    /* ===================== PAGINAS ===================== */
+    function totalPaginas() { return Math.max(1, Math.ceil(respostas.length / POR_PAGINA)); }
+    function fatia(p) { return respostas.slice(p * POR_PAGINA, (p + 1) * POR_PAGINA); }
+
+    /* Trocar de pagina nao e "renderizar de novo". Quem ja foi colado
+       uma vez volta INSTANTANEO: reanimar o que a sala ja viu faria o
+       apresentador esperar oito segundos so para voltar um passo.
+       Post-it inedito entra colando, como se tivesse acabado de
+       chegar, que e o efeito que o mural existe para ter. */
+    function irPagina(n) {
+        n = Math.max(0, Math.min(totalPaginas() - 1, n));
+        pagina = n;
+        pararDrenagem();
+        mural.innerHTML = "";
+        aColar = [];
+        fatia(n).forEach(function (item) {
+            if (revelado[item.i]) cola(item, false);
+            else aColar.push(item);
+        });
+        rodape();
+        vazio();
+        if (muralVisivel) drenar();
+    }
+
+    /* ===================== A PAREDE =====================
+       A fila so drena com o mural na tela. Uma resposta que chegou
+       enquanto o slide 1 estava aberto espera aqui e entra colando,
+       igual a que acabou de chegar. */
+    function drenar() {
+        if (drenando || !aColar.length) return;
+        cola(aColar.shift(), true);
+        drenando = setInterval(function () {
+            if (!aColar.length || !muralVisivel) { pararDrenagem(); return; }
+            cola(aColar.shift(), true);
+        }, CADENCIA);
+    }
+    function pararDrenagem() {
+        if (drenando) { clearInterval(drenando); drenando = null; }
+    }
+
+    function cola(item, animando) {
+        var texto = item.texto.length > MAX_CHARS
+            ? item.texto.slice(0, MAX_CHARS - 1).trim() + "…"
+            : item.texto;
+
+        var el = document.createElement("div");
+        el.className = animando ? "postit entrando" : "postit";
+        /* Inclinacao, cor e ritmo saem do INDICE, nunca de
+           Math.random(): assim o post-it fica igual a si mesmo em
+           toda leitura e em toda volta de pagina, em vez de tremer. */
+        var t = ((item.i * 37) % 9) - 4;                  /* -4deg .. +4deg */
+        el.style.setProperty("--tilt", t + "deg");
+        el.style.setProperty("--papel", PAPEIS[(item.i * PASSO_COR) % PAPEIS.length]);
+        el.style.setProperty("--sopro", ((item.i * 0.37) % 6.5).toFixed(2) + "s");
+        el.style.setProperty("--k", encolhe(texto));
+        var span = document.createElement("span");
+        span.className = "texto";
+        span.textContent = texto;
+        el.appendChild(span);
+
+        mural.appendChild(el);
+        /* a classe de entrada sai depois da animacao, senao ela
+           sobrescreveria a respiracao continua para sempre */
+        if (animando) setTimeout(function () { el.classList.remove("entrando"); }, ENTRADA * 1600 + 90);
+
+        revelado[item.i] = true;
+        vazio();
+    }
+
+    function vazio() {
+        muralVazio.classList.toggle("escondido", mural.children.length > 0);
+    }
+
+    function rodape() {
+        document.getElementById("total-2").textContent = respostas.length;
+        var tp = totalPaginas();
+        document.getElementById("paginacao").textContent =
+            tp > 1 ? "página " + (pagina + 1) + " de " + tp : "";
+    }
+
+    /* Resposta comprida encolhe so ela, sem puxar o mural inteiro
+       para baixo. E o unico ajuste por card. */
+    function encolhe(texto) {
+        var n = texto.length;
+        if (n <= 18) return "1";
+        if (n <= 30) return ".86";
+        if (n <= 48) return ".72";
+        return ".6";
+    }
+
+    /* ===================== A GRADE DE VAGAS =====================
+       A grade e SEMPRE a da pagina cheia: POR_PAGINA vagas, do
+       tamanho que elas terao no fim, mesmo com uma resposta so na
+       parede. Cada post-it entao nasce na vaga dele, ja no tamanho
+       final, e a unica coisa que muda na tela e ele aparecendo.
+
+       Antes a grade se refazia a cada resposta. Uma resposta virava
+       um cartaz gigante no meio, duas viravam dois cartazes, e a
+       parede inteira ia encolhendo a cada chegada ate assentar la
+       pelo decimo post-it. Isso e movimento que nao conta nada, e
+       cansa quem esta olhando.
+
+       O calculo em si continua sendo uma medida, nao um chute: para
+       cada numero possivel de colunas, acha o post-it maior que ainda
+       cabe no quadro e fica com o maior de todos. Empate ganha quem
+       usa menos linhas. So muda no resize, porque so ai o quadro
+       muda de tamanho. */
+    var ASPECTO = 1.35;      /* largura / altura de partida do post-it */
+    var ASPECTO_ALTO = 0.95; /* o mais alto que ele pode ficar ao esticar */
+    var MIN_LARGURA = 92;
+    var MAX_LARGURA = 420;
+    function densidade() {
+        var n = POR_PAGINA;   /* a grade e a da pagina cheia, sempre */
+        /* a folga cobre os poucos px que a inclinacao rouba: um card
+           girado ocupa mais que a propria largura, e sem isso o canto
+           do primeiro e do ultimo da fila sairia raspado */
+        var W = mural.clientWidth - 10, H = mural.clientHeight - 16;
+        if (W <= 0 || H <= 0) return;
+        var gap = parseFloat(getComputedStyle(mural).gap) || 14;
+
+        var melhor = null;
+        for (var c = 1; c <= n; c++) {
+            var linhas = Math.ceil(n / c);
+            var w = (W - (c - 1) * gap) / c;
+            var h = w / ASPECTO;
+            /* nao coube na altura: encolhe pela altura em vez de estourar */
+            if (linhas * h + (linhas - 1) * gap > H) {
+                h = (H - (linhas - 1) * gap) / linhas;
+                w = h * ASPECTO;
+            }
+            if (w > MAX_LARGURA) { w = MAX_LARGURA; h = w / ASPECTO; }
+            if (w < MIN_LARGURA) continue;
+            /* empate no tamanho ganha quem usa menos linhas: com tres
+               respostas, uma fileira de tres le melhor que dois em cima
+               e um sozinho embaixo */
+            if (!melhor || w > melhor.w + 0.5 ||
+                (Math.abs(w - melhor.w) <= 0.5 && linhas < melhor.linhas)) {
+                melhor = { w: w, h: h, c: c, linhas: linhas };
+            }
+        }
+        if (!melhor) melhor = { w: MIN_LARGURA, h: MIN_LARGURA / ASPECTO,
+                                c: Math.max(1, Math.floor((W + gap) / (MIN_LARGURA + gap))),
+                                linhas: 1 };
+
+        /* Sobrou altura? O post-it cresce para dentro dela em vez de
+           deixar faixa preta em cima e embaixo. O teto de ASPECTO_ALTO
+           impede o card de virar uma tira em pe: post-it de verdade e
+           quase quadrado. */
+        var alturaLivre = (H - (melhor.linhas - 1) * gap) / melhor.linhas;
+        melhor.h = Math.min(alturaLivre, melhor.w / ASPECTO_ALTO);
+
+        /* as LINHAS tambem sao declaradas, nao deixadas para o
+           conteudo. Sem isso, a terceira linha so existiria quando o
+           decimo primeiro post-it chegasse, e a parede toda pularia
+           para cima naquele instante, que e o mesmo defeito por outro
+           caminho. Com as linhas fixas, a vaga vazia e so parede. */
+        mural.style.gridTemplateColumns = "repeat(" + melhor.c + ", " + Math.floor(melhor.w) + "px)";
+        mural.style.gridTemplateRows    = "repeat(" + melhor.linhas + ", " + Math.floor(melhor.h) + "px)";
+        mural.style.setProperty("--fs", Math.max(11, Math.min(42, melhor.w * 0.155)).toFixed(1) + "px");
+    }
+    window.addEventListener("resize", densidade);
+
+    /* ===================== VISIBILIDADE =====================
+       threshold 0.6: o mural precisa estar majoritariamente na
+       tela, senao ele comecaria a colar durante a rolagem, com o
+       slide 1 ainda ocupando meia janela. */
+    var alvo = document.getElementById("slide-mural");
+    if (typeof IntersectionObserver === "function") {
+        new IntersectionObserver(function (entradas) {
+            entradas.forEach(function (e) {
+                if (e.isIntersecting === muralVisivel) return;
+                muralVisivel = e.isIntersecting;
+                if (muralVisivel) drenar();
+            });
+        }, { threshold: 0.6 }).observe(alvo);
+    } else {
+        muralVisivel = true;   /* navegador antigo: cola sem esperar */
+    }
+
+    /* ===================== TECLADO =====================
+       Fase de CAPTURA, de proposito. A navegacao padrao do Mira
+       escuta a mesma tecla no document, so que na subida: capturando
+       antes, a seta pagina o mural e para ali.
+
+       O evento so e engolido quando ha para onde paginar. Na primeira
+       pagina a seta para tras segue adiante e volta para a pergunta;
+       na ultima, a seta para frente segue e sai do mural. E o mesmo
+       gesto o tempo todo, sem tecla nova para decorar. */
+    var ADIANTE = ["ArrowRight", "ArrowDown", "PageDown", " ", "Spacebar"];
+    var ATRAS   = ["ArrowLeft", "ArrowUp", "PageUp"];
+
+    function bloqueado(ev) {
+        /* durante a edicao (E) e a pintura (P) o teclado e desses
+           modos: paginar ou limpar a parede ali seria sabotagem */
+        if (document.body.classList.contains("me-on") ||
+            document.body.classList.contains("md-on")) return true;
+        var t = ev.target;
+        if (t && (t.isContentEditable ||
+            /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName || ""))) return true;
+        return !!(ev.ctrlKey || ev.metaKey || ev.altKey);
+    }
+
+    document.addEventListener("keydown", function (ev) {
+        if (bloqueado(ev)) return;
+
+        /* R devolve o mural ao zero e reapresenta tudo colando de novo.
+           Serve para ensaiar antes da plateia chegar e para repetir o
+           efeito na hora, sem recarregar a pagina. */
+        if (ev.key === "r" || ev.key === "R") { reiniciar(); return; }
+
+        if (!muralVisivel) return;
+        if (ADIANTE.indexOf(ev.key) !== -1 && pagina < totalPaginas() - 1) {
+            ev.preventDefault(); ev.stopPropagation();
+            irPagina(pagina + 1);
+        } else if (ATRAS.indexOf(ev.key) !== -1 && pagina > 0) {
+            ev.preventDefault(); ev.stopPropagation();
+            irPagina(pagina - 1);
+        }
+    }, true);
+
+    function reiniciar() {
+        pararDrenagem();
+        respostas = []; vistos = {}; revelado = {}; aColar = [];
+        pagina = 0;
+        mural.innerHTML = "";
+        document.getElementById("total-1").textContent = "0";
+        rodape();
+        vazio();
+        ler();
+    }
+
+    document.documentElement.style.setProperty("--entrada", ENTRADA.toFixed(3) + "s");
+    densidade();
+    rodape();
+    ler();
+    setInterval(ler, INTERVALO);
+})();
+</script>
+
+<script>
+/* ==============================================================
+   Navegação slide a slide: setas, PageUp/Down e espaço.
+
+   As guardas importam: durante a EDIÇÃO (tecla E) e a PINTURA
+   (tecla P) o teclado pertence a esses modos. Sem isso, arrastar
+   um elemento com a seta trocaria de slide no meio da edição.
+   ============================================================== */
+(function () {
+    'use strict';
+    var secs = Array.prototype.slice.call(document.querySelectorAll('body > section'));
+    function atual() {
+        var meio = window.innerHeight / 2, achado = 0;
+        secs.forEach(function (s, i) {
+            var r = s.getBoundingClientRect();
+            if (r.top <= meio && r.bottom > meio) achado = i;
+        });
+        return achado;
+    }
+    function ir(d) {
+        var de = atual(), i = Math.max(0, Math.min(secs.length - 1, de + d));
+        if (i === de) return;
+        secs[i].scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    document.addEventListener('keydown', function (e) {
+        if (document.body.classList.contains('me-on') || document.body.classList.contains('md-on')) return;
+        var t = e.target;
+        if (t && (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName || ''))) return;
+        if (e.ctrlKey || e.metaKey || e.altKey) return;
+        if (['ArrowDown', 'ArrowRight', 'PageDown', ' ', 'Spacebar'].indexOf(e.key) !== -1) { e.preventDefault(); ir(1); }
+        else if (['ArrowUp', 'ArrowLeft', 'PageUp'].indexOf(e.key) !== -1) { e.preventDefault(); ir(-1); }
+    });
+
+    /* ---------- desenho (tecla P) pertence AO SLIDE ----------
+       O mira-draw pinta num <canvas> único, fixo sobre a janela: sem
+       isto, o traço feito num slide fica pairando sobre todos os outros,
+       como se você tivesse riscado a tela e não o slide.
+
+       Aqui os traços são guardados por slide e trocados junto com ele:
+       sai do slide, o desenho sai; volta, o desenho volta. Usa a API
+       pública `getShapes`/`setShapes` do mira-draw, sem tocar no módulo.
+
+       No palco do mira-remote o desenho é da shell (modelo global
+       sincronizado com o celular), então lá isto não se mete. */
+    var porSlide = {}, ultimo = -1;
+    function trocarDesenho() {
+        if (window.__MIRA_REMOTE_STAGE__) return;
+        var md = window.miraDraw;
+        if (!md || !md.getShapes || !md.setShapes) return;   // deck sem a caneta
+        var i = atual();
+        if (i === ultimo) return;
+        if (ultimo >= 0) porSlide[ultimo] = md.getShapes();  // guarda o que estava
+        ultimo = i;
+        md.setShapes(porSlide[i] || []);
+    }
+    window.addEventListener('load', function () { ultimo = atual(); });
+    window.addEventListener('scroll', trocarDesenho, { passive: true });
+})();
+</script>
+
+<script defer src="mira/mira-edit.js"></script>
+<script defer src="mira/mira-edit-free.js"></script>
+<script defer src="mira/mira-draw.js"></script>
+</body>
+</html>
