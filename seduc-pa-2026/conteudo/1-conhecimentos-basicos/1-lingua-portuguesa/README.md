@@ -4,6 +4,7 @@
 
 ### 1. Língua Portuguesa
 
+```markdown
 [01. Interpretação e compreensão de texto](01-interpretacao-e-compreensao-de-texto.md)
 02. Organização estrutural dos textos
 03. Marcas de textualidade: coesão, coerência e intertextualidade
@@ -29,5 +30,5 @@
 23. Os dicionários: tipos e organização de verbetes
 24. Vocabulário: neologismos, arcaísmos, estrangeirismos, latinismos
 25. Ortografia e acentuação gráfica, crase
-
+```
 ***
