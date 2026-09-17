@@ -1,0 +1,14 @@
+# Prompts locais (não versionar)
+markdown-para-html-mira-animator.md
+
+# Scripts de desenvolvimento
+md_to_html.py
+create_index_htmls.py
+generate_slides_specific.py
+
+# Backups
+backup/
+
+# OS
+.DS_Store
+Thumbs.db
