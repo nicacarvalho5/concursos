@@ -5,7 +5,7 @@ Abaixo estão as disciplinas cobradas para este concurso.
 
 ## Conhecimentos Básicos
 
-### 1. Língua Portuguesa
+### [1. Língua Portuguesa](conteudo/1-conhecimentos-basicos/1-lingua-portuguesa/README.md)
 
 ### 2. Raciocínio Lógico
 
