@@ -26,7 +26,7 @@ def calculate_theme_rel_path(md_path: Path) -> str:
     # Conta quantos níveis de diretórios a partir de seduc-pa-2026/
     # parts inclui: [seduc-pa-2026, dir1, dir2, ..., arquivo.md]
     # Diretórios abaixo de seduc-pa-2026 = len(parts) - 2
-    depth_dirs = len(rel_to_root.parts) - 1
+    depth_dirs = len(rel_to_root.parts) - 2
     
     # theme.css está em seduc-pa-2026/slides/assets/theme.css
     # Precisa subir depth_dirs níveis para chegar em seduc-pa-2026/
