@@ -6,6 +6,12 @@
       "template": "aula-capitulo",
       "theme": "mira-dark",
       "createdAt": "2026-09-17T02:13:30.312Z"
+    },
+    {
+      "name": "02-organizacao-estrutural-dos-textos",
+      "template": "aula-capitulo",
+      "theme": "mira-dark",
+      "createdAt": "2026-09-17T21:00:00.000Z"
     }
   ],
   "version": "0.1.69",
@@ -14,5 +20,5 @@
   "chatLanguage": "pt-br",
   "defaultTheme": "mira-dark",
   "installedAt": "2026-09-17T01:27:49.754Z",
-  "updatedAt": "2026-09-17T01:27:49.754Z"
+  "updatedAt": "2026-09-17T23:40:00.000Z"
 }

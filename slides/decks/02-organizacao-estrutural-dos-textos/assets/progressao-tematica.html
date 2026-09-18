@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+body { margin: 0; background: #222222; font-family: 'Inter', sans-serif; }
+svg { display: block; }
+.panel { fill: rgba(255, 144, 77, 0.08); stroke: #FF904D; stroke-width: 2; rx: 16; ry: 16; }
+.panel-title { fill: #FF904D; font-size: 32px; font-weight: 700; text-anchor: middle; }
+.panel-desc { fill: rgba(255,255,255,0.85); font-size: 20px; text-anchor: middle; line-height: 1.5; }
+.panel-example { fill: rgba(255,199,102,0.9); font-size: 16px; text-anchor: middle; font-style: italic; line-height: 1.4; }
+.arrow-path { fill: none; stroke: #FF904D; stroke-width: 3; marker-end: url(#arrowhead); }
+.arrow-path-dashed { fill: none; stroke: #FFC766; stroke-width: 2; stroke-dasharray: 8,4; marker-end: url(#arrowhead2); }
+.node-circle { fill: rgba(255, 144, 77, 0.15); stroke: #FF904D; stroke-width: 2; }
+.node-circle-root { fill: #FF904D; stroke: #FFC766; stroke-width: 3; }
+.node-label { fill: #fff; font-size: 18px; font-weight: 600; text-anchor: middle; }
+.node-label-small { fill: rgba(255,255,255,0.8); font-size: 14px; text-anchor: middle; }
+.type-label { fill: #FFC766; font-size: 14px; font-weight: 600; text-anchor: middle; text-transform: uppercase; letter-spacing: 1px; }
+</style>
+</head>
+<body>
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script>
+const width = 1920, height = 800;
+const svg = d3.select("body").append("svg").attr("width", width).attr("height", height);
+
+const defs = svg.append("defs");
+defs.append("marker").attr("id", "arrowhead").attr("viewBox", "0 0 10 10").attr("refX", 8).attr("refY", 5).attr("markerWidth", 8).attr("markerHeight", 8).attr("orient", "auto").append("path").attr("d", "M 0 0 L 10 5 L 0 10 z").attr("fill", "#FF904D");
+defs.append("marker").attr("id", "arrowhead2").attr("viewBox", "0 0 10 10").attr("refX", 8).attr("refY", 5).attr("markerWidth", 8).attr("markerHeight", 8).attr("orient", "auto").append("path").attr("d", "M 0 0 L 10 5 L 0 10 z").attr("fill", "#FFC766");
+
+const panels = [
+  { x: 100, label: "RETOMADA", desc: "Tema mantido, novas informações a cada frase", example: '"A escola enfrenta dificuldades. Essas dificuldades afetam professores. Tais problemas repercutem nos alunos."' },
+  { x: 680, label: "AMPLIAÇÃO", desc: "Tema inicial especificado ou generalizado", example: '"Educação básica precisa ser repensada. Em especial, o currículo do ensino médio..."' },
+  { x: 1260, label: "DERIVAÇÃO", desc: "Subtemas nascem do tema central", example: '"Formação docente envolve dimensões. Técnica, política, ética."' }
+];
+
+const panelW = 520, panelH = 680;
+const centerY = height / 2 + 40;
+
+panels.forEach((p, i) => {
+  const g = svg.append("g").attr("transform", `translate(${p.x}, ${centerY - panelH/2})`);
+  
+  g.append("rect").attr("class", "panel").attr("width", panelW).attr("height", panelH);
+  
+  g.append("text").attr("class", "type-label").attr("x", panelW/2).attr("y", 60).text(p.label);
+  
+  g.append("text").attr("class", "panel-title").attr("x", panelW/2).attr("y", 110).text(p.label);
+  
+  g.append("text").attr("class", "panel-desc").attr("x", panelW/2).attr("y", 170).call(wrap, panelW - 60, 26);
+  
+  g.append("text").attr("class", "panel-example").attr("x", panelW/2).attr("y", 320).call(wrap, panelW - 40, 22);
+  
+  if (i === 0) {
+    drawRetomada(g, panelW, panelH);
+  } else if (i === 1) {
+    drawAmpliacao(g, panelW, panelH);
+  } else {
+    drawDerivacao(g, panelW, panelH);
+  }
+});
+
+function drawRetomada(g, w, h) {
+  const cy = h - 180;
+  const cx = w / 2;
+  const r = 80;
+  
+  g.append("circle").attr("cx", cx).attr("cy", cy).attr("r", r).attr("fill", "none").attr("stroke", "#FF904D").attr("stroke-width", 3).attr("stroke-dasharray", "12,6");
+  
+  g.append("path").attr("d", `M${cx},${cy - r} A${r},${r} 0 0 1 ${cx + 0.01},${cy - r}`).attr("class", "arrow-path");
+  
+  const steps = ["Frase 1", "Frase 2", "Frase 3"];
+  steps.forEach((s, idx) => {
+    const angle = -Math.PI/2 + idx * (2*Math.PI/3);
+    const x = cx + r * Math.cos(angle);
+    const y = cy + r * Math.sin(angle);
+    g.append("circle").attr("class", "node-circle").attr("cx", x).attr("cy", y).attr("r", 28);
+    g.append("text").attr("class", "node-label-small").attr("x", x).attr("y", y + 5).text(s);
+  });
+  
+  g.append("text").attr("class", "node-label").attr("x", cx).attr("y", cy + 5).text("Tema");
+}
+
+function drawAmpliacao(g, w, h) {
+  const cy = h - 180;
+  const cx = w / 2;
+  
+  const funnel = g.append("g");
+  
+  funnel.append("polygon").attr("points", `${cx-100},${cy-60} ${cx+100},${cy-60} ${cx+40},${cy+60} ${cx-40},${cy+60}`).attr("fill", "rgba(255,144,77,0.15)").attr("stroke", "#FF904D").attr("stroke-width", 2);
+  
+  funnel.append("text").attr("class", "node-label").attr("x", cx).attr("y", cy - 30).text("Tema Geral");
+  funnel.append("text").attr("class", "node-label-small").attr("x", cx).attr("y", cy).text("Especificação");
+  funnel.append("text").attr("class", "node-label-small").attr("x", cx).attr("y", cy + 25).text("Progressiva");
+  
+  funnel.append("path").attr("d", `M${cx},${cy+80} L${cx},${cy+130}`).attr("class", "arrow-path");
+  funnel.append("text").attr("class", "type-label").attr("x", cx).attr("y", cy + 160).text("FOCO");
+}
+
+function drawDerivacao(g, w, h) {
+  const cy = h - 180;
+  const cx = w / 2;
+  
+  g.append("circle").attr("class", "node-circle-root").attr("cx", cx).attr("cy", cy - 80).attr("r", 35);
+  g.append("text").attr("class", "node-label").attr("x", cx).attr("y", cy - 75).text("Tema Central");
+  
+  const branches = [
+    { label: "Dimensão\nTécnica", x: cx - 160, y: cy + 40 },
+    { label: "Dimensão\nPolítica", x: cx, y: cy + 40 },
+    { label: "Dimensão\nÉtica", x: cx + 160, y: cy + 40 }
+  ];
+  
+  branches.forEach(b => {
+    g.append("path").attr("d", `M${cx},${cy-45} Q${(cx+b.x)/2},${cy-20} ${b.x},${b.y-25}`).attr("class", "arrow-path");
+    g.append("circle").attr("class", "node-circle").attr("cx", b.x).attr("cy", b.y).attr("r", 40);
+    g.append("text").attr("class", "node-label-small").attr("x", b.x).attr("y", b.y - 5).call(wrapMulti, 80, 20);
+  });
+}
+
+function wrap(text, width, lineHeight) {
+  text.each(function() {
+    const textEl = d3.select(this);
+    const words = textEl.text().split(/\s+/).reverse();
+    let word, line = [], lineNumber = 0, y = parseFloat(textEl.attr("y"));
+    const x = parseFloat(textEl.attr("x"));
+    const dy = parseFloat(textEl.attr("dy") || 0);
+    let tspan = textEl.text(null).append("tspan").attr("x", x).attr("y", y).attr("dy", dy + "em");
+    while (word = words.pop()) {
+      line.push(word);
+      tspan.text(line.join(" "));
+      if (tspan.node().getComputedTextLength() > width) {
+        line.pop();
+        tspan.text(line.join(" "));
+        line = [word];
+        tspan = textEl.append("tspan").attr("x", x).attr("y", y).attr("dy", ++lineNumber * lineHeight + "em").text(word);
+      }
+    }
+  });
+}
+
+function wrapMulti(text, width, lineHeight) {
+  text.each(function() {
+    const textEl = d3.select(this);
+    const lines = textEl.text().split("\n");
+    textEl.text(null);
+    lines.forEach((line, i) => {
+      textEl.append("tspan").attr("x", parseFloat(textEl.attr("x"))).attr("dy", i === 0 ? "0.35em" : "1.2em").text(line);
+    });
+  });
+}
+</script>
+</body>
+</html>

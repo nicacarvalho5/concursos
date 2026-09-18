@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+body { margin: 0; background: #222222; font-family: 'Inter', sans-serif; }
+svg { display: block; }
+.box { fill: rgba(255, 144, 77, 0.15); stroke: #FF904D; stroke-width: 2; rx: 12; ry: 12; }
+.box:hover { fill: rgba(255, 144, 77, 0.25); }
+.arrow { fill: none; stroke: #FF904D; stroke-width: 3; marker-end: url(#arrowhead); }
+.arrow-label { fill: #FF904D; font-size: 20px; font-weight: 600; text-anchor: middle; }
+.box-title { fill: #FF904D; font-size: 28px; font-weight: 700; text-anchor: middle; }
+.box-desc { fill: rgba(255,255,255,0.8); font-size: 18px; text-anchor: middle; line-height: 1.4; }
+.icon-bg { fill: rgba(255, 144, 77, 0.15); stroke: #FF904D; stroke-width: 1.5; }
+.icon { fill: #FF904D; }
+</style>
+</head>
+<body>
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script>
+const width = 1920, height = 800;
+const svg = d3.select("body").append("svg").attr("width", width).attr("height", height);
+
+svg.append("defs").append("marker")
+  .attr("id", "arrowhead")
+  .attr("viewBox", "0 0 10 10")
+  .attr("refX", 8)
+  .attr("refY", 5)
+  .attr("markerWidth", 8)
+  .attr("markerHeight", 8)
+  .attr("orient", "auto")
+  .append("path")
+  .attr("d", "M 0 0 L 10 5 L 0 10 z")
+  .attr("fill", "#FF904D");
+
+const stages = [
+  { id: 0, title: "APRESENTA ARGUMENTOS", desc: "Razões lógicas que sustentam a tese", icon: "M12 20h9M12 12h9M12 4h9", x: 120 },
+  { id: 1, title: "EXPÕE DADOS E EXEMPLOS", desc: "Evidências concretas: números, casos reais", icon: "M9 19v-6a2 2 0 0 1 2-2H8a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h7a2 2 0 0 1 2 2v7M9 19h12", x: 570 },
+  { id: 2, title: "CONTRAPÕE PONTOS DE VISTA", desc: "Mostra o outro lado para reforçar o seu", icon: "M10 15h4a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v6M14 7h4M10 7h4", x: 1020 },
+  { id: 3, title: "APROFUNDA A DISCUSSÃO", desc: "Vai além do óbvio, revela nuances", icon: "M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16zM12 18V6", x: 1470 }
+];
+
+const centerY = height / 2;
+const boxW = 340, boxH = 280;
+const iconSize = 60;
+
+stages.forEach((s, i) => {
+  const g = svg.append("g").attr("transform", `translate(${s.x}, ${centerY - boxH/2})`);
+  
+  g.append("rect")
+    .attr("class", "box")
+    .attr("width", boxW)
+    .attr("height", boxH);
+  
+  g.append("circle")
+    .attr("class", "icon-bg")
+    .attr("cx", boxW/2)
+    .attr("cy", 70)
+    .attr("r", iconSize/2 + 8);
+  
+  g.append("path")
+    .attr("class", "icon")
+    .attr("d", s.icon)
+    .attr("transform", `translate(${boxW/2 - 12}, ${70 - 12}) scale(0.6)`);
+  
+  g.append("text")
+    .attr("class", "box-title")
+    .attr("x", boxW/2)
+    .attr("y", 155)
+    .text(s.title);
+  
+  g.append("text")
+    .attr("class", "box-desc")
+    .attr("x", boxW/2)
+    .attr("y", 195)
+    .call(wrap, boxW - 40, 22);
+  
+  if (i < stages.length - 1) {
+    const next = stages[i + 1];
+    const arrowX1 = s.x + boxW;
+    const arrowX2 = next.x;
+    const midX = (arrowX1 + arrowX2) / 2;
+    
+    svg.append("path")
+      .attr("class", "arrow")
+      .attr("d", `M${arrowX1},${centerY} Q${midX},${centerY} ${arrowX2},${centerY}`);
+    
+    svg.append("text")
+      .attr("class", "arrow-label")
+      .attr("x", midX)
+      .attr("y", centerY - 30)
+      .text("→");
+  }
+});
+
+function wrap(text, width, lineHeight) {
+  text.each(function() {
+    const textEl = d3.select(this);
+    const words = textEl.text().split(/\s+/).reverse();
+    let word, line = [], lineNumber = 0, y = parseFloat(textEl.attr("y"));
+    const x = parseFloat(textEl.attr("x"));
+    const dy = parseFloat(textEl.attr("dy") || 0);
+    let tspan = textEl.text(null).append("tspan").attr("x", x).attr("y", y).attr("dy", dy + "em");
+    while (word = words.pop()) {
+      line.push(word);
+      tspan.text(line.join(" "));
+      if (tspan.node().getComputedTextLength() > width) {
+        line.pop();
+        tspan.text(line.join(" "));
+        line = [word];
+        tspan = textEl.append("tspan").attr("x", x).attr("y", y).attr("dy", ++lineNumber * lineHeight + "em").text(word);
+      }
+    }
+  });
+}
+</script>
+</body>
+</html>

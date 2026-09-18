@@ -12,3 +12,8 @@ backup/
 # OS
 .DS_Store
 Thumbs.db
+# Dependências locais
+slides/node_modules/
+
+# Vídeos Mira (182MB, baixados localmente)
+slides/mira-templates/videos_header/

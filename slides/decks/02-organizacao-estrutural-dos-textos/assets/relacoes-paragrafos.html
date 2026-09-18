@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+body { margin: 0; background: #222222; font-family: 'Inter', sans-serif; }
+svg { display: block; }
+.node { fill: rgba(255, 144, 77, 0.15); stroke: #FF904D; stroke-width: 2; }
+.node:hover { fill: rgba(255, 144, 77, 0.25); stroke: #FFC766; }
+.node-center { fill: #FF904D; stroke: #FFC766; stroke-width: 3; }
+.link { fill: none; stroke: rgba(255,144,77,0.6); stroke-width: 2; marker-end: url(#arrowhead); }
+.link-label { fill: #FFC766; font-size: 16px; font-weight: 600; text-anchor: middle; pointer-events: none; }
+.node-label { fill: #fff; font-size: 22px; font-weight: 700; text-anchor: middle; pointer-events: none; }
+.node-desc { fill: rgba(255,255,255,0.7); font-size: 14px; text-anchor: middle; pointer-events: none; }
+.legend-text { fill: rgba(255,255,255,0.8); font-size: 18px; }
+.legend-title { fill: #FF904D; font-size: 24px; font-weight: 700; }
+.example-text { fill: rgba(255,199,102,0.85); font-size: 14px; font-style: italic; text-anchor: middle; }
+</style>
+</head>
+<body>
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script>
+const width = 1920, height = 800;
+const svg = d3.select("body").append("svg").attr("width", width).attr("height", height);
+
+svg.append("defs").append("marker")
+  .attr("id", "arrowhead")
+  .attr("viewBox", "0 0 10 10")
+  .attr("refX", 12)
+  .attr("refY", 5)
+  .attr("markerWidth", 8)
+  .attr("markerHeight", 8)
+  .attr("orient", "auto")
+  .append("path")
+  .attr("d", "M 0 0 L 10 5 L 0 10 z")
+  .attr("fill", "#FF904D");
+
+const nodes = [
+  { id: "centro", label: "PARÁGRAFO\nANTERIOR", x: width/2, y: height/2, r: 60, center: true },
+  { id: "cont", label: "CONTINUIDADE", x: width/2 - 450, y: height/2 - 180, r: 50, desc: "Mesmo raciocínio, próxima etapa", example: '"Escola repensa tecnologia. → Formação para uso pedagógico."' },
+  { id: "opost", label: "OPOSIÇÃO", x: width/2 + 450, y: height/2 - 180, r: 50, desc: "Ponto de vista contrário", example: '"Celular engaja. → Mas dispersa e superficializa."' },
+  { id: "causa", label: "CAUSA/\nCONSEQUÊNCIA", x: width/2 - 450, y: height/2 + 180, r: 50, desc: "Um explica o outro", example: '"Falta planejamento. → Alunos não acompanham."' },
+  { id: "exemp", label: "EXEMPLIFICAÇÃO", x: width/2 + 450, y: height/2 + 180, r: 50, desc: "Ideia geral → casos concretos", example: '"Estratégias de leitura. → Clubes, rodas, projetos."' }
+];
+
+const links = [
+  { source: "centro", target: "cont", label: "segue" },
+  { source: "centro", target: "opost", label: "contrasta" },
+  { source: "centro", target: "causa", label: "gera" },
+  { source: "centro", target: "exemp", label: "ilustra" }
+];
+
+const simulation = d3.forceSimulation(nodes)
+  .force("link", d3.forceLink(links).id(d => d.id).distance(280).strength(0.8))
+  .force("charge", d3.forceManyBody().strength(-800))
+  .force("center", d3.forceCenter(width/2, height/2))
+  .force("collision", d3.forceCollide().radius(d => d.r + 20))
+  .force("x", d3.forceX(d => d.x).strength(0.1))
+  .force("y", d3.forceY(d => d.y).strength(0.1))
+  .stop();
+
+for (let i = 0; i < 100; i++) simulation.tick();
+
+const linkG = svg.append("g").selectAll(".link")
+  .data(links).enter().append("g");
+
+linkG.append("path")
+  .attr("class", "link")
+  .attr("d", d => {
+    const dx = d.target.x - d.source.x;
+    const dy = d.target.y - d.source.y;
+    const dr = Math.sqrt(dx*dx + dy*dy);
+    return `M${d.source.x},${d.source.y}A${dr},${dr} 0 0,1 ${d.target.x},${d.target.y}`;
+  });
+
+linkG.append("text")
+  .attr("class", "link-label")
+  .attr("x", d => (d.source.x + d.target.x) / 2)
+  .attr("y", d => (d.source.y + d.target.y) / 2 - 10)
+  .text(d => d.label);
+
+const nodeG = svg.append("g").selectAll(".node-group")
+  .data(nodes).enter().append("g")
+  .attr("class", "node-group");
+
+nodeG.append("circle")
+  .attr("class", d => d.center ? "node-center" : "node")
+  .attr("cx", d => d.x)
+  .attr("cy", d => d.y)
+  .attr("r", d => d.r);
+
+nodeG.append("text")
+  .attr("class", "node-label")
+  .attr("x", d => d.x)
+  .attr("y", d => d.y - (d.center ? 0 : 8))
+  .call(wrapMulti, d => d.r * 1.8, 24);
+
+if (!nodes[0].center) {
+  nodeG.filter(d => !d.center).append("text")
+    .attr("class", "node-desc")
+    .attr("x", d => d.x)
+    .attr("y", d => d.y + 28)
+    .text(d => d.desc);
+
+  nodeG.filter(d => !d.center).append("text")
+    .attr("class", "example-text")
+    .attr("x", d => d.x)
+    .attr("y", d => d.y + 52)
+    .call(wrapMulti, d => d.r * 2.2, 18);
+}
+
+const legend = svg.append("g").attr("transform", `translate(60, 60)`);
+legend.append("text").attr("class", "legend-title").text("RELAÇÕES ENTRE PARÁGRAFOS");
+legend.append("text").attr("class", "legend-text").attr("y", 35).text("Identifique a conexão → acerte a questão");
+
+function wrapMulti(text, width, lineHeight) {
+  text.each(function() {
+    const textEl = d3.select(this);
+    const w = typeof width === "function" ? width(textEl.datum()) : width;
+    const lh = typeof lineHeight === "function" ? lineHeight(textEl.datum()) : lineHeight;
+    const lines = textEl.text().split("\n");
+    textEl.text(null);
+    lines.forEach((line, i) => {
+      textEl.append("tspan").attr("x", parseFloat(textEl.attr("x"))).attr("dy", i === 0 ? "0.35em" : "1.2em").text(line);
+    });
+  });
+}
+</script>
+</body>
+</html>
