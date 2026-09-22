@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Interpretação e Compreensão de Texto para Concursos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background: #000000;
+            min-height: 100vh;
+            color: white;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 30px rgba(255, 144, 77, 0.15);
+            transition: all 0.3s ease;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(255, 144, 77, 0.25);
+        }
+
+        .primary-color {
+            color: #FF904D;
+        }
+
+        .primary-bg {
+            background: #FF904D;
+        }
+
+        .icon-container {
+            width: 48px;
+            height: 48px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 144, 77, 0.15);
+        }
+
+        @keyframes gradientShift {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        @keyframes scroll-bounce {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(10px);
+            }
+        }
+
+        @keyframes shimmer {
+            0% {
+                background-position: -200% center;
+            }
+
+            100% {
+                background-position: 200% center;
+            }
+        }
+
+        /* === BARRA DE PROGRESSO DE LEITURA === */
+        #reading-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #FF904D, #ff9f7d, #FF904D);
+            background-size: 200% 100%;
+            animation: shimmer 2s linear infinite;
+            z-index: 9999;
+            transition: width 0.1s linear;
+            box-shadow: 0 0 10px rgba(255, 144, 77, 0.4);
+        }
+
+        /* === BOTÃO PRÓXIMO CARD === */
+        #next-card {
+            position: fixed;
+            bottom: 32px;
+            right: 32px;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: rgba(255, 144, 77, 0.9);
+            color: #000000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+            z-index: 9998;
+            box-shadow: 0 4px 20px rgba(255, 144, 77, 0.3);
+            border: none;
+        }
+
+        #next-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        #next-card:hover {
+            transform: translateY(-3px) scale(1.1);
+            box-shadow: 0 8px 30px rgba(255, 144, 77, 0.5);
+        }
+
+        /* @MIRA:RESPONSIVE:START */
+        /* ============================================================
+           MIRA — camada de reflow mobile-first (fonte: templates/themes/responsive.css).
+           TODO slide 16:9 do Mira fica legível no celular em retrato SEM
+           arquivo mobile separado: o mesmo deck se reorganiza — fontes
+           encolhem, grids empilham, padding reduz, palcos escalam.
+           Se editar, edite também templates/themes/responsive.css.
+           ============================================================ */
+        html, body { max-width: 100%; overflow-x: hidden; }
+        img, svg, video, canvas, iframe, table, pre { max-width: 100%; }
+
+        @media (max-width: 640px) {
+          .text-9xl { font-size: clamp(3rem, 12vw, 5rem)      !important; line-height: 1.05 !important; }
+          .text-8xl { font-size: clamp(2.75rem, 11vw, 4.5rem) !important; line-height: 1.06 !important; }
+          .text-7xl { font-size: clamp(2.25rem, 10vw, 3.75rem)!important; line-height: 1.08 !important; }
+          .text-6xl { font-size: clamp(2rem, 9vw, 3rem)       !important; line-height: 1.1  !important; }
+          .text-5xl { font-size: clamp(1.75rem, 8vw, 2.5rem)  !important; line-height: 1.12 !important; }
+          .text-4xl { font-size: clamp(1.5rem, 7vw, 2rem)     !important; line-height: 1.15 !important; }
+          .text-3xl { font-size: clamp(1.35rem, 6vw, 1.75rem) !important; line-height: 1.2  !important; }
+          .text-2xl { font-size: clamp(1.2rem, 5vw, 1.5rem)   !important; line-height: 1.25 !important; }
+          .text-xl  { font-size: clamp(1.05rem, 4.5vw, 1.25rem)!important; line-height: 1.3 !important; }
+
+          h1, h2, h3 { overflow-wrap: break-word; }
+
+          .p-12 { padding: 1.25rem !important; }
+          .p-10 { padding: 1.15rem !important; }
+          .p-8  { padding: 1.05rem !important; }
+          .px-12, .px-10 { padding-left: 1.15rem !important; padding-right: 1.15rem !important; }
+          .px-8 { padding-left: 1rem !important; padding-right: 1rem !important; }
+          .py-16 { padding-top: 2.5rem !important; padding-bottom: 2.5rem !important; }
+          .gap-8 { gap: 1rem !important; }
+          .gap-10, .gap-12 { gap: 1.25rem !important; }
+
+          .min-h-screen {
+            min-height: 100dvh !important;
+            height: auto !important;
+            padding-top: 2rem !important;
+            padding-bottom: 2rem !important;
+          }
+          .min-h-screen.justify-center,
+          .min-h-screen.items-center { justify-content: flex-start !important; }
+
+          .grid-cols-2, .grid-cols-3, .grid-cols-4 { grid-template-columns: 1fr !important; }
+
+          .anim-stage {
+            max-width: 100% !important;
+            height: auto !important;
+            aspect-ratio: 16 / 9;
+            min-height: 0 !important;
+          }
+
+          table { font-size: 0.82rem !important; }
+          .overflow-x-auto { -webkit-overflow-scrolling: touch; }
+
+          #mira-next, #next-card {
+            bottom: max(1rem, env(safe-area-inset-bottom)) !important;
+            right: max(1rem, env(safe-area-inset-right)) !important;
+            width: 44px !important; height: 44px !important;
+          }
+        }
+        /* @MIRA:RESPONSIVE:END */
+    </style>
+</head>
+
+<body class="font-sans">
+<header class="min-h-screen flex items-center justify-center relative overflow-hidden bg-black">
+    <!-- Video Background — OBRIGATÓRIO: copiar .mp4 para pasta de destino -->
+    <video autoplay loop muted playsinline class="absolute inset-0 w-full h-full object-cover opacity-50">
+        <source src="header-bg.mp4" type="video/mp4">
+    </video>
+    <!-- Overlay gradient para legibilidade -->
+    <div class="absolute inset-0 pointer-events-none"
+        style="background: linear-gradient(to bottom, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.7) 100%);">
+    </div>
+    <div class="absolute inset-0 pointer-events-none"
+        style="background-image: radial-gradient(circle at 20% 80%, rgba(255, 144, 77, 0.2) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(255, 144, 77, 0.15) 0%, transparent 50%);">
+    </div>
+    <div class="text-center relative z-10" data-aos="fade-down">
+        <span
+            class="inline-block bg-[#FF904D] text-white text-sm font-bold px-6 py-2 rounded-full mb-8 tracking-widest uppercase">[TIPO_CONTEUDO]</span>
+        <h1 class="text-5xl md:text-7xl font-bold mb-6 drop-shadow-lg">[TITULO_PRINCIPAL]</h1>
+        <p class="text-xl text-white/90 max-w-3xl mx-auto mb-10 drop-shadow-md">[SUBTITULO]</p>
+
+        <!-- Logo Canal Sandeco — OBRIGATÓRIO -->
+        <div data-aos="fade-up" data-aos-delay="400" class="mt-6">
+            <img src="canal_sandeco_logo.png" alt="Canal Sandeco"
+                class="h-8 mx-auto opacity-70 drop-shadow-[0_0_10px_rgba(255,255,255,0.1)] hover:opacity-100 transition-opacity">
+        </div>
+    </div>
+
+    <!-- Botão "Começar" -->
+    <button
+        class="absolute bottom-8 right-8 flex flex-col items-center gap-2 cursor-pointer bg-transparent border-none group"
+        id="header-next-btn" aria-label="Ir para o primeiro card"
+        style="animation: scroll-bounce 2s ease-in-out infinite;">
+        <span
+            class="text-[10px] uppercase tracking-[4px] text-white/30 font-medium group-hover:text-[#FF904D] transition-colors">Iniciar</span>
+        <div
+            class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center group-hover:bg-[#FF904D]/20 transition-all">
+            <i data-lucide="chevron-down"
+                class="w-5 h-5 text-white/40 group-hover:text-[#FF904D] transition-colors"></i>
+        </div>
+    </button>
+</header>
+<main class="container mx-auto px-4 py-20 flex flex-col items-center gap-[60vh]">
+<div class="glass-card rounded-xl p-8 w-full max-w-5xl" data-aos="fade-up" data-aos-delay="100">
+    <div class="flex items-center mb-6">
+        <div class="icon-container"><i data-lucide="help-circle" class="primary-color"></i></div>
+        <div class="w-10 h-1 primary-bg ml-4 mr-4"></div>
+        <h3 class="text-3xl font-bold text-white">Por Que Você Erra Questões de Língua Portuguesa</h3>
+    </div>
+    <p class="text-white/90 text-lg mb-4">A maioria perde pontos por confundir dois tipos de questão</p>
+    <p class="text-white/90">
+        Provas de Língua Portuguesa cobram duas habilidades distintas<br>
+        Compreensão: localizar informações explícitas no texto<br>
+        Interpretação: inferir significados além do texto literal<br>
+        Erro comum: aplicar a mesma estratégia para ambos os tipos
+    </p>
+</div>
+<div class="glass-card rounded-xl p-8 w-full max-w-5xl" data-aos="fade-up" data-aos-delay="200">
+    <div class="flex items-center mb-6">
+        <div class="icon-container"><i data-lucide="eyedropper" class="primary-color"></i></div>
+        <div class="w-10 h-1 primary-bg ml-4 mr-4"></div>
+        <h3 class="text-3xl font-bold text-white">Compreensão: Capture o Que Está Escrito</h3>
+    </div>
+    <ul class="space-y-6">
+        <li class="flex items-start">
+            <span class="text-5xl font-black primary-color mr-4 counter" data-target="100">0</span>
+            <p class="text-white/90 text-lg">Identifique dados, afirmações e definições diretamente presentes</p>
+        </li>
+        <li class="flex items-start">
+            <span class="text-5xl font-black primary-color mr-4 counter" data-target="100">0</span>
+            <p class="text-white/90 text-lg">Resposta deve estar literalmente no texto ou parafraseada fielmente</p>
+        </li>
+        <li class="flex items-start">
+            <span class="text-5xl font-black primary-color mr-4 counter" data-target="100">0</span>
+            <p class="text-white/90 text-lg">Sinalizada por: "segundo o texto", "de acordo com", "o autor afirma que"</p>
+        </li>
+    </ul>
+</div>
+<div class="glass-card rounded-xl p-8 w-full max-w-5xl" data-aos="fade-up" data-aos-delay="300">
+    <div class="flex items-center mb-6">
+        <div class="icon-container"><i data-lucide="search" class="primary-color"></i></div>
+        <div class="w-10 h-1 primary-bg ml-4 mr-4"></div>
+        <h3 class="text-3xl font-bold text-white">Interpretação: Descubra o Que Não Está Dit</h3>
+    </div>
+    <ul class="space-y-6">
+        <li class="flex items-start">
+            <span class="text-5xl font-black primary-color mr-4 counter" data-target="100">0</span>
+            <p class="text-white/90 text-lg">Conecte pistas textuais ao seu conhecimento de mundo</p>
+        </li>
+        <li class="flex items-start">
+            <span class="text-5xl font-black primary-color mr-4 counter" data-target="100">0</span>
+            <p class="text-white/90 text-lg">Inferir intenção do autor, tom, implicações e efeitos de sentido</p>
+        </li>
+        <li class="flex items-start">
+            <span class="text-5xl font-black primary-color mr-4 counter" data-target="100">0</span>
+            <p class="text-white/90 text-lg">Sinalizada por: "infere-se que", "depreende-se que", "conclui-se que"</p>
+        </li>
+    </ul>
+</div>
+<div class="glass-card rounded-xl p-8 w-full max-w-5xl" data-aos="fade-up" data-aos-delay="400">
+    <div class="flex items-center mb-6">
+        <div class="icon-container"><i data-lucide="divide" class="primary-color"></i></div>
+        <div class="w-10 h-1 primary-bg ml-4 mr-4"></div>
+        <h3 class="text-3xl font-bold text-white">Literal vs Inferencial: O Dividir Que Define Sua Nota</h3>
+    </div>
+    <div class="grid gap-4">
+        <div>
+            <h3 class="text-2xl font-semibold text-white/90 mb-3">LITERAL</h3>
+            <p class="text-white/90">resposta no texto → "Segundo o texto, X é Y"</p>
+        </div>
+        <div>
+            <h3 class="text-2xl font-semibold text-white/90 mb-3">INFERENCIAL</h3>
+            <p class="text-white/90">resposta além do texto → "Pode-se inferir que X implica Y"</p>
+        </div>
+    </div>
+    <p class="text-white/90 text-center mt-6">Erro fatal: tratar inferencial como literal (ou vice-versa)</p>
+</div>
+<div class="glass-card rounded-xl p-8 w-full max-w-5xl" data-aos="fade-up" data-aos-delay="500">
+    <div class="flex items-center mb-6">
+        <div class="icon-container"><i data-lucide="repeat" class="primary-color"></i></div>
+        <div class="w-10 h-1 primary-bg ml-4 mr-4"></div>
+        <h3 class="text-3xl font-bold text-white">A Técnica das Duas Leituras: Dobro de Aproveitamento, Metade do Tempo</h3>
+    </div>
+    <div class="space-y-8">
+        <div class="flex items-start">
+            <div class="w-12 h-12 bg-white/10 rounded flex items-center justify-center mr-4">
+                1
+            </div>
+            <div class="space-y-3">
+                <p class="font-semibold text-white">LEITURA 1 (rápida)</p>
+                <p class="text-white/90">identificar tema, ideia central, estrutura geral</p>
+            </div>
+        </div>
+        <div class="flex items-start">
+            <div class="w-12 h-12 bg-white/10 rounded flex items-center justify-center mr-4">
+                2
+            </div>
+            <div class="space-y-3">
+                <p class="font-semibold text-white">LEITURA 2 (focada)</p>
+                <p class="text-white/90">marcar tópicos frasais, conectivos, dados-chave</p>
+            </div>
+        </div>
+    </div>
+    <p class="text-white/90 text-center mt-6">Cria mapa mental que reduz releituras e aumenta precisão</p>
+</div>
+<div class="glass-card rounded-xl p-8 w-full max-w-5xl" data-aos="fade-up" data-aos-delay="600">
+    <div class="flex items-center mb-6">
+        <div class="icon-container"><i data-lucide="search" class="primary-color"></i></div>
+        <div class="w-10 h-1 primary-bg ml-4 mr-4"></div>
+        <h3 class="text-3xl font-bold text-white">Gabarite Questões Literais: O Guia do Detetive de Textos</h3>
+    </div>
+    <div class="grid gap-4 grid-cols-1 md:grid-cols-2">
+        <div>
+            <h3 class="text-2xl font-semibold text-white">Seu objetivo:</h3>
+            <p class="text-white/90">encontrar a resposta LITERAL no texto</p>
+        </div>
+        <div>
+            <h3 class="text-2xl font-semibold text-white">Técnica:</h3>
+            <p class="text-white/90">palavra-chave do enunciado → busca no texto → confirmação</p>
+        </div>
+        <div>
+            <h3 class="text-2xl font-semibold text-white">Armadilha:</h3>
+            <p class="text-white/90">leitura apressada que perde trechos importantes</p>
+        </div>
+        <div>
+            <h3 class="text-2xl font-semibold text-white">Resultado:</h3>
+            <p class="text-white/90">maior precisão e confiança nas respostas</p>
+        </div>
+    </div>
+</div>
+<div class="glass-card rounded-xl p-8 w-full max-w-5xl" data-aos="fade-up" data-aos-delay="700">
+    <div class="flex items-center mb-6">
+        <div class="icon-container"><i data-lucide="book-open" class="primary-color"></i></div>
+        <div class="w-10 h-1 primary-bg ml-4 mr-4"></div>
+        <h3 class="text-3xl font-bold text-white">Domine Questões Inferenciais: Leia Entre as Linhas Como um Profissional</h3>
+    </div>
+    <div class="grid gap-4 grid-cols-1 md:grid-cols-2">
+        <div>
+            <h3 class="text-2xl font-semibold text-white">Seu objetivo:</h3>
+            <p class="text-white/90">descobrir o SENTIDO IMPLÍCITO autoral</p>
+        </div>
+        <div>
+            <h3 class="text-2xl font-semibold text-white">Técnica:</h3>
+            <p class="text-white/90">pistas textuais + conhecimento de mundo = conclusão segura</p>
+        </div>
+        <div>
+            <h3 class="text-2xl font-semibold text-white">Armadilha fatal:</h3>
+            <p class="text-white/90">extrapolar além do que o texto sustenta</p>
+        </div>
+        <div>
+            <h3 class="text-2xl font-semibold text-white">Resultado:</h3>
+            <p class="text-white/90">interpretação fundamentada e confiável</p>
+        </div>
+    </div>
+</div>
+<div class="glass-card rounded-xl p-8 w-full max-w-5xl overflow-hidden" data-aos="fade-up" data-aos-delay="800">
+    <div class="flex items-center mb-8">
+        <div class="icon-container"><i data-lucide="clipboard-list" class="primary-color"></i></div>
+        <div class="w-10 h-1 primary-bg ml-4 mr-4"></div>
+        <h3 class="text-3xl font-bold text-white">Compreensão vs Interpretação: O Mapinha Que Evita Confusão</h3>
+    </div>
+    <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse">
+            <thead>
+                <tr class="border-b border-white/20">
+                    <th class="py-4 px-4 text-[#FF904D] font-bold uppercase text-sm tracking-wider">ASPECTO</th>
+                    <th class="py-4 px-4 text-[#FF904D] font-bold uppercase text-sm tracking-wider">COMPREENSÃO</th>
+                    <th class="py-4 px-4 text-[#FF904D] font-bold uppercase text-sm tracking-wider">INTERPRETAÇÃO</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-white/10">
+                <tr class="hover:bg-white/5 transition-colors">
+                    <td class="py-4 px-4 text-white font-medium">FOCO</td>
+                    <td class="py-4 px-4 text-white">Explícito (no texto)</td>
+                    <td class="py-4 px-4 text-white">Implícito (entre linhas)</td>
+                </tr>
+                <tr class="hover:bg-white/5 transition-colors">
+                    <td class="py-4 px-4 text-white font-medium">BUSCA</td>
+                    <td class="py-4 px-4 text-white">Local literal</td>
+                    <td class="py-4 px-4 text-white">Inferência fundamentada</td>
+                </tr>
+                <tr class="hover:bg-white/5 transition-colors">
+                    <td class="py-4 px-4 text-white font-medium">ENUNCIADO</td>
+                    <td class="py-4 px-4 text-white text-[#FF904D]">"segundo o texto"</td>
+                    <td class="py-4 px-4 text-white text-[#FF904D]">"infere-se que"</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="mt-6 pt-4 border-t border-white/10">
+        <p class="text-white/40 text-xs italic">* Consulte este guia rápido antes de iniciar qualquer questão</p>
+    </div>
+</div>
+<div class="glass-card rounded-xl p-8 w-full max-w-5xl" data-aos="fade-up" data-aos-delay="900">
+    <div class="flex items-center mb-6">
+        <div class="icon-container"><i data-lucide="check-square" class="primary-color"></i></div>
+        <div class="w-10 h-1 primary-bg ml-4 mr-4"></div>
+        <h3 class="text-3xl font-bold text-white">Seu Checklist Anti-Erro para o Dia da Prova de Língua Portuguesa</h3>
+    </div>
+    <ul class="space-y-6">
+        <li class="flex items-start">
+            <span class="text-5xl font-black primary-color mr-4">1.</span>
+            <p class="text-white/90 text-lg">LEIA O ENUNCIADO PRIMEIRO: descubra se é literal ou inferencial</p>
+        </li>
+        <li class="flex items-start">
+            <span class="text-5xl font-black primary-color mr-4">2.</span>
+            <p class="text-white/90 text-lg">IDENTIFIQUE O TIPO: "segundo o texto" vs "infere-se que"</p>
+        </li>
+        <li class="flex items-start">
+            <span class="text-5xl font-black primary-color mr-4">3.</span>
+            <p class="text-white/90 text-lg">FAÇA AS DUAS LEITURAS: tema→geral, depois detalhes específicos</p>
+        </li>
+        <li class="flex items-start">
+            <span class="text-5xl font-black primary-color mr-4">4.</span>
+            <p class="text-white/90 text-lg">SUBLINHE O ESSENCIAL: tópicos frasais, conectivos, negações</p>
+        </li>
+        <li class="flex items-start">
+            <span class="text-5xl font-black primary-color mr-4">5.</span>
+            <p class="text-white/90 text-lg">EVITE EXTRAPOLAÇÕES: resposta nunca vai além do fundamento textual</p>
+        </li>
+        <li class="flex items-start">
+            <span class="text-5xl font-black primary-color mr-4">6.</span>
+            <p class="text-white/90 text-lg">CONFIRA O GABARITO: entenda POR QUE a alternativa está certa</p>
+        </li>
+    </ul>
+</div>
+<div class="glass-card rounded-xl p-8 w-full max-w-5xl" data-aos="fade-up" data-aos-delay="1000">
+    <div class="flex items-center mb-6">
+        <div class="icon-container"><i data-lucide="balance-scale" class="primary-color"></i></div>
+        <div class="w-10 h-1 primary-bg ml-4 mr-4"></div>
+        <h3 class="text-3xl font-bold text-white">A Lei Nº 1 das Provas: Fidelidade ao Texto Acima de Tudo</h3>
+    </div>
+    <p class="text-white/90 text-lg mb-4">"A resposta correta é sempre a mais fiel ao texto, sem extrapolar"</p>
+    <p class="text-white/90">
+        REGRA DE OURO: nada além do que o autor escreveu explicitamente ou implicitamente<br>
+        APLICAÇÃO PRÁTICA: toda alternativa deve ter sustentação textual direta ou indireta<br>
+        VERIFICAÇÃO: se precisar inventar algo, está errado - volte ao texto
+    </p>
+</div>
+<div class="glass-card rounded-xl p-8 w-full max-w-5xl" data-aos="fade-up" data-aos-delay="1100">
+    <div class="flex items-center mb-6">
+        <div class="icon-container"><i data-lucide="university" class="primary-color"></i></div>
+        <div class="w-10 h-1 primary-bg ml-4 mr-4"></div>
+        <h3 class="text-3xl font-bold text-white">Por Que Essa Habilidade É Crucial Para Especialistas em Educação</h3>
+    </div>
+    <ul class="space-y-6">
+        <li class="flex items-start">
+            <span class="text-5xl font-black primary-color mr-4">•</span>
+            <p class="text-white/90 text-lg">DOCUMENTOS PEDAGÓGICOS: extrair informações essenciais com precisão</p>
+        </li>
+        <li class="flex items-start">
+            <span class="text-5xl font-black primary-color mr-4">•</span>
+            <p class="text-white/90 text-lg">PARECERES TÉCNICOS: avaliar argumentos e implicações com fundamento</p>
+        </li>
+        <li class="flex items-start">
+            <span class="text-5xl font-black primary-color mr-4">•</span>
+            <p class="text-white/90 text-lg">PLANOS DE AULA: interpretar necessidades explícitas e implícitas dos alunos</p>
+        </li>
+        <li class="flex items-start">
+            <span class="text-5xl font-black primary-color mr-4">•</span>
+            <p class="text-white/90 text-lg">DIREÇÃO ESCOLAR: tomada de decisão baseada em leitura competente de relatórios</p>
+        </li>
+    </ul>
+</div>
+<!-- CARD CTA: Comece Hoje: Transforme Cada Hora de Leitura em Pontos na Prova -->
+<div class="glass-card rounded-2xl p-12 w-full max-w-3xl text-center bg-gradient-to-br from-[#FF904D]/10 to-transparent border border-[#FF904D]/30"
+    data-aos="fade-up" data-aos-delay="1200">
+
+    <div class="flex flex-col md:flex-row items-center gap-12">
+        <!-- Imagem -->
+        <div class="w-full md:w-1/2" data-aos="fade-right" data-aos-delay="[DELAY+200]">
+            <!-- No image specified, using background -->
+            <div class="w-full h-64 bg-gradient-to-br from-[#FF904D]/20 to-transparent rounded-xl drop-shadow-[0_0_25px_rgba(255,162,3,0.3)] hover:scale-105 transition-transform duration-500">
+                <i data-lucide="play" class="text-2xl text-[#FF904D] mx-auto mt-10"></i>
+            </div>
+        </div>
+
+        <!-- Conteúdo -->
+        <div class="w-full md:w-1/2 text-left">
+            <div class="mb-6">
+                <span
+                    class="inline-block bg-[#FF904D] text-black text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider mb-3">CHAMADA PARA AÇÃO</span>
+                <h3 class="text-3xl md:text-4xl font-black text-white mb-4 leading-tight">Comece Hoje: Transforme Cada Hora de Leitura em Pontos na Prova</h3>
+                <p class="text-white/80 mb-6 text-lg">Seu plano de ação para dominar interpretação e compreensão de texto</p>
+
+                <ul class="space-y-4 mb-8">
+                    <li class="flex items-start">
+                        <i data-lucide="check-circle-2" class="w-5 h-5 text-[#FF904D] mr-3 mt-1 flex-shrink-0"></i>
+                        <span class="text-white/90"><strong>SEMANA 1:</strong> domine a distinção literal vs inferencial com 10 questões comentadas</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i data-lucide="check-circle-2" class="w-5 h-5 text-[#FF904D] mr-3 mt-1 flex-shrink-0"></i>
+                        <span class="text-white/90"><strong>SEMANA 2:</strong> pratique a técnica das duas leituras em textos de edital anteriores</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i data-lucide="check-circle-2" class="w-5 h-5 text-[#FF904D] mr-3 mt-1 flex-shrink-0"></i>
+                        <span class="text-white/90"><strong>SEMANA 3:</strong> aplique a regra de ouro em simulados completos de Língua Portuguesa</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i data-lucide="check-circle-2" class="w-5 h-5 text-[#FF904D] mr-3 mt-1 flex-shrink-0"></i>
+                        <span class="text-white/90"><strong>RECURSOS:</strong> use os links das referências para aprofundar cada técnica</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="flex flex-col gap-4">
+                <a href="https://www.portugues.com.br/redacao/interpretacao-textual.html" target="_blank"
+                    class="w-full px-8 py-4 bg-[#FF904D] text-black font-bold rounded-lg hover:bg-[#ffb340] transition-colors flex items-center justify-center gap-2 transform hover:scale-105 shadow-[0_0_20px_rgba(255,162,3,0.4)]">
+                    <i data-lucide="book-open-check"></i>
+                    Começar a praticar agora
+                </a>
+                <p class="text-center text-xs text-white/40">Melhore sua pontuação com prática dedicada</p>
+            </div>
+        </div>
+    </div>
+</div>
+</main>
+
+<!-- CTA Final — Logo + Ações -->
+<div class="py-16 text-center">
+    <div class="flex justify-center">
+        <img src="canal_sandeco_logo.png" alt="Canal Sandeco" class="h-6 opacity-30 hover:opacity-60 transition-opacity">
+    </div>
+</div>
+
+<footer class="py-12 text-center text-white/60">
+    <p>&copy; 2026 - Canal Sandeco. [FONTE_REFERENCIA]</p>
+</footer></body>
+</html>

@@ -1,17 +1,20 @@
-# Prompts locais (não versionar)
-markdown-para-html-mira-animator.md
+# Ignorar tudo por padrão
+*
 
-# Scripts de desenvolvimento
-md_to_html.py
-create_index_htmls.py
-generate_slides_specific.py
+# Exceto README.md e index.html
+!README.md
+!index.html
 
-# Backups
+# Pastas que não devem ser versionadas
+.openclaude/
+scripts/
 backup/
+slides/
 
 # OS
 .DS_Store
 Thumbs.db
+
 # Dependências locais
 slides/node_modules/
 
