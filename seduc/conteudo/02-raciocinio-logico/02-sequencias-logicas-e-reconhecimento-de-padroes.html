@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tópico 02 — Sequências Lógicas e Reconhecimento de Padrões — SEDUC-PA 2026</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="../../slides/assets/theme.css" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <div class="container header-content">
+            <a href="../../" class="logo">SEDUC-PA <span>2026</span></a>
+            <nav class="nav-links">
+                <a href="../../">Início</a>
+                <a href="../../slides/">Slides</a>
+                <a href="../" class="active">Conteúdo</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <article class="content-article glass-card">
+            <header style="margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--mira-card-border);">
+                <p class="attribute-pill" style="margin-bottom: 1rem;">
+                    <i data-lucide="book-open" class="w-4 h-4"></i>
+                    Concurso SEDUC-PA 2026
+                </p>
+                <h1>Tópico 02 — Sequências Lógicas e Reconhecimento de Padrões</h1>
+                <p style="color: var(--mira-text-soft); margin-top: 0.5rem; font-size: 1.1rem;"></p>
+                <div class="content-pills" style="margin-top: 1.5rem;">
+                    
+                </div>
+            </header>
+
+            
+
+            <nav style="margin-bottom: 2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+    <a href="../" class="btn btn-outline">← Voltar ao índice</a>
+    <a href="./" class="btn btn-outline">← Voltar à disciplina</a>
+</nav>
+
+
+            
+<p>Este tópico aborda <strong>técnicas de resolução de sequências lógicas para concurso</strong>, um assunto clássico e recorrente em <strong>provas</strong> de <strong>Especialista em Educação</strong> e em praticamente todas as <strong>bancas</strong> examinadoras, como <strong>FGV</strong>, <strong>Cespe</strong> e Cesgranrio. Reconhecer <strong>padrões</strong> rapidamente é uma das principais <strong>estratégias</strong> para ganhar tempo de prova e garantir pontos "fáceis" no <strong>edital</strong>, sendo um ótimo ponto de partida para a <strong>preparação</strong> e o <strong>estudo</strong> desta disciplina — desde que se aplique a <strong>técnica</strong> correta a cada <strong>questão</strong>, o candidato tem grandes chances de <strong>gabarito</strong>.</p>
+
+<div class="section-divider">    <div class="section-divider-icon"><i data-lucide="brain" class="w-5 h-5"></i></div>    <div class="section-divider-line"></div></div>
+<h2>1. Definição</h2>
+
+<p>Uma <strong>sequência lógica</strong> é um conjunto ordenado de elementos (números, letras, palavras ou figuras) que segue uma <strong>regra de formação</strong> — um padrão oculto que relaciona cada termo ao(s) anterior(es). O objetivo da questão é sempre o mesmo: <strong>descobrir a regra</strong> e usá-la para encontrar o próximo elemento, o elemento faltante ou o termo "fora do padrão".</p>
+
+<p>O <strong>reconhecimento de padrões</strong> é a habilidade cognitiva de identificar regularidades, repetições ou tendências dentro de um conjunto de dados, sendo a base não só das sequências numéricas, mas também de testes psicotécnicos e do próprio pensamento computacional.</p>
+
+<div class="section-divider">    <div class="section-divider-icon"><i data-lucide="target" class="w-5 h-5"></i></div>    <div class="section-divider-line"></div></div>
+<h2>2. Explicação Teórica</h2>
+<h3>2.1 Tipos de sequência mais cobrados</h3>
+<ul>    <li><strong>Sequências numéricas:</strong> relação matemática entre os termos (soma, subtração, multiplicação, divisão, potência).</li>    <li><strong>Sequências de letras:</strong> relação com a posição da letra no alfabeto (A=1, B=2...) ou padrões de repetição/alternância.</li>    <li><strong>Sequências alfanuméricas (mistas):</strong> combinam letras e números na mesma regra, como no exemplo B3 – E8 – J15 – Q24 cobrado em provas recentes.</li>    <li><strong>Sequências de figuras:</strong> variação de posição, rotação, cor, quantidade de elementos ou simetria.</li></ul>
+<div class="content-card">    <div class="content-card-header">        <div class="content-card-icon" style="background: rgba(53, 208, 127, 0.15); border-color: rgba(53, 208, 127, 0.3);">            <i data-lucide="check-circle" class="w-5 h-5" style="color: var(--mira-crop);"></i>        </div>        <div class="content-card-title">2.2 Como o padrão pode se comportar</div>    </div>    <ul style="margin: 0; padding-left: 1.5rem;">        <li><strong>Padrão constante:</strong> a mesma operação se repete em todos os termos (ex.: +5 sempre).</li>        <li><strong>Padrão crescente/decrescente (progressão):</strong> a diferença entre os termos aumenta ou diminui de forma regular.</li>        <li><strong>Padrão alternado:</strong> duas ou mais regras se revezam entre os termos (ex.: soma, depois multiplica, soma, depois multiplica).</li>        <li><strong>Padrão recursivo:</strong> cada termo depende de dois ou mais termos anteriores, como na sequência de Fibonacci (1, 1, 2, 3, 5, 8, 13...), em que cada número é a soma dos dois anteriores.</li>    </ul></div>
+<h3>2.3 Raciocínio indutivo</h3>
+
+<p>As questões de sequência exploram o <strong>raciocínio indutivo</strong>: parte-se de casos particulares (os termos já apresentados) para se chegar a uma regra geral (a lei de formação), que então é aplicada para prever o próximo elemento. Diferente do raciocínio dedutivo (estudado no Tópico 01), a indução gera uma conclusão <strong>provável</strong>, não uma certeza lógica absoluta — por isso, é fundamental testar a regra encontrada em <strong>todos</strong> os termos da sequência antes de confirmar a resposta.</p>
+
+<div class="callout callout-danger">    <div class="callout-title">Regra de Ouro</div>    <p class="callout-text">"Nunca aplique uma regra que funcione para apenas dois ou três termos — teste-a em toda a sequência antes de confiar nela, pois a banca costuma inserir padrões que enganam nos primeiros elementos."</p></div>
+
+<div class="section-divider">    <div class="section-divider-icon"><i data-lucide="quote" class="w-5 h-5"></i></div>    <div class="section-divider-line"></div></div>
+<h2>3. Exemplos Práticos</h2>
+<h3>Exemplo Comparativo: Sequência Numérica Simples vs Sequência Numérica Alternada</h3>
+<h3>Sequência Numérica Simples</h3>
+<ul>    <li>Definição: usa uma única operação constante entre os termos</li>    <li>Característica 1: a diferença (ou razão) entre termos consecutivos é sempre a mesma</li>    <li>Característica 2: exemplo — 3, 7, 11, 15, 19... (padrão: +4)</li></ul>
+<h3>Sequência Numérica Alternada</h3>
+<ul>    <li>Definição: duas ou mais operações se revezam ao longo da sequência</li>    <li>Característica 1: exige observar termos de dois em dois (posições ímpares e pares separadamente)</li>    <li>Característica 2: exemplo — 2, 10, 12, 16, 17, 18, 19... (padrões distintos se intercalando)</li></ul>
+<h3>Exemplo Comparativo: Sequência de Letras vs Sequência Alfanumérica</h3>
+<h3>Sequência de Letras</h3>
+<ul>    <li>Definição: a regra atua apenas sobre a posição das letras no alfabeto</li>    <li>Característica 1: útil numerar o alfabeto de A a Z (1 a 26) para enxergar o padrão</li>    <li>Característica 2: exemplo — A, C, F, J... (pula 1, depois 2, depois 3 letras)</li></ul>
+<h3>Sequência Alfanumérica</h3>
+<ul>    <li>Definição: combina letras e números na mesma regra de formação</li>    <li>Característica 1: geralmente o número acompanha a posição alfabética somada a uma constante</li>    <li>Característica 2: exemplo — B3, E8, J15, Q24... (a letra avança e o número segue uma progressão própria)</li></ul>
+<div class="content-card">    <div class="content-card-header">        <div class="content-card-icon"><i data-lucide="list-ordered" class="w-5 h-5"></i></div>        <div class="content-card-title">Tabela-resumo de estratégias por tipo de sequência</div>    </div>    <p class="content-card-text"></p></div>
+
+<table>    <thead>        <tr>            <th>Tipo de sequência</th>            <th>O que observar primeiro</th>            <th>Ferramenta útil</th>        </tr>    </thead>    <tbody>        <tr>            <td>Numérica simples</td>            <td>Diferença entre termos consecutivos</td>            <td>Subtração termo a termo</td>        </tr>        <tr>            <td>Numérica alternada</td>            <td>Termos em posições pares e ímpares separadamente</td>            <td>Separar a sequência em duas</td>        </tr>        <tr>            <td>Recursiva (tipo Fibonacci)</td>            <td>Relação com os dois termos anteriores</td>            <td>Somar/comparar pares consecutivos</td>        </tr>        <tr>            <td>Letras</td>            <td>Posição da letra no alfabeto</td>            <td>Numerar o alfabeto de 1 a 26</td>        </tr>        <tr>            <td>Figuras</td>            <td>Rotação, cor, quantidade de elementos</td>            <td>Observar uma variável de cada vez</td>        </tr>    </tbody></table>
+
+<div class="content-card">    <div class="content-card-header">        <div class="content-card-icon"><i data-lucide="quote" class="w-5 h-5"></i></div>        <div class="content-card-title">Exemplo resolvido (nível concurso)</div>    </div>    <p class="content-card-text">Na sequência 20, 26, 34, 44, 56, a diferença entre os termos é 6, 8, 10, 12 — ou seja, a diferença aumenta sempre 2 unidades. Logo, o próximo salto será de 14, e o próximo termo é 56 + 14 = 70.</p></div>
+
+<div class="section-divider">    <div class="section-divider-icon"><i data-lucide="lightbulb" class="w-5 h-5"></i></div>    <div class="section-divider-line"></div></div>
+<h2>4. Dicas para Resolução de Questões de Concurso</h2>
+<ul>    <li><strong>Calcule sempre a diferença (ou razão) entre os termos consecutivos</strong> antes de tentar qualquer outra estratégia — é o primeiro teste em toda questão de sequência.</li>    <li><strong>Se o padrão simples não funcionar, separe a sequência em subsequências</strong> (posições pares e ímpares) — muitas bancas usam esse recurso para dificultar a questão.</li>    <li><strong>Em sequências de letras, converta tudo para números</strong> (posição no alfabeto) — isso transforma o problema em uma sequência numérica comum.</li>    <li><strong>Desconfie de sequências com poucos termos visíveis:</strong> teste mais de uma hipótese de regra antes de marcar a resposta, pois padrões curtos podem admitir mais de uma leitura.</li>    <li><strong>Nas figuras, isole uma característica por vez</strong> (posição, cor, quantidade, rotação) em vez de tentar analisar tudo simultaneamente.</li></ul>
+<div class="section-divider">    <div class="section-divider-icon"><i data-lucide="external-link" class="w-5 h-5"></i></div>    <div class="section-divider-line"></div></div>
+<h2>Referências</h2>
+<div class="content-card">    <div class="content-card-header">        <div class="content-card-icon"><i data-lucide="newspaper" class="w-5 h-5"></i></div>        <div class="content-card-title">"Raciocínio Lógico para Concurso: o que mais cai e como estudar"</div>    </div>    <p class="content-card-text"><strong>Descrição:</strong> Artigo que discute como as bancas trabalham com padrões numéricos, alternância de operações e sequências mistas em provas de concurso.</p>    <div class="content-pills" style="margin-top: 0.75rem;">    <span class="content-pill"><i data-lucide="tag" class="w-3 h-3"></i> Artigo</span>    <span class="content-pill"><i data-lucide="external-link" class="w-3 h-3"></i> <a href="https://ceisc.com.br/blog/post/raciocinio-logico-para-concursos" target="_blank" rel="noopener noreferrer">https://ceisc.com.br/blog/post/raciocinio-logico-para-concursos</a></span>    </div></div><div class="content-card">    <div class="content-card-header">        <div class="content-card-icon"><i data-lucide="newspaper" class="w-5 h-5"></i></div>        <div class="content-card-title">"Descubra como estudar raciocínio lógico para concurso"</div>    </div>    <p class="content-card-text"><strong>Descrição:</strong> Material que recomenda praticar sequências desde aritméticas simples até padrões mais complexos como parte da preparação.</p>    <div class="content-pills" style="margin-top: 0.75rem;">    <span class="content-pill"><i data-lucide="tag" class="w-3 h-3"></i> Artigo</span>    <span class="content-pill"><i data-lucide="external-link" class="w-3 h-3"></i> <a href="https://conteudo.saraivaeducacao.com.br/juridico/raciocinio-logico-para-concurso/" target="_blank" rel="noopener noreferrer">https://conteudo.saraivaeducacao.com.br/juridico/raciocinio-logico-para-concurso/</a></span>    </div></div><div class="content-card">    <div class="content-card-header">        <div class="content-card-icon"><i data-lucide="globe" class="w-5 h-5"></i></div>        <div class="content-card-title">"Questões de Raciocínio Lógico - Sequências Lógicas de Números, Letras, Palavras e Figuras para Concurso"</div>    </div>    <p class="content-card-text"><strong>Descrição:</strong> Banco de questões reais de concursos recentes com exemplos de sequências numéricas e alfanuméricas (como B3–E8–J15–Q24).</p>    <div class="content-pills" style="margin-top: 0.75rem;">    <span class="content-pill"><i data-lucide="tag" class="w-3 h-3"></i> Site oficial</span>    <span class="content-pill"><i data-lucide="external-link" class="w-3 h-3"></i> <a href="https://www.qconcursos.com/questoes-de-concursos/disciplinas/matematica-raciocinio-logico/sequencias-logicas-de-numeros-letras-palavras-e-figuras/questoes" target="_blank" rel="noopener noreferrer">https://www.qconcursos.com/questoes-de-concursos/disciplinas/matematica-raciocinio-logico/sequencias-logicas-de-numeros-letras-palavras-e-figuras/questoes</a></span>    </div></div><div class="content-card">    <div class="content-card-header">        <div class="content-card-icon"><i data-lucide="newspaper" class="w-5 h-5"></i></div>        <div class="content-card-title">"Questões de raciocínio lógico para concurso: o que mais cai?"</div>    </div>    <p class="content-card-text"><strong>Descrição:</strong> Artigo que explica que nas sequências lógicas a banca espera observação de regularidade de crescimento, alternância ou repetição antes de calcular.</p>    <div class="content-pills" style="margin-top: 0.75rem;">    <span class="content-pill"><i data-lucide="tag" class="w-3 h-3"></i> Artigo</span>    <span class="content-pill"><i data-lucide="external-link" class="w-3 h-3"></i> <a href="https://topconcursos.com.br/questoes-de-raciocinio-logico-para-concursos/" target="_blank" rel="noopener noreferrer">https://topconcursos.com.br/questoes-de-raciocinio-logico-para-concursos/</a></span>    </div></div><div class="content-card">    <div class="content-card-header">        <div class="content-card-icon"><i data-lucide="newspaper" class="w-5 h-5"></i></div>        <div class="content-card-title">"Sequência Lógica e Raciocínio Sequencial sem complicação!"</div>    </div>    <p class="content-card-text"><strong>Descrição:</strong> Artigo consultado para exemplificar a sequência de Fibonacci como caso clássico de padrão recursivo em sequências lógicas.</p>    <div class="content-pills" style="margin-top: 0.75rem;">    <span class="content-pill"><i data-lucide="tag" class="w-3 h-3"></i> Artigo</span>    <span class="content-pill"><i data-lucide="external-link" class="w-3 h-3"></i> <a href="https://www.maxieduca.com.br/blog/raciocinio-logico-2/sequencia-raciocinio-logico/" target="_blank" rel="noopener noreferrer">https://www.maxieduca.com.br/blog/raciocinio-logico-2/sequencia-raciocinio-logico/</a></span>    </div></div><div class="content-card">    <div class="content-card-header">        <div class="content-card-icon"><i data-lucide="newspaper" class="w-5 h-5"></i></div>        <div class="content-card-title">"Raciocínio lógico para concurso: o que cai e como se preparar"</div>    </div>    <p class="content-card-text"><strong>Descrição:</strong> Artigo utilizado para diferenciar raciocínio dedutivo e indutivo, este último associado à identificação de padrões em sequências numéricas.</p>    <div class="content-pills" style="margin-top: 0.75rem;">    <span class="content-pill"><i data-lucide="tag" class="w-3 h-3"></i> Artigo</span>    <span class="content-pill"><i data-lucide="external-link" class="w-3 h-3"></i> <a href="https://www.topconcursos.com.br/raciocinio-logico-para-concurso/" target="_blank" rel="noopener noreferrer">https://www.topconcursos.com.br/raciocinio-logico-para-concurso/</a></span>    </div></div><div class="content-card">    <div class="content-card-header">        <div class="content-card-icon"><i data-lucide="newspaper" class="w-5 h-5"></i></div>        <div class="content-card-title">"Questões de Raciocínio Lógico que mais caem em Concursos Públicos"</div>    </div>    <p class="content-card-text"><strong>Descrição:</strong> Artigo com dicas práticas de estratégia para sequências de números, letras e figuras, incluindo a recomendação de testar padrões simples antes de complexos.</p>    <div class="content-pills" style="margin-top: 0.75rem;">    <span class="content-pill"><i data-lucide="tag" class="w-3 h-3"></i> Artigo</span>    <span class="content-pill"><i data-lucide="external-link" class="w-3 h-3"></i> <a href="https://www.estudarcomquestoes.com.br/2026/05/questoes-de-raciocinio-logico-que-mais.html" target="_blank" rel="noopener noreferrer">https://www.estudarcomquestoes.com.br/2026/05/questoes-de-raciocinio-logico-que-mais.html</a></span>    </div></div>
+
+
+            <hr style="margin-top: 3rem;">
+        </article>
+
+        <nav style="margin-top: 2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;"><div><a href="01-estruturas-logicas-proposicoes-conectivos-negacao-equivalencias-argumentos-e-inferencias.html" class="btn btn-outline">← Tópico Anterior</a></div><div><a href="03-diagramas-logicos-e-de-venn.html" class="btn btn-primary">Próximo Tópico →</a></div></nav>
+
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>SEDUC-PA 2026 — Especialista em Educação</p>
+            <p style="margin-top: 0.5rem;">
+                <a href="https://github.com/nicacarvalho5/concursos" target="_blank">Repositório</a>
+            </p>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        if (typeof lucide !== 'undefined') {
+            lucide.createIcons();
+        }
+    </script>
+</body>
+</html>

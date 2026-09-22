@@ -1,0 +1,1310 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Organização Estrutural dos Textos — Concurso C-223 SEDUC-PA</title>
+    <script src="assets/vendor/tailwind.js"></script>
+    <link href="assets/vendor/aos.css" rel="stylesheet">
+    <script src="assets/vendor/aos.js"></script>
+    <script src="assets/vendor/lucide.js"></script>
+    <script src="assets/vendor/d3.v7.min.js"></script>
+    <link href="assets/vendor/inter.css" rel="stylesheet">
+    <style>
+        /* @MIRA:THEME:START */
+:root {
+    --mira-primary: #FF904D;
+    --mira-crop: #35D07F;
+    --mira-bg: #000000;
+    --mira-text: #ffffff;
+    --mira-text-soft: rgba(255, 255, 255, 0.70);
+    --mira-text-softer: rgba(255, 255, 255, 0.50);
+    --mira-card-bg: rgba(255, 255, 255, 0.05);
+    --mira-card-border: rgba(255, 255, 255, 0.10);
+    --mira-glow-soft: rgba(255, 144, 77, 0.15);
+    --mira-glow-strong: rgba(255, 144, 77, 0.25);
+    --mira-icon-bg: rgba(255, 144, 77, 0.15);
+    --mira-icon-border: rgba(255, 144, 77, 0.30);
+    --mira-pill-bg: rgba(255, 255, 255, 0.04);
+    --mira-pill-border: rgba(255, 255, 255, 0.08);
+    --mira-stage-glow: rgba(255, 144, 77, 0.06);
+    --mira-accent-2: #FFC766;
+}
+
+body {
+    background: var(--mira-bg);
+    min-height: 100vh;
+    color: var(--mira-text);
+    font-family: 'Inter', sans-serif;
+}
+
+.primary-color { color: var(--mira-primary); }
+.primary-bg { background: var(--mira-primary); }
+
+.glass-card {
+    background: var(--mira-card-bg);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--mira-card-border);
+    box-shadow: 0 10px 30px var(--mira-glow-soft);
+    transition: all 0.3s ease;
+    border-radius: 0.75rem;
+}
+
+.glass-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px var(--mira-glow-strong);
+}
+
+.icon-hero {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    display: flex;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+    background: var(--mira-icon-bg);
+    border: 1px solid var(--mira-icon-border);
+}
+
+.attribute-pill {
+    background: var(--mira-pill-bg);
+    border: 1px solid var(--mira-pill-border);
+    transition: all 0.25s ease;
+    border-radius: 9999px;
+}
+
+.attribute-pill:hover {
+    background: var(--mira-icon-bg);
+    border-color: var(--mira-icon-border);
+    transform: translateY(-3px);
+}
+
+.anim-stage {
+    width: 100%;
+    height: clamp(400px, 60vh, 620px);
+    background: radial-gradient(circle at 50% 50%, var(--mira-stage-glow), transparent 70%);
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
+}
+
+.anim-stage svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.replay-btn {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    z-index: 10;
+    background: var(--mira-pill-bg);
+    border: 1px solid var(--mira-pill-border);
+    color: var(--mira-text-soft);
+    border-radius: 9999px;
+    padding: 6px 14px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.replay-btn:hover {
+    background: var(--mira-icon-bg);
+    color: var(--mira-primary);
+}
+
+.text-soft { color: var(--mira-text-soft); }
+.text-softer { color: var(--mira-text-softer); }
+
+@keyframes mira-pulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.08); opacity: 0.85; }
+}
+
+@keyframes mira-float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+@keyframes mira-gradient-shift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* @MIRA:THEME:END */
+
+        body > section:first-of-type h1,
+        body > section:first-of-type h2 { text-wrap: balance; }
+
+        html { scroll-behavior: smooth; }
+        html { scrollbar-width: thin; scrollbar-color: #2e2e2e #0d0d0d; }
+        ::-webkit-scrollbar { width: 6px; height: 6px; background: #0d0d0d; }
+        ::-webkit-scrollbar-track { background: #0d0d0d; }
+        ::-webkit-scrollbar-thumb { background: #2e2e2e; border-radius: 999px; }
+        ::-webkit-scrollbar-thumb:hover { background: #4a4a4a; }
+        ::-webkit-scrollbar-button { display: none; width: 0; height: 0; }
+
+        #mira-progress {
+            position: fixed; top: 0; left: 0; height: 3px; width: 0%;
+            background: linear-gradient(90deg, var(--mira-primary), var(--mira-accent-2), var(--mira-primary));
+            background-size: 200% 100%;
+            animation: mira-shimmer 2s linear infinite;
+            z-index: 9999; transition: width 0.1s linear;
+            box-shadow: 0 0 10px var(--mira-glow-strong);
+        }
+
+        @keyframes mira-shimmer {
+            0% { background-position: -200% center; }
+            100% { background-position: 200% center; }
+        }
+
+        #mira-next {
+            position: fixed; bottom: 32px; right: 32px;
+            width: 48px; height: 48px; border-radius: 50%;
+            background: var(--mira-primary); color: var(--mira-bg);
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; border: none;
+            opacity: 0; transform: translateY(20px);
+            transition: all 0.3s ease; z-index: 9998;
+            box-shadow: 0 4px 20px var(--mira-glow-strong);
+        }
+        #mira-next.visible { opacity: 1; transform: translateY(0); }
+        #mira-next:hover { transform: translateY(-3px) scale(1.1); }
+     
+/* @MIRA:RESPONSIVE:START */
+/* ============================================================
+   MIRA — camada de reflow mobile-first (fonte: templates/themes/responsive.css).
+   TODO slide 16:9 do Mira fica legível no celular em retrato SEM
+   arquivo mobile separado: o mesmo deck se reorganiza — fontes
+   encolhem, grids empilham, padding reduzem, palcos escalam.
+   Se editar, edite também templates/themes/responsive.css.
+   ============================================================ */
+html, body { max-width: 100%; overflow-x: hidden; }
+img, svg, video, canvas, iframe, table, pre { max-width: 100%; }
+
+@media (max-width: 640px) {
+  .text-9xl { font-size: clamp(3rem, 12vw, 5rem)      !important; line-height: 1.05 !important; }
+  .text-8xl { font-size: clamp(2.75rem, 11vw, 4.5rem) !important; line-height: 1.06 !important; }
+  .text-7xl { font-size: clamp(2.25rem, 10vw, 3.75rem)!important; line-height: 1.08 !important; }
+  .text-6xl { font-size: clamp(2rem, 9vw, 3rem)       !important; line-height: 1.1  !important; }
+  .text-5xl { font-size: clamp(1.75rem, 8vw, 2.5rem)  !important; line-height: 1.12 !important; }
+  .text-4xl { font-size: clamp(1.5rem, 7vw, 2rem)     !important; line-height: 1.15 !important; }
+  .text-3xl { font-size: clamp(1.35rem, 6vw, 1.75rem) !important; line-height: 1.2  !important; }
+  .text-2xl { font-size: clamp(1.2rem, 5vw, 1.5rem)   !important; line-height: 1.25 !important; }
+  .text-xl  { font-size: clamp(1.05rem, 4.5vw, 1.25rem)!important; line-height: 1.3 !important; }
+
+  h1, h2, h3 { overflow-wrap: break-word; }
+
+  .p-12 { padding: 1.25rem !important; }
+  .p-10 { padding: 1.15rem !important; }
+  .p-8  { padding: 1.05rem !important; }
+  .px-12, .px-10 { padding-left: 1.15rem !important; padding-right: 1.15rem !important; }
+  .px-8 { padding-left: 1rem !important; padding-right: 1rem !important; }
+  .py-16 { padding-top: 2.5rem !important; padding-bottom: 2.5rem !important; }
+  .gap-8 { gap: 1rem !important; }
+  .gap-10, .gap-12 { gap: 1.25rem !important; }
+
+  .min-h-screen {
+    min-height: 100dvh !important;
+    height: auto !important;
+    padding-top: 2rem !important;
+    padding-bottom: 2rem !important;
+  }
+  .min-h-screen.justify-center,
+  .min-h-screen.items-center { justify-content: flex-start !important; }
+
+  .grid-cols-2, .grid-cols-3, .grid-cols-4 { grid-template-columns: 1fr !important; }
+
+  .anim-stage {
+    max-width: 100% !important;
+    height: auto !important;
+    aspect-ratio: 16 / 9;
+    min-height: 0 !important;
+  }
+
+  table { font-size: 0.82rem !important; }
+  .overflow-x-auto { -webkit-overflow-scrolling: touch; }
+
+  #mira-next, #next-card {
+    bottom: max(1rem, env(safe-area-inset-bottom)) !important;
+    right: max(1rem, env(safe-area-inset-right)) !important;
+    width: 44px !important; height: 44px !important;
+  }
+}
+/* @MIRA:RESPONSIVE:END */
+
+    </style>
+</head>
+
+<body class="font-sans">
+
+    <div id="mira-progress"></div>
+    <button id="mira-next" aria-label="Próximo slide">
+        <i data-lucide="chevron-down" class="w-6 h-6" id="mira-next-icon"></i>
+    </button>
+
+    <!-- ============ SLIDE 1: CAPA ============ -->
+    <section class="min-h-screen flex flex-col items-center justify-center relative overflow-hidden px-6">
+        <div id="capa-stage" class="absolute inset-0 pointer-events-none"></div>
+        <div class="relative z-10 text-center max-w-4xl" data-aos="fade-up">
+            <p class="attribute-pill inline-block px-5 py-2 text-sm tracking-widest uppercase text-soft mb-8">Concurso C-223 SEDUC-PA · Língua Portuguesa</p>
+            <h1 class="text-6xl md:text-7xl font-black leading-tight mb-6">
+                O Mapa Secreto dos<br>
+                <span class="primary-color">Textos que Caem em Prova</span>
+            </h1>
+            <p class="text-xl text-soft max-w-2xl mx-auto mb-10">Organização estrutural — o atalho que a banca não quer que você conheça: macro, micro e progressão temática.</p>
+            <div class="flex items-center justify-center gap-3 text-softer text-sm">
+                <i data-lucide="map" class="w-4 h-4 primary-color"></i> Módulo 02
+                <span class="opacity-40">|</span>
+                <i data-lucide="book-open" class="w-4 h-4 primary-color"></i> Conhecimentos Básicos
+                <span class="opacity-40">|</span>
+                <i data-lucide="target" class="w-4 h-4 primary-color"></i> Prova Objetiva
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // LOOP INTERNO: partículas orbitando o centro da capa, perpétuo
+        (function () {
+            const stage = d3.select('#capa-stage');
+            const W = window.innerWidth, H = window.innerHeight;
+            const svg = stage.append('svg').attr('viewBox', `0 0 ${W} ${H}`);
+            const cx = W / 2, cy = H / 2;
+            const primary = getComputedStyle(document.documentElement).getPropertyValue('--mira-primary').trim();
+
+            const particles = d3.range(24).map(i => ({
+                r: 180 + Math.random() * Math.min(W, H) * 0.35,
+                angle: Math.random() * Math.PI * 2,
+                speed: 0.002 + Math.random() * 0.004,
+                size: 1.5 + Math.random() * 3
+            }));
+
+            const dots = svg.selectAll('circle').data(particles).join('circle')
+                .attr('r', d => d.size)
+                .attr('fill', primary)
+                .attr('opacity', 0.35);
+
+            d3.timer(() => {
+                dots.attr('cx', d => { d.angle += d.speed; return cx + Math.cos(d.angle) * d.r; })
+                    .attr('cy', d => cy + Math.sin(d.angle) * d.r * 0.6);
+            });
+        })();
+    </script>
+
+    <!-- ============ SLIDE 2: TRÊS NÍVEIS (ORBITAL) ============ -->
+    <section class="min-h-screen flex flex-col items-center justify-center px-6 py-16">
+        <div class="text-center mb-10" data-aos="fade-up">
+            <h2 class="text-5xl font-black">Três Lentes Para Ler <span class="primary-color">Qualquer Texto</span></h2>
+            <p class="text-soft text-lg mt-3">Macro, micro e progressão — a tríade que resolve 80% das questões</p>
+        </div>
+
+        <div class="glass-card w-full max-w-5xl p-8 relative" data-aos="fade-up">
+            <div id="orbital-stage" class="anim-stage"></div>
+        </div>
+
+        <script>
+            (function () {
+                const CENTRO = 'Organização';
+                const SATELITES = ['Macroestrutura', 'Microestrutura', 'Progressão temática'];
+                const stage = d3.select('#orbital-stage');
+                const W = 960, H = 540;
+                const svg = stage.append('svg').attr('viewBox', `0 0 ${W} ${H}`);
+                const primary = getComputedStyle(document.documentElement).getPropertyValue('--mira-primary').trim();
+                const cx = W / 2, cy = H / 2, R = 190;
+
+                svg.append('ellipse').attr('cx', cx).attr('cy', cy)
+                    .attr('rx', R).attr('ry', R * 0.62)
+                    .attr('fill', 'none').attr('stroke', 'rgba(255,255,255,0.10)')
+                    .attr('stroke-dasharray', '4 6');
+
+                const core = svg.append('g').attr('transform', `translate(${cx},${cy})`);
+                core.append('circle').attr('r', 0).attr('fill', 'rgba(255,255,255,0.06)')
+                    .attr('stroke', primary).attr('stroke-width', 2.5)
+                    .transition().duration(800).ease(d3.easeBackOut).attr('r', 64);
+                core.append('text').text(CENTRO).attr('text-anchor', 'middle').attr('dy', 6)
+                    .attr('fill', primary).attr('font-size', 18).attr('font-weight', 800)
+                    .attr('opacity', 0).transition().delay(500).attr('opacity', 1);
+
+                const pulse = core.append('circle').attr('r', 64).attr('fill', 'none')
+                    .attr('stroke', primary).attr('opacity', 0);
+
+                d3.interval(() => {
+                    pulse.attr('r', 64).attr('opacity', 0.6)
+                        .transition().duration(1600).ease(d3.easeCubicOut)
+                        .attr('r', 110).attr('opacity', 0);
+                }, 2000);
+
+                const sats = svg.selectAll('g.sat').data(SATELITES.map((s, i) => ({
+                    label: s,
+                    angle: (i / SATELITES.length) * Math.PI * 2
+                }))).join('g').attr('class', 'sat');
+
+                sats.append('circle').attr('r', 0).attr('fill', 'rgba(255,255,255,0.08)')
+                    .attr('stroke', primary).attr('stroke-opacity', 0.5)
+                    .transition().delay((d, i) => 800 + i * 150).duration(500)
+                    .ease(d3.easeBackOut).attr('r', 30);
+
+                sats.append('text').text(d => d.label)
+                    .attr('text-anchor', 'middle').attr('dy', 4)
+                    .attr('fill', 'rgba(255,255,255,0.85)').attr('font-size', 11).attr('font-weight', 600)
+                    .attr('opacity', 0)
+                    .transition().delay((d, i) => 1000 + i * 150).attr('opacity', 1);
+
+                d3.timer(() => {
+                    sats.attr('transform', d => {
+                        d.angle += 0.004;
+                        const x = cx + Math.cos(d.angle) * R;
+                        const y = cy + Math.sin(d.angle) * R * 0.62;
+                        return `translate(${x},${y})`;
+                    });
+                });
+            })();
+        </script>
+
+        <div class="flex flex-wrap items-center justify-center gap-3 mt-8" data-aos="fade-up">
+            <span class="attribute-pill px-5 py-2 text-sm"><i data-lucide="layers" class="inline w-4 h-4 mr-2 primary-color"></i>Introdução · Desenvolvimento · Conclusão</span>
+            <span class="attribute-pill px-5 py-2 text-sm"><i data-lucide="square" class="inline w-4 h-4 mr-2 primary-color"></i>Tópico frasal · Fechamento</span>
+            <span class="attribute-pill px-5 py-2 text-sm"><i data-lucide="route" class="inline w-4 h-4 mr-2 primary-color"></i>Retomada · Ampliação · Derivação</span>
+        </div>
+    </section>
+
+    <!-- ============ SLIDE 3: INTRODUÇÃO (GRID 4 ELEMENTOS) ============ -->
+    <section class="min-h-screen flex flex-col items-center justify-center px-6 py-16">
+        <div class="text-center mb-10" data-aos="fade-up">
+            <div class="slide-title-row justify-center flex items-center gap-4">
+                <div class="icon-hero"><i data-lucide="file-text" class="primary-color w-6 h-6"></i></div>
+                <h2 class="text-5xl font-black">Introdução: O <span class="primary-color">Contrato</span> com o Leitor</h2>
+            </div>
+            <p class="text-soft text-lg mt-3">4 cláusulas obrigatórias — se faltar uma, o texto não entrega o prometido</p>
+        </div>
+
+        <div class="glass-card w-full max-w-5xl p-8" data-aos="fade-up">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                <div class="rounded-xl p-5 bg-white/5 border border-white/10 text-center" data-aos="zoom-in">
+                    <div class="icon-hero mx-auto mb-4"><i data-lucide="tag" class="primary-color w-6 h-6"></i></div>
+                    <h4 class="text-lg font-bold mb-2 text-white">Tema</h4>
+                    <p class="text-sm text-soft">Sobre o que é? Ex: educação básica e qualidade</p>
+                </div>
+                <div class="rounded-xl p-5 bg-white/5 border border-white/10 text-center" data-aos="zoom-in" data-aos-delay="100">
+                    <div class="icon-hero mx-auto mb-4"><i data-lucide="alert-triangle" class="primary-color w-6 h-6"></i></div>
+                    <h4 class="text-lg font-bold mb-2 text-white">Problema</h4>
+                    <p class="text-sm text-soft">Qual o conflito? Ex: acesso universal vs. qualidade</p>
+                </div>
+                <div class="rounded-xl p-5 bg-white/5 border border-white/10 text-center" data-aos="zoom-in" data-aos-delay="200">
+                    <div class="icon-hero mx-auto mb-4"><i data-lucide="flag" class="primary-color w-6 h-6"></i></div>
+                    <h4 class="text-lg font-bold mb-2 text-white">Tese</h4>
+                    <p class="text-sm text-soft">Qual a posição? Ex: formação docente é fundamental</p>
+                </div>
+                <div class="rounded-xl p-5 bg-white/5 border border-white/10 text-center" data-aos="zoom-in" data-aos-delay="300">
+                    <div class="icon-hero mx-auto mb-4"><i data-lucide="crosshair" class="primary-color w-6 h-6"></i></div>
+                    <h4 class="text-lg font-bold mb-2 text-white">Objetivo</h4>
+                    <p class="text-sm text-soft">Para que serve? Informar, analisar, defender uma posição</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-8 p-5 rounded-xl bg-[#FF904D]/10 border border-[#FF904D]/20 w-full max-w-5xl" data-aos="fade-up">
+            <p class="text-sm text-white/80"><strong class="primary-color">Exemplo:</strong> "A educação básica enfrenta, atualmente, o desafio de conciliar o acesso universal com a garantia de qualidade." — Tema + problema + tese em uma frase.</p>
+        </div>
+    </section>
+
+    <!-- ============ SLIDE 4: DESENVOLVIMENTO (FLUXO) ============ -->
+    <section class="min-h-screen flex flex-col items-center justify-center px-6 py-16">
+        <div class="text-center mb-10" data-aos="fade-up">
+            <div class="slide-title-row justify-center flex items-center gap-4">
+                <div class="icon-hero"><i data-lucide="arrow-right" class="primary-color w-6 h-6"></i></div>
+                <h2 class="text-5xl font-black">Desenvolvimento: Onde a <span class="primary-color">Argumentação</span> Acontece</h2>
+            </div>
+            <p class="text-soft text-lg mt-3">4 motores que movem o texto — pare de ler passivamente, comece a caçar</p>
+        </div>
+
+        <div class="glass-card w-full max-w-5xl p-8 relative" data-aos="fade-up">
+            <button class="replay-btn" onclick="window.__fluxoReplay && window.__fluxoReplay()">↻ replay</button>
+            <div id="fluxo-stage" class="anim-stage"></div>
+        </div>
+
+        <p class="text-softer mt-8 text-center max-w-2xl" data-aos="fade-up">A parte mais extensa do texto. Cada etapa sustenta a tese apresentada na introdução.</p>
+
+        <script>
+            (function () {
+                const ETAPAS = ['Argumentos', 'Dados e Exemplos', 'Contraposição', 'Aprofundamento'];
+                const stage = d3.select('#fluxo-stage');
+                const W = 960, H = 540;
+                const svg = stage.append('svg').attr('viewBox', `0 0 ${W} ${H}`);
+                const css = v => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+                const primary = css('--mira-primary');
+
+                const xs = d3.scalePoint().domain(d3.range(ETAPAS.length)).range([120, W - 120]);
+                const cy = H / 2;
+
+                svg.append('line').attr('x1', xs(0)).attr('x2', xs(ETAPAS.length - 1))
+                    .attr('y1', cy).attr('y2', cy)
+                    .attr('stroke', 'rgba(255,255,255,0.12)').attr('stroke-width', 2);
+
+                const nodes = svg.selectAll('g.node').data(ETAPAS).join('g')
+                    .attr('transform', (d, i) => `translate(${xs(i)},${cy})`);
+
+                nodes.append('circle').attr('r', 0).attr('fill', 'rgba(255,255,255,0.06)')
+                    .attr('stroke', primary).attr('stroke-width', 2)
+                    .transition().delay((d, i) => 300 + i * 250).duration(600)
+                    .ease(d3.easeBackOut).attr('r', 34);
+
+                nodes.append('text').text((d, i) => i + 1)
+                    .attr('text-anchor', 'middle').attr('dy', 6)
+                    .attr('fill', primary).attr('font-size', 20).attr('font-weight', 800)
+                    .attr('opacity', 0)
+                    .transition().delay((d, i) => 600 + i * 250).attr('opacity', 1);
+
+                nodes.append('text').text(d => d)
+                    .attr('text-anchor', 'middle').attr('dy', 70)
+                    .attr('fill', 'rgba(255,255,255,0.7)').attr('font-size', 16)
+                    .attr('opacity', 0)
+                    .transition().delay((d, i) => 700 + i * 250).attr('opacity', 1);
+
+                const particle = svg.append('circle').attr('r', 7).attr('fill', primary)
+                    .attr('cy', cy).attr('cx', xs(0))
+                    .style('filter', `drop-shadow(0 0 8px ${primary})`);
+
+                function travel() {
+                    particle.attr('cx', xs(0)).attr('opacity', 1)
+                        .transition().duration(3200).ease(d3.easeCubicInOut)
+                        .attr('cx', xs(ETAPAS.length - 1))
+                        .transition().duration(300).attr('opacity', 0)
+                        .on('end', travel);
+                }
+                travel();
+
+                d3.interval(() => {
+                    nodes.selectAll('circle')
+                        .transition().delay((d, i) => i * 200).duration(350).attr('r', 39)
+                        .transition().duration(350).attr('r', 34);
+                }, 3500);
+
+                window.__fluxoReplay = travel;
+            })();
+        </script>
+    </section>
+
+    <!-- ============ SLIDE 5: CONCLUSÃO (ESCADA) ============ -->
+    <section class="min-h-screen flex flex-col items-center justify-center px-6 py-16">
+        <div class="text-center mb-10" data-aos="fade-up">
+            <div class="slide-title-row justify-center flex items-center gap-4">
+                <div class="icon-hero"><i data-lucide="target" class="primary-color w-6 h-6"></i></div>
+                <h2 class="text-5xl font-black">Conclusão: O <span class="primary-color">Último Golpe</span></h2>
+            </div>
+            <p class="text-soft text-lg mt-3">4 degraus — suba todos ou a argumentação desmorona no final</p>
+        </div>
+
+        <div class="glass-card w-full max-w-5xl p-8 relative" data-aos="fade-up">
+            <button class="replay-btn" onclick="window.__escadaReplay && window.__escadaReplay()">↻ replay</button>
+            <div id="escada-stage" class="anim-stage"></div>
+        </div>
+
+        <p class="text-softer mt-8 text-center max-w-2xl" data-aos="fade-up">Retoma a ideia central e apresenta síntese, reafirmação da tese, proposta ou projeção final.</p>
+
+        <script>
+            (function () {
+                const DEGRAUS = ['Síntese', 'Reafirmação', 'Proposta', 'Projeção'];
+                const stage = d3.select('#escada-stage');
+                const W = 960, H = 540;
+                const svg = stage.append('svg').attr('viewBox', `0 0 ${W} ${H}`);
+                const primary = getComputedStyle(document.documentElement).getPropertyValue('--mira-primary').trim();
+
+                const stepW = 170, stepH = 80;
+                const baseX = 90, baseY = H - 90;
+
+                const steps = DEGRAUS.map((d, i) => ({
+                    label: d,
+                    x: baseX + i * stepW,
+                    y: baseY - (i + 1) * stepH
+                }));
+
+                svg.selectAll('rect.step').data(steps).join('rect')
+                    .attr('class', 'step')
+                    .attr('x', d => d.x).attr('y', baseY)
+                    .attr('width', stepW - 14).attr('height', 0)
+                    .attr('rx', 8)
+                    .attr('fill', 'rgba(255,255,255,0.06)')
+                    .attr('stroke', primary).attr('stroke-opacity', 0.4)
+                    .transition().delay((d, i) => 300 + i * 220).duration(600).ease(d3.easeCubicOut)
+                    .attr('y', d => d.y).attr('height', d => baseY - d.y);
+
+                svg.selectAll('text.label').data(steps).join('text')
+                    .attr('class', 'label')
+                    .attr('x', d => d.x + (stepW - 14) / 2).attr('y', d => d.y + 30)
+                    .attr('text-anchor', 'middle')
+                    .attr('fill', 'rgba(255,255,255,0.85)').attr('font-size', 16).attr('font-weight', 700)
+                    .text(d => d.label)
+                    .attr('opacity', 0)
+                    .transition().delay((d, i) => 700 + i * 220).attr('opacity', 1);
+
+                const orb = svg.append('circle').attr('r', 12).attr('fill', primary)
+                    .style('filter', `drop-shadow(0 0 10px ${primary})`);
+
+                function climb() {
+                    orb.attr('cx', steps[0].x + (stepW - 14) / 2).attr('cy', baseY - 14).attr('opacity', 1);
+                    let t = orb.transition().duration(400);
+                    steps.forEach(s => {
+                        t = t.transition().duration(700).ease(d3.easeBounceOut)
+                            .attr('cx', s.x + (stepW - 14) / 2).attr('cy', s.y - 16);
+                    });
+                    t.transition().delay(500).duration(400).attr('opacity', 0).on('end', climb);
+                }
+                setTimeout(climb, 1400);
+                window.__escadaReplay = climb;
+            })();
+        </script>
+    </section>
+
+    <!-- ============ SLIDE 6: PARÁGRAFO (ORBITAL) ============ -->
+    <section class="min-h-screen flex flex-col items-center justify-center px-6 py-16">
+        <div class="text-center mb-10" data-aos="fade-up">
+            <div class="slide-title-row justify-center flex items-center gap-4">
+                <div class="icon-hero"><i data-lucide="square" class="primary-color w-6 h-6"></i></div>
+                <h2 class="text-5xl font-black">Parágrafo: A <span class="primary-color">Célula Viva</span> do Texto</h2>
+            </div>
+            <p class="text-soft text-lg mt-3">3 organelas — localize o núcleo (tópico frasal) e o resto se explica</p>
+        </div>
+
+        <div class="glass-card w-full max-w-5xl p-8" data-aos="fade-up">
+            <div id="paragrafo-stage" class="anim-stage"></div>
+        </div>
+
+        <script>
+            (function () {
+                const CENTRO = 'Parágrafo';
+                const SATELITES = ['Tópico frasal', 'Desenvolvimento', 'Fechamento'];
+                const stage = d3.select('#paragrafo-stage');
+                const W = 960, H = 540;
+                const svg = stage.append('svg').attr('viewBox', `0 0 ${W} ${H}`);
+                const primary = getComputedStyle(document.documentElement).getPropertyValue('--mira-primary').trim();
+                const cx = W / 2, cy = H / 2, R = 190;
+
+                svg.append('ellipse').attr('cx', cx).attr('cy', cy)
+                    .attr('rx', R).attr('ry', R * 0.62)
+                    .attr('fill', 'none').attr('stroke', 'rgba(255,255,255,0.10)')
+                    .attr('stroke-dasharray', '4 6');
+
+                const core = svg.append('g').attr('transform', `translate(${cx},${cy})`);
+                core.append('circle').attr('r', 0).attr('fill', 'rgba(255,255,255,0.06)')
+                    .attr('stroke', primary).attr('stroke-width', 2.5)
+                    .transition().duration(800).ease(d3.easeBackOut).attr('r', 64);
+                core.append('text').text(CENTRO).attr('text-anchor', 'middle').attr('dy', 6)
+                    .attr('fill', primary).attr('font-size', 18).attr('font-weight', 800)
+                    .attr('opacity', 0).transition().delay(500).attr('opacity', 1);
+
+                const pulse = core.append('circle').attr('r', 64).attr('fill', 'none')
+                    .attr('stroke', primary).attr('opacity', 0);
+
+                d3.interval(() => {
+                    pulse.attr('r', 64).attr('opacity', 0.6)
+                        .transition().duration(1600).ease(d3.easeCubicOut)
+                        .attr('r', 110).attr('opacity', 0);
+                }, 2000);
+
+                const sats = svg.selectAll('g.sat').data(SATELITES.map((s, i) => ({
+                    label: s,
+                    sub: ['A ideia-mãe', 'Explicações e dados', 'Síntese ou ponte'][i],
+                    angle: (i / SATELITES.length) * Math.PI * 2
+                }))).join('g').attr('class', 'sat');
+
+                sats.append('circle').attr('r', 0).attr('fill', 'rgba(255,255,255,0.08)')
+                    .attr('stroke', primary).attr('stroke-opacity', 0.5)
+                    .transition().delay((d, i) => 800 + i * 150).duration(500)
+                    .ease(d3.easeBackOut).attr('r', 34);
+
+                sats.append('text').text(d => d.label)
+                    .attr('text-anchor', 'middle').attr('dy', 2)
+                    .attr('fill', 'rgba(255,255,255,0.85)').attr('font-size', 12).attr('font-weight', 700)
+                    .attr('opacity', 0)
+                    .transition().delay((d, i) => 1000 + i * 150).attr('opacity', 1);
+
+                sats.append('text').text(d => d.sub)
+                    .attr('text-anchor', 'middle').attr('dy', 22)
+                    .attr('fill', 'rgba(255,255,255,0.5)').attr('font-size', 10)
+                    .attr('opacity', 0)
+                    .transition().delay((d, i) => 1200 + i * 150).attr('opacity', 1);
+
+                d3.timer(() => {
+                    sats.attr('transform', d => {
+                        d.angle += 0.004;
+                        const x = cx + Math.cos(d.angle) * R;
+                        const y = cy + Math.sin(d.angle) * R * 0.62;
+                        return `translate(${x},${y})`;
+                    });
+                });
+            })();
+        </script>
+
+        <div class="mt-8 p-5 rounded-xl bg-[#FF904D]/10 border border-[#FF904D]/20 w-full max-w-5xl" data-aos="fade-up">
+            <p class="text-sm text-white/80"><strong class="primary-color">Exemplo:</strong> "A leitura literária contribui para a formação crítica dos estudantes. Ao entrar em contato com diferentes mundos ficcionais, o aluno amplia sua visão de mundo." — Tópico frasal + desenvolvimento + fechamento.</p>
+        </div>
+    </section>
+
+    <!-- ============ SLIDE 7: PROGRESSÃO TEMÁTICA (COMPARAÇÃO 3) ============ -->
+    <section class="min-h-screen flex flex-col items-center justify-center px-6 py-16">
+        <div class="text-center mb-10" data-aos="fade-up">
+            <div class="slide-title-row justify-center flex items-center gap-4">
+                <div class="icon-hero"><i data-lucide="route" class="primary-color w-6 h-6"></i></div>
+                <h2 class="text-5xl font-black">Progressão Temática: Como o Tema <span class="primary-color">Viaja</span></h2>
+            </div>
+            <p class="text-soft text-lg mt-3">3 rotas possíveis — identifique qual o autor escolheu e a leitura flui</p>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-6 w-full max-w-5xl items-stretch">
+            <div class="glass-card p-8 text-center" data-aos="zoom-in">
+                <div class="icon-hero mx-auto mb-5"><i data-lucide="refresh-ccw" class="primary-color w-6 h-6"></i></div>
+                <h3 class="text-2xl font-bold mb-3">Retomada</h3>
+                <p class="text-soft text-sm mb-4">O tema é mantido e retomado com novas informações a cada frase.</p>
+                <div class="p-4 rounded-lg bg-white/5 border-l-4 border-[#FF904D] text-left">
+                    <p class="text-xs italic text-white/70">"A escola enfrenta dificuldades. Essas dificuldades afetam professores. Tais problemas repercutem nos alunos."</p>
+                </div>
+            </div>
+            <div class="glass-card p-8 text-center" data-aos="zoom-in" data-aos-delay="100">
+                <div class="icon-hero mx-auto mb-5"><i data-lucide="expand" class="primary-color w-6 h-6"></i></div>
+                <h3 class="text-2xl font-bold mb-3">Ampliação</h3>
+                <p class="text-soft text-sm mb-4">O tema inicial é ampliado para aspectos mais específicos ou mais gerais.</p>
+                <div class="p-4 rounded-lg bg-white/5 border-l-4 border-[#FF904D] text-left">
+                    <p class="text-xs italic text-white/70">"Educação básica precisa ser repensada. Em especial, o currículo do ensino médio..."</p>
+                </div>
+            </div>
+            <div class="glass-card p-8 text-center" data-aos="zoom-in" data-aos-delay="200">
+                <div class="icon-hero mx-auto mb-5"><i data-lucide="git-branch" class="primary-color w-6 h-6"></i></div>
+                <h3 class="text-2xl font-bold mb-3">Derivação</h3>
+                <p class="text-soft text-sm mb-4">De um tema central derivam-se subtemas específicos.</p>
+                <div class="p-4 rounded-lg bg-white/5 border-l-4 border-[#FF904D] text-left">
+                    <p class="text-xs italic text-white/70">"Formação docente envolve dimensões. Técnica, política e ética."</p>
+                </div>
+            </div>
+        </div>
+
+        <img src="assets/progressao-tematica.png" alt="Progressão temática" class="w-full max-w-5xl rounded-lg mt-10 border border-white/10" data-aos="fade-up">
+    </section>
+
+    <!-- ============ SLIDE 8: CTA ============ -->
+    <section class="min-h-screen flex flex-col items-center justify-center px-6 py-16">
+        <div class="glass-card rounded-2xl p-12 w-full max-w-5xl text-center bg-gradient-to-br from-[#FF904D]/10 to-transparent border border-[#FF904D]/30" data-aos="fade-up">
+            <div class="icon-hero mx-auto mb-8" style="width:72px;height:72px;border-radius:20px;">
+                <i data-lucide="zap" class="primary-color w-9 h-9"></i>
+            </div>
+            <span class="inline-block bg-[#FF904D] text-black text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider mb-5">Momento de pratica</span>
+            <h3 class="text-4xl md:text-5xl font-black text-white mb-4 leading-tight">Pare de Adivinhar: Identifique a Estrutura em <span class="text-[#FF904D]">30 Segundos</span></h3>
+            <p class="text-white/80 mb-8 text-lg">Aplique as 3 lentes no próximo texto que cair na sua prova: macro, micro e progressão.</p>
+            <div class="flex flex-col gap-4 max-w-md mx-auto">
+                <a href="#slide-16" onclick="event.preventDefault();const s=document.querySelectorAll('body > section');s[15]&&s[15].scrollIntoView({behavior:'smooth'});" class="w-full px-8 py-4 bg-[#FF904D] text-black font-bold rounded-lg hover:bg-[#ffb340] transition-colors flex items-center justify-center gap-2 transform hover:scale-105 shadow-[0_0_20px_rgba(255,162,3,0.4)]">
+                    <i data-lucide="book-open-check"></i>
+                    Quero Dominar Isso
+                </a>
+                <p class="text-center text-xs text-white/40">Depois de dominar, as questões de "qual a função?" viram ponto certeiro.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ SLIDE 9: ORGANIZAÇÃO VISUAL (GRID 4) ============ -->
+    <section class="min-h-screen flex flex-col items-center justify-center px-6 py-16">
+        <div class="text-center mb-10" data-aos="fade-up">
+            <div class="slide-title-row justify-center flex items-center gap-4">
+                <div class="icon-hero"><i data-lucide="navigation" class="primary-color w-6 h-6"></i></div>
+                <h2 class="text-5xl font-black">Sinais de Trânsito: Títulos, Subtítulos e <span class="primary-color">Marcadores</span></h2>
+            </div>
+            <p class="text-soft text-lg mt-3">4 placas que a banca usa para esconder a resposta — aprenda a ler</p>
+        </div>
+
+        <div class="glass-card w-full max-w-5xl p-8" data-aos="fade-up">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="rounded-xl p-6 bg-white/5 border border-white/10" data-aos="zoom-in">
+                    <div class="flex items-start gap-4 mb-4">
+                        <div class="icon-hero"><i data-lucide="heading" class="primary-color w-6 h-6"></i></div>
+                        <h4 class="text-xl font-bold text-white">Títulos</h4>
+                    </div>
+                    <p class="text-sm text-soft">Indicam o tema geral do texto. Leia-os antes de mergulhar no corpo.</p>
+                </div>
+                <div class="rounded-xl p-6 bg-white/5 border border-white/10" data-aos="zoom-in" data-aos-delay="100">
+                    <div class="flex items-start gap-4 mb-4">
+                        <div class="icon-hero"><i data-lucide="list-tree" class="primary-color w-6 h-6"></i></div>
+                        <h4 class="text-xl font-bold text-white">Subtítulos</h4>
+                    </div>
+                    <p class="text-sm text-soft">Dividem o texto em partes temáticas — mapa de seções para localizar informação.</p>
+                </div>
+                <div class="rounded-xl p-6 bg-white/5 border border-white/10" data-aos="zoom-in" data-aos-delay="200">
+                    <div class="flex items-start gap-4 mb-4">
+                        <div class="icon-hero"><i data-lucide="list-ordered" class="primary-color w-6 h-6"></i></div>
+                        <h4 class="text-xl font-bold text-white">Parágrafos numerados</h4>
+                    </div>
+                    <p class="text-sm text-soft">Organizam informações em tópicos isolados e sequenciais.</p>
+                </div>
+                <div class="rounded-xl p-6 bg-white/5 border border-white/10" data-aos="zoom-in" data-aos-delay="300">
+                    <div class="flex items-start gap-4 mb-4">
+                        <div class="icon-hero"><i data-lucide="bold" class="primary-color w-6 h-6"></i></div>
+                        <h4 class="text-xl font-bold text-white">Destaques</h4>
+                    </div>
+                    <p class="text-sm text-soft">Negrito e itálico chamam atenção para conceitos e termos técnicos-chave.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-8 p-5 rounded-xl bg-[#FF904D]/10 border border-[#FF904D]/20 w-full max-w-5xl text-center" data-aos="fade-up">
+            <p class="text-sm text-white/80">Em textos acadêmicos: <strong>1. Introdução</strong> · <strong>2. Fundamentação teórica</strong> · <strong>3. Metodologia</strong> · <strong>4. Resultados</strong> — subtítulos viram guias de navegação.</p>
+        </div>
+    </section>
+
+    <!-- ============ SLIDE 10: RELAÇÕES ENTRE PARÁGRAFOS (GRID 4) ============ -->
+    <section class="min-h-screen flex flex-col items-center justify-center px-6 py-16">
+        <div class="text-center mb-10" data-aos="fade-up">
+            <div class="slide-title-row justify-center flex items-center gap-4">
+                <div class="icon-hero"><i data-lucide="link" class="primary-color w-6 h-6"></i></div>
+                <h2 class="text-5xl font-black">A <span class="primary-color">Ponte Invisível</span> entre Parágrafos</h2>
+            </div>
+            <p class="text-soft text-lg mt-3">4 tipos de conexão — a banca pergunta "qual a relação?" e você acerta</p>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-6 w-full max-w-5xl items-stretch">
+            <div class="glass-card p-8" data-aos="zoom-in">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="icon-hero"><i data-lucide="arrow-down-right" class="primary-color w-6 h-6"></i></div>
+                    <h3 class="text-2xl font-bold">Continuidade</h3>
+                </div>
+                <p class="text-sm text-soft mb-4">Mesmo raciocínio segue na próxima etapa.</p>
+                <div class="p-3 rounded-lg bg-white/5 border-l-4 border-[#FF904D] text-left">
+                    <p class="text-xs italic text-white/70">"Escola repensa tecnologia. → Formação para uso pedagógico."</p>
+                </div>
+            </div>
+            <div class="glass-card p-8" data-aos="zoom-in" data-aos-delay="100">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="icon-hero"><i data-lucide="shuffle" class="primary-color w-6 h-6"></i></div>
+                    <h3 class="text-2xl font-bold">Oposição</h3>
+                </div>
+                <p class="text-sm text-soft mb-4">Ponto de vista contrário ou limitação apresentada.</p>
+                <div class="p-3 rounded-lg bg-white/5 border-l-4 border-[#FF904D] text-left">
+                    <p class="text-xs italic text-white/70">"Celular engaja. → Mas dispersa e superficializa."</p>
+                </div>
+            </div>
+            <div class="glass-card p-8" data-aos="zoom-in" data-aos-delay="200">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="icon-hero"><i data-lucide="git-merge" class="primary-color w-6 h-6"></i></div>
+                    <h3 class="text-2xl font-bold">Causa/Consequência</h3>
+                </div>
+                <p class="text-sm text-soft mb-4">Um parágrafo explica o outro.</p>
+                <div class="p-3 rounded-lg bg-white/5 border-l-4 border-[#FF904D] text-left">
+                    <p class="text-xs italic text-white/70">"Falta planejamento. → Alunos não acompanham."</p>
+                </div>
+            </div>
+            <div class="glass-card p-8" data-aos="zoom-in" data-aos-delay="300">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="icon-hero"><i data-lucide="list" class="primary-color w-6 h-6"></i></div>
+                    <h3 class="text-2xl font-bold">Exemplificação</h3>
+                </div>
+                <p class="text-sm text-soft mb-4">Ideia geral ilustrada por casos concretos.</p>
+                <div class="p-3 rounded-lg bg-white/5 border-l-4 border-[#FF904D] text-left">
+                    <p class="text-xs italic text-white/70">"Estratégias de leitura. → Clubes, rodas, projetos."</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ SLIDE 11: FUNÇÕES DOS PARÁGRAFOS (MÉTRICAS/GRID) ============ -->
+    <section class="min-h-screen flex flex-col items-center justify-center px-6 py-16">
+        <div class="text-center mb-10" data-aos="fade-up">
+            <div class="slide-title-row justify-center flex items-center gap-4">
+                <div class="icon-hero"><i data-lucide="users" class="primary-color w-6 h-6"></i></div>
+                <h2 class="text-5xl font-black">5 <span class="primary-color">Papéis</span> que Um Parágrafo Joga</h2>
+            </div>
+            <p class="text-soft text-lg mt-3">No texto dissertativo-argumentativo, classifique a função</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-5xl">
+            <div class="glass-card p-8 text-center" data-aos="zoom-in" data-aos-delay="0">
+                <div class="icon-hero mx-auto mb-4"><i data-lucide="flag" class="primary-color w-6 h-6"></i></div>
+                <h4 class="text-lg font-bold mb-2 text-white">Apresentação</h4>
+                <p class="text-sm text-soft">Tema + tese (geralmente parágrafo 1)</p>
+            </div>
+            <div class="glass-card p-8 text-center" data-aos="zoom-in" data-aos-delay="150">
+                <div class="icon-hero mx-auto mb-4"><i data-lucide="message-square" class="primary-color w-6 h-6"></i></div>
+                <h4 class="text-lg font-bold mb-2 text-white">Argumentação</h4>
+                <p class="text-sm text-soft">Razões, dados e exemplos (coração do desenvolvimento)</p>
+            </div>
+            <div class="glass-card p-8 text-center" data-aos="zoom-in" data-aos-delay="300">
+                <div class="icon-hero mx-auto mb-4"><i data-lucide="shield-alert" class="primary-color w-6 h-6"></i></div>
+                <h4 class="text-lg font-bold mb-2 text-white">Contra-argumentação</h4>
+                <p class="text-sm text-soft">Objeção + refutação ("contra" que fortalece)</p>
+            </div>
+            <div class="glass-card p-8 text-center" data-aos="zoom-in" data-aos-delay="450">
+                <div class="icon-hero mx-auto mb-4"><i data-lucide="lightbulb" class="primary-color w-6 h-6"></i></div>
+                <h4 class="text-lg font-bold mb-2 text-white">Exemplificação</h4>
+                <p class="text-sm text-soft">Ilustra uma ideia já apresentada</p>
+            </div>
+            <div class="glass-card p-8 text-center" data-aos="zoom-in" data-aos-delay="600">
+                <div class="icon-hero mx-auto mb-4"><i data-lucide="check-check" class="primary-color w-6 h-6"></i></div>
+                <h4 class="text-lg font-bold mb-2 text-white">Conclusão</h4>
+                <p class="text-sm text-soft">Síntese + fechamento (último parágrafo)</p>
+            </div>
+            <div class="glass-card p-8 text-center flex flex-col items-center justify-center" data-aos="zoom-in" data-aos-delay="750">
+                <div class="icon-hero mx-auto mb-4"><i data-lucide="eye" class="primary-color w-6 h-6"></i></div>
+                <h4 class="text-lg font-bold mb-2 text-white">Dica</h4>
+                <p class="text-sm text-soft">Classifique a função e a questão "qual a função?" vira ponto certo</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ SLIDE 12: NOTÍCIA (TIMELINE) ============ -->
+    <section class="min-h-screen flex flex-col items-center justify-center px-6 py-16">
+        <div class="text-center mb-10" data-aos="fade-up">
+            <div class="slide-title-row justify-center flex items-center gap-4">
+                <div class="icon-hero"><i data-lucide="newspaper" class="primary-color w-6 h-6"></i></div>
+                <h2 class="text-5xl font-black">Notícia: A <span class="primary-color">Pirâmide Invertida</span></h2>
+            </div>
+            <p class="text-soft text-lg mt-3">3 camadas — o essencial está no topo, o detalhe fica na base</p>
+        </div>
+
+        <div class="glass-card w-full max-w-5xl p-8" data-aos="fade-up">
+            <div class="space-y-6 relative">
+                <div class="absolute left-[19px] top-2 bottom-2 w-0.5 bg-white/10"></div>
+                <div class="relative pl-12">
+                    <div class="absolute left-0 top-1 w-10 h-10 rounded-full primary-bg flex items-center justify-center border-4 border-[#000000]">
+                        <span class="text-black font-bold">1</span>
+                    </div>
+                    <h4 class="text-lg font-bold text-white">Título</h4>
+                    <p class="text-white/70 text-sm">O gancho — resume o fato principal em uma linha. "Escola estadual implanta projeto de leitura."</p>
+                </div>
+                <div class="relative pl-12">
+                    <div class="absolute left-0 top-1 w-10 h-10 rounded-full bg-white/20 flex items-center justify-center border-4 border-[#000000]">
+                        <span class="text-white font-bold">2</span>
+                    </div>
+                    <h4 class="text-lg font-bold text-white">Lide (Lead) — 5W1H</h4>
+                    <p class="text-white/70 text-sm">Primeiro parágrafo com o essencial: <strong class="primary-color">O quê</strong>, <strong class="primary-color">Quem</strong>, <strong class="primary-color">Quando</strong>, <strong class="primary-color">Onde</strong>, <strong class="primary-color">Como</strong>, <strong class="primary-color">Por quê</strong>.</p>
+                </div>
+                <div class="relative pl-12">
+                    <div class="absolute left-0 top-1 w-10 h-10 rounded-full bg-white/20 flex items-center justify-center border-4 border-[#000000]">
+                        <span class="text-white font-bold">3</span>
+                    </div>
+                    <h4 class="text-lg font-bold text-white">Corpo</h4>
+                    <p class="text-white/70 text-sm">Detalhes, citações, contexto e consequências. Pode ser cortado sem perder a notícia essencial.</p>
+                </div>
+            </div>
+        </div>
+
+        <img src="assets/estrutura-noticia.png" alt="Estrutura da notícia" class="w-full max-w-5xl rounded-lg mt-8 border border-white/10" data-aos="fade-up">
+    </section>
+
+    <!-- ============ SLIDE 13: TEXTO INSTRUCIONAL (LISTA) ============ -->
+    <section class="min-h-screen flex flex-col items-center justify-center px-6 py-16">
+        <div class="text-center mb-10" data-aos="fade-up">
+            <div class="slide-title-row justify-center flex items-center gap-4">
+                <div class="icon-hero"><i data-lucide="list-ordered" class="primary-color w-6 h-6"></i></div>
+                <h2 class="text-5xl font-black">Manual de Instruções: A <span class="primary-color">Ordem</span> que Não Pode Falhar</h2>
+            </div>
+            <p class="text-soft text-lg mt-3">4 blocos obrigatórios — pule um e o procedimento dá errado</p>
+        </div>
+
+        <div class="glass-card w-full max-w-5xl p-8" data-aos="fade-up">
+            <ul class="space-y-6">
+                <li class="flex items-start gap-4">
+                    <span class="text-5xl font-black primary-color">1</span>
+                    <div>
+                        <h4 class="text-xl font-bold text-white mb-1">Título</h4>
+                        <p class="text-white/80 text-sm">Nomeia a atividade claramente. Ex: "Como organizar um plano de estudo para concursos".</p>
+                    </div>
+                </li>
+                <li class="flex items-start gap-4">
+                    <span class="text-5xl font-black primary-color">2</span>
+                    <div>
+                        <h4 class="text-xl font-bold text-white mb-1">Materiais / Pré-requisitos</h4>
+                        <p class="text-white/80 text-sm">Liste edital, disciplinas, carga horária antes de começar.</p>
+                    </div>
+                </li>
+                <li class="flex items-start gap-4">
+                    <span class="text-5xl font-black primary-color">3</span>
+                    <div>
+                        <h4 class="text-xl font-bold text-white mb-1">Passos numerados</h4>
+                        <p class="text-white/80 text-sm">Sequência lógica — um por linha, verbo no infinitivo. Distribua os conteúdos ao longo da semana.</p>
+                    </div>
+                </li>
+                <li class="flex items-start gap-4">
+                    <span class="text-5xl font-black primary-color">4</span>
+                    <div>
+                        <h4 class="text-xl font-bold text-white mb-1">Observações / Advertências</h4>
+                        <p class="text-white/80 text-sm">Cuidados, riscos e dicas. <em>"Evite sobrecarregar a agenda; consistência é mais importante que intensidade."</em></p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- ============ SLIDE 14: TEXTO DESCRITIVO (FLUXO 3 ROTAS) ============ -->
+    <section class="min-h-screen flex flex-col items-center justify-center px-6 py-16">
+        <div class="text-center mb-10" data-aos="fade-up">
+            <div class="slide-title-row justify-center flex items-center gap-4">
+                <div class="icon-hero"><i data-lucide="eye" class="primary-color w-6 h-6"></i></div>
+                <h2 class="text-5xl font-black">Descrição: A Ordem que <span class="primary-color">Guarda o Olhar</span></h2>
+            </div>
+            <p class="text-soft text-lg mt-3">3 roteiros possíveis — o autor escolhe um, a banca testa se você percebeu</p>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-6 w-full max-w-5xl items-stretch">
+            <div class="glass-card p-8 text-center" data-aos="zoom-in">
+                <div class="icon-hero mx-auto mb-5"><i data-lucide="move-3d" class="primary-color w-6 h-6"></i></div>
+                <h3 class="text-2xl font-bold mb-3">Espacial</h3>
+                <p class="text-soft text-sm mb-4">De cima para baixo, de fora para dentro, perto para longe.</p>
+                <div class="p-4 rounded-lg bg-white/5 border-l-4 border-[#FF904D] text-left">
+                    <p class="text-xs italic text-white/70">"Nas paredes prateleiras. No centro, mesas. Junto à janela, um sofá."</p>
+                </div>
+            </div>
+            <div class="glass-card p-8 text-center" data-aos="zoom-in" data-aos-delay="100">
+                <div class="icon-hero mx-auto mb-5"><i data-lucide="timer" class="primary-color w-6 h-6"></i></div>
+                <h3 class="text-2xl font-bold mb-3">Temporal</h3>
+                <p class="text-soft text-sm mb-4">Cronológica: antes, durante, depois.</p>
+                <div class="p-4 rounded-lg bg-white/5 border-l-4 border-[#FF904D] text-left">
+                    <p class="text-xs italic text-white/70">"No início, a sala estava vazia. Ao meio-dia, cheia de alunos."</p>
+                </div>
+            </div>
+            <div class="glass-card p-8 text-center" data-aos="zoom-in" data-aos-delay="200">
+                <div class="icon-hero mx-auto mb-5"><i data-lucide="scale" class="primary-color w-6 h-6"></i></div>
+                <h3 class="text-2xl font-bold mb-3">Lógica</h3>
+                <p class="text-soft text-sm mb-4">Do geral para o particular, do principal para o acessório.</p>
+                <div class="p-4 rounded-lg bg-white/5 border-l-4 border-[#FF904D] text-left">
+                    <p class="text-xs italic text-white/70">"O espaço é amplo. Os detalhes compõem a atmosfera de leitura."</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ SLIDE 15: TEXTO NARRATIVO (5 ETAPAS) ============ -->
+    <section class="min-h-screen flex flex-col items-center justify-center px-6 py-16">
+        <div class="text-center mb-10" data-aos="fade-up">
+            <div class="slide-title-row justify-center flex items-center gap-4">
+                <div class="icon-hero"><i data-lucide="book-open" class="primary-color w-6 h-6"></i></div>
+                <h2 class="text-5xl font-black">Narrativa: O Arco em <span class="primary-color">5 Etapas</span></h2>
+            </div>
+            <p class="text-soft text-lg mt-3">A estrutura que prende do início ao fim</p>
+        </div>
+
+        <div class="glass-card w-full max-w-5xl p-8" data-aos="fade-up">
+            <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
+                <div class="rounded-xl p-5 bg-white/5 border border-white/10 text-center relative" data-aos="zoom-in">
+                    <span class="absolute -top-3 -left-3 w-8 h-8 rounded-full primary-bg text-black font-bold flex items-center justify-center border-4 border-[#000000]">1</span>
+                    <div class="icon-hero mx-auto mb-3"><i data-lucide="sun" class="primary-color w-5 h-5"></i></div>
+                    <h4 class="text-sm font-bold text-white mb-2">Situação inicial</h4>
+                    <p class="text-xs text-soft">Personagens, tempo, espaço</p>
+                </div>
+                <div class="rounded-xl p-5 bg-white/5 border border-white/10 text-center relative" data-aos="zoom-in" data-aos-delay="100">
+                    <span class="absolute -top-3 -left-3 w-8 h-8 rounded-full primary-bg text-black font-bold flex items-center justify-center border-4 border-[#000000]">2</span>
+                    <div class="icon-hero mx-auto mb-3"><i data-lucide="cloud-rain" class="primary-color w-5 h-5"></i></div>
+                    <h4 class="text-sm font-bold text-white mb-2">Complicação</h4>
+                    <p class="text-xs text-soft">O conflito surge</p>
+                </div>
+                <div class="rounded-xl p-5 bg-white/5 border border-white/10 text-center relative" data-aos="zoom-in" data-aos-delay="200">
+                    <span class="absolute -top-3 -left-3 w-8 h-8 rounded-full primary-bg text-black font-bold flex items-center justify-center border-4 border-[#000000]">3</span>
+                    <div class="icon-hero mx-auto mb-3"><i data-lucide="footprints" class="primary-color w-5 h-5"></i></div>
+                    <h4 class="text-sm font-bold text-white mb-2">Desenvolvimento</h4>
+                    <p class="text-xs text-soft">Ações diante do conflito</p>
+                </div>
+                <div class="rounded-xl p-5 bg-white/5 border border-white/10 text-center relative" data-aos="zoom-in" data-aos-delay="300">
+                    <span class="absolute -top-3 -left-3 w-8 h-8 rounded-full primary-bg text-black font-bold flex items-center justify-center border-4 border-[#000000]">4</span>
+                    <div class="icon-hero mx-auto mb-3"><i data-lucide="flame" class="primary-color w-5 h-5"></i></div>
+                    <h4 class="text-sm font-bold text-white mb-2">Clímax</h4>
+                    <p class="text-xs text-soft">Ponto de máxima tensão</p>
+                </div>
+                <div class="rounded-xl p-5 bg-white/5 border border-white/10 text-center relative" data-aos="zoom-in" data-aos-delay="400">
+                    <span class="absolute -top-3 -left-3 w-8 h-8 rounded-full primary-bg text-black font-bold flex items-center justify-center border-4 border-[#000000]">5</span>
+                    <div class="icon-hero mx-auto mb-3"><i data-lucide="flag" class="primary-color w-5 h-5"></i></div>
+                    <h4 class="text-sm font-bold text-white mb-2">Desfecho</h4>
+                    <p class="text-xs text-soft">Resolução (ou não) do conflito</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-8 p-5 rounded-xl bg-[#FF904D]/10 border border-[#FF904D]/20 w-full max-w-5xl" data-aos="fade-up">
+            <p class="text-sm text-white/80"><strong class="primary-color">Exemplo:</strong> "A escola enfrentava evasão (situação inicial). Piorou após as enchentes (complicação). A direção articulou busca ativa (desenvolvimento). Após meses, matrículas recuperadas (desfecho)." — O clímax pode ser implícito.</p>
+        </div>
+    </section>
+
+    <!-- ============ SLIDE 16: COERÊNCIA (D3 CHECKLIST) ============ -->
+    <section class="min-h-screen flex flex-col items-center justify-center px-6 py-16">
+        <div class="text-center mb-10" data-aos="fade-up">
+            <div class="slide-title-row justify-center flex items-center gap-4">
+                <div class="icon-hero"><i data-lucide="check-square" class="primary-color w-6 h-6"></i></div>
+                <h2 class="text-5xl font-black">Coerência: Os 4 <span class="primary-color">Pilares</span></h2>
+            </div>
+            <p class="text-soft text-lg mt-3">Texto bem estruturado passa em todos; bagunçado cai em pelo menos 1</p>
+        </div>
+
+        <div class="glass-card w-full max-w-5xl p-8" data-aos="fade-up">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <div class="rounded-xl p-6 bg-white/5 border border-white/10 flex items-start gap-4" data-aos="zoom-in">
+                    <div class="icon-hero"><i data-lucide="layers" class="primary-color w-6 h-6"></i></div>
+                    <div>
+                        <h4 class="text-lg font-bold text-white mb-1">Unidade temática</h4>
+                        <p class="text-sm text-soft">Todas as partes tratam do mesmo assunto central.</p>
+                    </div>
+                </div>
+                <div class="rounded-xl p-6 bg-white/5 border border-white/10 flex items-start gap-4" data-aos="zoom-in" data-aos-delay="100">
+                    <div class="icon-hero"><i data-lucide="trending-up" class="primary-color w-6 h-6"></i></div>
+                    <div>
+                        <h4 class="text-lg font-bold text-white mb-1">Progressão lógica</h4>
+                        <p class="text-sm text-soft">As ideias avançam de modo coerente, sem saltos.</p>
+                    </div>
+                </div>
+                <div class="rounded-xl p-6 bg-white/5 border border-white/10 flex items-start gap-4" data-aos="zoom-in" data-aos-delay="200">
+                    <div class="icon-hero"><i data-lucide="shield-x" class="primary-color w-6 h-6"></i></div>
+                    <div>
+                        <h4 class="text-lg font-bold text-white mb-1">Não contradição</h4>
+                        <p class="text-sm text-soft">As informações não se anulam internamente.</p>
+                    </div>
+                </div>
+                <div class="rounded-xl p-6 bg-white/5 border border-white/10 flex items-start gap-4" data-aos="zoom-in" data-aos-delay="300">
+                    <div class="icon-hero"><i data-lucide="git-compare" class="primary-color w-6 h-6"></i></div>
+                    <div>
+                        <h4 class="text-lg font-bold text-white mb-1">Adequação I·D·C</h4>
+                        <p class="text-sm text-soft">O prometido na introdução é desenvolvido e fechado na conclusão.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-8 p-5 rounded-xl bg-[#FF904D]/10 border border-[#FF904D]/20 w-full max-w-5xl" data-aos="fade-up">
+            <p class="text-sm text-white/80"><strong class="primary-color">Exemplo de incoerência:</strong> Introdução promete "analisar desafios da formação docente", desenvolvimento fala de infraestrutura e conclusão pede "investir em transporte escolar". A banca rejeita na hora.</p>
+        </div>
+    </section>
+
+    <!-- ============ SLIDE 17: MÉTODO 7 PASSOS (PROGRESSO) ============ -->
+    <section class="min-h-screen flex flex-col items-center justify-center px-6 py-16">
+        <div class="text-center mb-10" data-aos="fade-up">
+            <div class="slide-title-row justify-center flex items-center gap-4">
+                <div class="icon-hero"><i data-lucide="target" class="primary-color w-6 h-6"></i></div>
+                <h2 class="text-5xl font-black">O Método de <span class="primary-color">7 Passos</span></h2>
+            </div>
+            <p class="text-soft text-lg mt-3">Aplicação direta na prova — cada passo elimina alternativas erradas</p>
+        </div>
+
+        <div class="glass-card w-full max-w-5xl p-8" data-aos="fade-up">
+            <div class="space-y-5 mt-4">
+                <div>
+                    <div class="flex justify-between mb-2">
+                        <span class="font-semibold">1. Identifique a macroestrutura (I/D/C)</span>
+                        <span class="primary-color font-bold">30%</span>
+                    </div>
+                    <div class="w-full h-3 bg-white/20 rounded-full">
+                        <div class="h-full rounded-full primary-bg progress-bar-fill" style="width: 0%; transition: width 2s ease-out;" data-width="30"></div>
+                    </div>
+                </div>
+                <div>
+                    <div class="flex justify-between mb-2">
+                        <span class="font-semibold">2. Localize o tópico frasal de cada parágrafo</span>
+                        <span class="primary-color font-bold">20%</span>
+                    </div>
+                    <div class="w-full h-3 bg-white/20 rounded-full">
+                        <div class="h-full rounded-full primary-bg progress-bar-fill" style="width: 0%; transition: width 2s ease-out;" data-width="20"></div>
+                    </div>
+                </div>
+                <div>
+                    <div class="flex justify-between mb-2">
+                        <span class="font-semibold">3. Observe a progressão temática</span>
+                        <span class="primary-color font-bold">15%</span>
+                    </div>
+                    <div class="w-full h-3 bg-white/20 rounded-full">
+                        <div class="h-full rounded-full primary-bg progress-bar-fill" style="width: 0%; transition: width 2s ease-out;" data-width="15"></div>
+                    </div>
+                </div>
+                <div>
+                    <div class="flex justify-between mb-2">
+                        <span class="font-semibold">4. Verifique a função de cada parte</span>
+                        <span class="primary-color font-bold">15%</span>
+                    </div>
+                    <div class="w-full h-3 bg-white/20 rounded-full">
+                        <div class="h-full rounded-full primary-bg progress-bar-fill" style="width: 0%; transition: width 2s ease-out;" data-width="15"></div>
+                    </div>
+                </div>
+                <div>
+                    <div class="flex justify-between mb-2">
+                        <span class="font-semibold">5. Analise as relações entre parágrafos</span>
+                        <span class="primary-color font-bold">10%</span>
+                    </div>
+                    <div class="w-full h-3 bg-white/20 rounded-full">
+                        <div class="h-full rounded-full primary-bg progress-bar-fill" style="width: 0%; transition: width 2s ease-out;" data-width="10"></div>
+                    </div>
+                </div>
+                <div>
+                    <div class="flex justify-between mb-2">
+                        <span class="font-semibold">6. Use subtítulos como guia de localização</span>
+                        <span class="primary-color font-bold">5%</span>
+                    </div>
+                    <div class="w-full h-3 bg-white/20 rounded-full">
+                        <div class="h-full rounded-full primary-bg progress-bar-fill" style="width: 0%; transition: width 2s ease-out;" data-width="5"></div>
+                    </div>
+                </div>
+                <div>
+                    <div class="flex justify-between mb-2">
+                        <span class="font-semibold">7. Desconfie de função incompatível com conteúdo</span>
+                        <span class="primary-color font-bold">5%</span>
+                    </div>
+                    <div class="w-full h-3 bg-white/20 rounded-full">
+                        <div class="h-full rounded-full primary-bg progress-bar-fill" style="width: 0%; transition: width 2s ease-out;" data-width="5"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <p class="text-softer mt-8 text-center max-w-2xl" data-aos="fade-up">Autoavaliação: no final, releia o trecho antes de marcar a resposta.</p>
+    </section>
+
+    <script>
+        (function () {
+            const bars = document.querySelectorAll('.progress-bar-fill');
+            if (bars.length === 0) return;
+            const io = new IntersectionObserver(entries => {
+                entries.forEach(e => {
+                    if (!e.isIntersecting) return;
+                    setTimeout(() => { e.target.style.width = e.target.getAttribute('data-width') + '%'; }, 200);
+                    io.unobserve(e.target);
+                });
+            }, { threshold: 0.3 });
+            bars.forEach(b => io.observe(b));
+        })();
+    </script>
+
+    <!-- ============ SLIDE 18: EXEMPLO COMENTADO (TABELA) ============ -->
+    <section class="min-h-screen flex flex-col items-center justify-center px-6 py-16">
+        <div class="text-center mb-10" data-aos="fade-up">
+            <div class="slide-title-row justify-center flex items-center gap-4">
+                <div class="icon-hero"><i data-lucide="search" class="primary-color w-6 h-6"></i></div>
+                <h2 class="text-5xl font-black">Dissecando a Estrutura de <span class="primary-color">3 Parágrafos</span></h2>
+            </div>
+            <p class="text-soft text-lg mt-3">Exemplo comentado — veja o método de 7 passos em ação</p>
+        </div>
+
+        <div class="glass-card rounded-xl p-8 w-full max-w-5xl overflow-hidden" data-aos="fade-up">
+            <div class="mb-6 p-4 rounded-lg bg-white/5 border-l-4 border-[#FF904D]">
+                <p class="text-white/80 italic text-sm">"A educação integral representa uma proposta de reorganização do tempo e do espaço escolares. Para que essa proposta se concretize, é necessário ampliar a carga horária e repensar as atividades. Assim, a educação integral não se resume a 'mais horas na escola', mas a uma concepção ampla de formação."</p>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="border-b border-white/20">
+                            <th class="py-4 px-4 text-[#FF904D] font-bold uppercase text-sm tracking-wider">Parágrafo</th>
+                            <th class="py-4 px-4 text-[#FF904D] font-bold uppercase text-sm tracking-wider">Conteúdo-chave</th>
+                            <th class="py-4 px-4 text-[#FF904D] font-bold uppercase text-sm tracking-wider">Função</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-white/10">
+                        <tr class="hover:bg-white/5 transition-colors">
+                            <td class="py-4 px-4 text-white font-medium">1º</td>
+                            <td class="py-4 px-4 text-white/80">Educação integral = reorganização de tempo e espaço + formação humana</td>
+                            <td class="py-4 px-4">
+                                <span class="bg-white/10 text-white text-xs px-3 py-1 rounded-full border border-white/20">Apresentação do tema e tese</span>
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-white/5 transition-colors">
+                            <td class="py-4 px-4 text-white font-medium">2º</td>
+                            <td class="py-4 px-4 text-white/80">Ampliar carga horária + repensar atividades (oficinas, esportes, apoio)</td>
+                            <td class="py-4 px-4">
+                                <span class="bg-white/10 text-white text-xs px-3 py-1 rounded-full border border-white/20">Argumentação / Exemplificação</span>
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-white/5 transition-colors">
+                            <td class="py-4 px-4 text-white font-medium">3º</td>
+                            <td class="py-4 px-4 text-white/80">"Não é mais horas, é concepção ampla" — retoma e sintetiza</td>
+                            <td class="py-4 px-4">
+                                <span class="bg-[#FF904D]/20 text-[#FF904D] text-xs px-3 py-1 rounded-full border border-[#FF904D]/30">Conclusão (retomada + síntese)</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="mt-6 pt-4 border-t border-white/10">
+                <p class="text-white/40 text-xs italic">Questão típica: "O terceiro parágrafo tem a função de..." → Resposta: retomar e concluir a argumentação.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ SLIDE 19: ENCERRAMENTO ============ -->
+    <section class="min-h-screen flex flex-col items-center justify-center relative overflow-hidden px-6">
+        <div class="cta-breathe absolute inset-0 pointer-events-none"></div>
+
+        <div class="relative z-10 text-center max-w-3xl" data-aos="zoom-in">
+            <div class="icon-hero mx-auto mb-8" style="width:72px;height:72px;border-radius:20px;">
+                <i data-lucide="trophy" class="primary-color w-9 h-9"></i>
+            </div>
+            <h2 class="text-6xl font-black mb-6">A Estrutura Não Vai Mais <span class="primary-color">Se Esconder</span></h2>
+            <p class="text-xl text-soft mb-10">Você tem o mapa, as lentes e o método. Agora é treinar até virar automático.</p>
+
+            <div class="flex flex-wrap items-center justify-center gap-4">
+                <span class="attribute-pill px-6 py-3 text-base"><i data-lucide="layers" class="inline w-4 h-4 mr-2 primary-color"></i>Macroestrutura</span>
+                <span class="attribute-pill px-6 py-3 text-base"><i data-lucide="route" class="inline w-4 h-4 mr-2 primary-color"></i>Progressão temática</span>
+                <span class="attribute-pill px-6 py-3 text-base"><i data-lucide="link" class="inline w-4 h-4 mr-2 primary-color"></i>Relações entre parágrafos</span>
+            </div>
+
+            <p class="text-softer mt-12 text-sm tracking-widest uppercase">Módulo 02 · Organização Estrutural dos Textos</p>
+        </div>
+
+        <style>
+            .cta-breathe {
+                background: radial-gradient(ellipse at 50% 60%, var(--mira-glow-strong), transparent 65%);
+                animation: mira-pulse 4s ease-in-out infinite;
+            }
+        </style>
+    </section>
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        AOS.init({ duration: 800, once: true, offset: 100 });
+        lucide.createIcons();
+
+        // === CONTROLES DE SLIDE ===
+        (function () {
+            const cardSections = Array.from(document.querySelectorAll('body > section'));
+            if (cardSections.length === 0) return;
+            const progress = document.getElementById('mira-progress');
+            const nextBtn = document.getElementById('mira-next');
+            const nextIcon = document.getElementById('mira-next-icon');
+            const atBottom = () => (window.scrollY + window.innerHeight) >= (document.documentElement.scrollHeight - 100);
+            function currentIndex() {
+                const y = window.scrollY + window.innerHeight * 0.3;
+                let idx = -1;
+                for (let i = 0; i < cardSections.length; i++) {
+                    if (cardSections[i].offsetTop <= y) idx = i;
+                }
+                return idx;
+            }
+            function goTo(i) {
+                const idx = Math.max(0, Math.min(cardSections.length - 1, i));
+                cardSections[idx].scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+            window.addEventListener('scroll', () => {
+                const docH = document.documentElement.scrollHeight - window.innerHeight;
+                progress.style.width = (docH > 0 ? (window.scrollY / docH) * 100 : 0) + '%';
+                nextBtn.classList.toggle('visible', window.scrollY > 300);
+                nextIcon.setAttribute('data-lucide', atBottom() ? 'chevron-up' : 'chevron-down');
+                lucide.createIcons();
+            });
+            nextBtn.addEventListener('click', () => {
+                if (atBottom()) { window.scrollTo({ top: 0, behavior: 'smooth' }); return; }
+                goTo(currentIndex() + 1);
+            });
+            document.addEventListener('keydown', (e) => {
+                if (['ArrowRight', 'ArrowDown', 'PageDown'].includes(e.key)) {
+                    e.preventDefault(); goTo(currentIndex() + 1);
+                } else if (['ArrowLeft', 'ArrowUp', 'PageUp'].includes(e.key)) {
+                    e.preventDefault(); const idx = currentIndex();
+                    if (idx <= 0) window.scrollTo({ top: 0, behavior: 'smooth' }); else goTo(idx - 1);
+                } else if (e.key === 'Home') {
+                    e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' });
+                } else if (e.key === 'End') {
+                    e.preventDefault(); goTo(cardSections.length - 1);
+                } else if (e.key.toLowerCase() === 'f') {
+                    if (!document.fullscreenElement) document.documentElement.requestFullscreen();
+                    else document.exitFullscreen();
+                }
+            });
+        })();
+    </script>
+
+    <script src="mira/mira-edit.js" defer></script>
+    <script src="mira/mira-edit-free.js" defer></script>
+    <script src="mira/mira-draw.js" defer></script>
+</body>
+
+</html>

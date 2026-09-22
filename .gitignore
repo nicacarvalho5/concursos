@@ -1,22 +1,24 @@
 # Ignorar tudo por padrão
 *
 
-# Exceto README.md e index.html
+# Exceto arquivos e pastas permitidos
 !README.md
 !index.html
+!seduc/
+!seduc/**
 
-# Pastas que não devem ser versionadas
+# Pastas que não devem ser versionadas (na raiz)
 .openclaude/
 scripts/
 backup/
-slides/
+/slides/
 
 # OS
 .DS_Store
 Thumbs.db
 
 # Dependências locais
-slides/node_modules/
+/slides/node_modules/
 
 # Vídeos Mira (182MB, baixados localmente)
-slides/mira-templates/videos_header/
+/slides/mira-templates/videos_header/

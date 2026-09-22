@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tópico 01 — Estruturas Lógicas: Proposições, Conectivos, Negação, Equivalências, Argumentos e Inferências — SEDUC-PA 2026</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="../../slides/assets/theme.css" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <div class="container header-content">
+            <a href="../../" class="logo">SEDUC-PA <span>2026</span></a>
+            <nav class="nav-links">
+                <a href="../../">Início</a>
+                <a href="../../slides/">Slides</a>
+                <a href="../" class="active">Conteúdo</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <article class="content-article glass-card">
+            <header style="margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--mira-card-border);">
+                <p class="attribute-pill" style="margin-bottom: 1rem;">
+                    <i data-lucide="book-open" class="w-4 h-4"></i>
+                    Concurso SEDUC-PA 2026
+                </p>
+                <h1>Tópico 01 — Estruturas Lógicas: Proposições, Conectivos, Negação, Equivalências, Argumentos e Inferências</h1>
+                <p style="color: var(--mira-text-soft); margin-top: 0.5rem; font-size: 1.1rem;"></p>
+                <div class="content-pills" style="margin-top: 1.5rem;">
+                    
+                </div>
+            </header>
+
+            
+
+            <nav style="margin-bottom: 2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+    <a href="../" class="btn btn-outline">← Voltar ao índice</a>
+    <a href="./" class="btn btn-outline">← Voltar à disciplina</a>
+</nav>
+
+
+            
+<p>Este tópico aborda as <strong>estruturas lógicas fundamentais</strong> exigidas em <strong>concursos públicos</strong>, sendo a base de toda <strong>prova de raciocínio lógico</strong>. Dominar <strong>proposições, conectivos e negações</strong> é a principal <strong>técnica</strong> e <strong>estratégia</strong> para resolver com segurança as <strong>questões</strong> cobradas por bancas como <strong>FGV</strong>, <strong>Cespe</strong> e outras, garantindo <strong>gabarito</strong> correto mesmo sob pressão de tempo. Este é o primeiro passo de <strong>preparação</strong> para o edital, servindo de fundamento para os demais <strong>estudos</strong> de Raciocínio Lógico.</p>
+
+<div class="section-divider">    <div class="section-divider-icon"><i data-lucide="brain" class="w-5 h-5"></i></div>    <div class="section-divider-line"></div></div>
+<h2>1. Definição</h2>
+
+<p>Uma <strong>proposição lógica</strong> é toda sentença declarativa (afirmativa) que pode ser classificada como <strong>verdadeira (V)</strong> ou <strong>falsa (F)</strong>, nunca as duas ao mesmo tempo e nunca nenhuma delas. Perguntas, ordens, exclamações e frases ambíguas ou sem sentido definido <strong>não são proposições</strong>.</p>
+
+<p>As proposições são representadas por letras minúsculas (p, q, r...) e podem ser:</p>
+<ul>    <li><strong>Simples (atômicas):</strong> expressam uma única ideia, sem conectivos. Ex.: p: "Marina é professora."</li>    <li><strong>Compostas (moleculares):</strong> formadas por duas ou mais proposições simples unidas por <strong>conectivos lógicos</strong>. Ex.: p ∧ q: "Marina é professora e Carlos é diretor."</li></ul>
+<div class="section-divider">    <div class="section-divider-icon"><i data-lucide="target" class="w-5 h-5"></i></div>    <div class="section-divider-line"></div></div>
+<h2>2. Explicação Teórica</h2>
+<h3>2.1 Os conectivos lógicos</h3>
+
+<p>Os conectivos (ou operadores lógicos) unem proposições simples para formar proposições compostas, e cada um possui uma tabela-verdade própria:</p>
+<ul>    <li><strong>Conjunção (e) — símbolo ∧:</strong> verdadeira somente quando as duas proposições são verdadeiras.</li>    <li><strong>Disjunção inclusiva (ou) — símbolo ∨:</strong> falsa somente quando as duas proposições são falsas.</li>    <li><strong>Disjunção exclusiva (ou... ou...) — símbolo ∨:</strong> verdadeira quando exatamente uma das proposições é verdadeira (não ambas).</li>    <li><strong>Condicional (se... então...) — símbolo →:</strong> falsa apenas quando o antecedente é verdadeiro e o consequente é falso.</li>    <li><strong>Bicondicional (se e somente se) — símbolo ↔:</strong> verdadeira quando as duas proposições têm o <strong>mesmo</strong> valor lógico (ambas V ou ambas F).</li></ul>
+<h3>2.2 Negação</h3>
+
+<p>A <strong>negação</strong> (símbolo ¬ ou ~) inverte o valor lógico de uma proposição: se p é V, ¬p é F, e vice-versa. Em provas de concurso, a cobrança mais comum não é negar uma proposição simples (bastando um "não"), mas sim negar <strong>proposições compostas</strong>, o que exige aplicar regras específicas — e é justamente aí que a maioria dos candidatos erra.</p>
+
+<div class="content-card">    <div class="content-card-header">        <div class="content-card-icon"><i data-lucide="info" class="w-5 h-5"></i></div>        <div class="content-card-title">Regras práticas de negação (Leis de De Morgan e equivalentes)</div>    </div>    <p class="content-card-text"></p></div>
+
+<table>    <thead>        <tr>            <th>Proposição original</th>            <th>Negação correta</th>        </tr>    </thead>    <tbody>        <tr>            <td>p ∧ q (e)</td>            <td>¬p ∨ ¬q (nega as duas e troca "e" por "ou")</td>        </tr>        <tr>            <td>p ∨ q (ou)</td>            <td>¬p ∧ ¬q (nega as duas e troca "ou" por "e")</td>        </tr>        <tr>            <td>p → q (se... então...)</td>            <td>p ∧ ¬q (afirma o antecedente e nega o consequente)</td>        </tr>        <tr>            <td>p ↔ q (se e somente se)</td>            <td>(p ∧ ¬q) ∨ (¬p ∧ q)</td>        </tr>        <tr>            <td>Todo/Todos... são</td>            <td>Algum/Alguns... não são</td>        </tr>        <tr>            <td>Algum/Existe... que é</td>            <td>Nenhum... é</td>        </tr>    </tbody></table>
+
+<div class="callout callout-danger">    <div class="callout-title">Regra de Ouro</div>    <p class="callout-text">"Negar uma proposição composta nunca é apenas colocar um 'não' na frase — é preciso identificar o conectivo principal, negar cada parte e trocar o conectivo pela sua forma equivalente."</p></div>
+<h3>2.3 Equivalências lógicas</h3>
+
+<p>Duas proposições são <strong>logicamente equivalentes</strong> quando possuem a mesma tabela-verdade, ou seja, dizem "a mesma coisa" com palavras diferentes. As equivalências mais cobradas em prova:</p>
+<div class="content-card">    <div class="content-card-header">        <div class="content-card-icon"><i data-lucide="info" class="w-5 h-5"></i></div>        <div class="content-card-title">Condicional (p → q)</div>    </div>    <p class="content-card-text">equivale a <strong>¬p ∨ q</strong> (útil para transformar "se... então" em "ou").</p></div>
+<div class="content-card">    <div class="content-card-header">        <div class="content-card-icon"><i data-lucide="info" class="w-5 h-5"></i></div>        <div class="content-card-title">Contrapositiva</div>    </div>    <p class="content-card-text">p → q equivale a ¬q → ¬p.</p></div>
+<div class="content-card">    <div class="content-card-header">        <div class="content-card-icon"><i data-lucide="info" class="w-5 h-5"></i></div>        <div class="content-card-title">Dupla negação</div>    </div>    <p class="content-card-text">¬(¬p) equivale a p.</p></div>
+<div class="content-card">    <div class="content-card-header">        <div class="content-card-icon"><i data-lucide="info" class="w-5 h-5"></i></div>        <div class="content-card-title">Comutatividade</div>    </div>    <p class="content-card-text">p ∧ q equivale a q ∧ p; p ∨ q equivale a q ∨ p.</p></div>
+<h3>2.4 Argumentos e inferências</h3>
+
+<p>Um <strong>argumento</strong> é um conjunto de proposições em que algumas (as <strong>premissas</strong>) servem de sustentação para outra (a <strong>conclusão</strong>). Um argumento é <strong>válido</strong> quando, sendo as premissas verdadeiras, a conclusão é necessariamente verdadeira — e não quando o conteúdo "parece certo" no mundo real: em lógica formal, avalia-se apenas a <strong>estrutura</strong>, não o conteúdo.</p>
+
+<div class="content-card">    <div class="content-card-header">        <div class="content-card-icon"><i data-lucide="search" class="w-5 h-5"></i></div>        <div class="content-card-title">Principais formas válidas de argumento (regras de inferência)</div>    </div>    <p class="content-card-text"></p></div>
+<ul>    <li><strong>Modus Ponens:</strong> Se P, então Q. P. Logo, Q.</li>    <li><strong>Modus Tollens:</strong> Se P, então Q. Não Q. Logo, não P.</li>    <li><strong>Silogismo Hipotético:</strong> Se P, então Q. Se Q, então R. Logo, se P, então R.</li>    <li><strong>Silogismo Disjuntivo:</strong> P ou Q. Não P. Logo, Q.</li></ul>
+<div class="content-card">    <div class="content-card-header">        <div class="content-card-icon"><i data-lucide="info" class="w-5 h-5"></i></div>        <div class="content-card-title">Falácias comuns (formas inválidas), muito exploradas pelas bancas</div>    </div>    <p class="content-card-text"></p></div>
+<ul>    <li><strong>Afirmação do consequente:</strong> Se P, então Q. Q. Logo, P. <em>(inválido)</em></li>    <li><strong>Negação do antecedente:</strong> Se P, então Q. Não P. Logo, não Q. <em>(inválido)</em></li></ul>
+<div class="section-divider">    <div class="section-divider-icon"><i data-lucide="quote" class="w-5 h-5"></i></div>    <div class="section-divider-line"></div></div>
+<h2>3. Exemplos Práticos</h2>
+<h3>Exemplo Comparativo: Argumento Válido vs Argumento Inválido</h3>
+<h3>Argumento Válido</h3>
+<ul>    <li>Definição: a conclusão decorre necessariamente das premissas</li>    <li>Característica 1: segue uma estrutura reconhecida (Modus Ponens, Modus Tollens, silogismo hipotético ou disjuntivo)</li>    <li>Característica 2: não depende do conteúdo ser "verdadeiro no mundo real", apenas da forma lógica</li></ul>
+<h3>Argumento Inválido</h3>
+<ul>    <li>Definição: existe ao menos uma situação em que as premissas são verdadeiras e a conclusão é falsa</li>    <li>Característica 1: costuma repetir os erros clássicos de afirmação do consequente ou negação do antecedente</li>    <li>Característica 2: pode "parecer" convincente à primeira leitura, por isso é a principal armadilha das bancas</li></ul>
+<h3>Exemplo Comparativo: Negação da Conjunção vs Negação da Disjunção</h3>
+<h3>Negação da Conjunção (e)</h3>
+<ul>    <li>Definição: nega-se uma proposição do tipo "p e q"</li>    <li>Regra: nega-se cada parte e troca-se "e" por "ou"</li>    <li>Exemplo: "João estuda e Maria trabalha" → "João não estuda ou Maria não trabalha"</li></ul>
+<h3>Negação da Disjunção (ou)</h3>
+<ul>    <li>Definição: nega-se uma proposição do tipo "p ou q"</li>    <li>Regra: nega-se cada parte e troca-se "ou" por "e"</li>    <li>Exemplo: "João estuda ou Maria trabalha" → "João não estuda e Maria não trabalha"</li></ul>
+<div class="content-card">    <div class="content-card-header">        <div class="content-card-icon"><i data-lucide="quote" class="w-5 h-5"></i></div>        <div class="content-card-title">Exemplo resolvido (nível concurso)</div>    </div>    <p class="content-card-text"></p></div>
+
+<p>Proposição: "Se Ana foi aprovada, então ela estudou muito." Negação correta: "Ana foi aprovada e ela não estudou muito." (afirma-se o antecedente e nega-se o consequente, conforme a regra da condicional).</p>
+
+<div class="section-divider">    <div class="section-divider-icon"><i data-lucide="lightbulb" class="w-5 h-5"></i></div>    <div class="section-divider-line"></div></div>
+<h2>4. Dicas para Resolução de Questões de Concurso</h2>
+<ul>    <li><strong>Reescreva sempre em símbolos:</strong> transformar a frase em p, q, r e os conectivos ∧, ∨, →, ↔ reduz erros de interpretação e ganha tempo de prova.</li>    <li><strong>Identifique o conectivo principal antes de negar:</strong> ele é quem determina a regra de negação a ser aplicada.</li>    <li><strong>Condicional vira "ou":</strong> lembrar que p → q equivale a ¬p ∨ q resolve rapidamente muitas questões de equivalência.</li>    <li><strong>Desconfie de argumentos "que soam certos":</strong> valide sempre pela estrutura (Modus Ponens/Tollens), não pela plausibilidade do conteúdo.</li>    <li><strong>Treine tabelas-verdade de cabeça:</strong> decorar quando cada conectivo é falso (em vez de quando é verdadeiro) costuma agilizar a resolução.</li></ul>
+<div class="section-divider">    <div class="section-divider-icon"><i data-lucide="external-link" class="w-5 h-5"></i></div>    <div class="section-divider-line"></div></div>
+<h2>Referências</h2>
+<div class="content-card">    <div class="content-card-header">        <div class="content-card-icon"><i data-lucide="newspaper" class="w-5 h-5"></i></div>        <div class="content-card-title">"Negação de Proposições Lógicas"</div>    </div>    <p class="content-card-text"><strong>Descrição:</strong> Artigo que detalha as regras práticas de negação de proposições compostas e reforça a cobrança do tema por bancas como FGV, FCC e Cebraspe.</p>    <div class="content-pills" style="margin-top: 0.75rem;">    <span class="content-pill"><i data-lucide="tag" class="w-3 h-3"></i> Artigo</span>    <span class="content-pill"><i data-lucide="external-link" class="w-3 h-3"></i> <a href="https://www.estrategiaconcursos.com.br/blog/negacao-proposicoes/" target="_blank" rel="noopener noreferrer">https://www.estrategiaconcursos.com.br/blog/negacao-proposicoes/</a></span>    </div></div><div class="content-card">    <div class="content-card-header">        <div class="content-card-icon"><i data-lucide="newspaper" class="w-5 h-5"></i></div>        <div class="content-card-title">"Saiba tudo sobre conectivos lógicos"</div>    </div>    <p class="content-card-text"><strong>Descrição:</strong> Artigo com definições básicas de proposições e explicação de como a negação inverte o valor lógico de uma sentença.</p>    <div class="content-pills" style="margin-top: 0.75rem;">    <span class="content-pill"><i data-lucide="tag" class="w-3 h-3"></i> Artigo</span>    <span class="content-pill"><i data-lucide="external-link" class="w-3 h-3"></i> <a href="https://www.estrategiaconcursos.com.br/blog/tudo-conectivos-logicos/" target="_blank" rel="noopener noreferrer">https://www.estrategiaconcursos.com.br/blog/tudo-conectivos-logicos/</a></span>    </div></div><div class="content-card">    <div class="content-card-header">        <div class="content-card-icon"><i data-lucide="newspaper" class="w-5 h-5"></i></div>        <div class="content-card-title">"Raciocínio Lógico para Concursos"</div>    </div>    <p class="content-card-text"><strong>Descrição:</strong> Material que aborda as negações dos conectivos "e", "ou" e "se...então" e introduz o conceito de argumento válido e inválido.</p>    <div class="content-pills" style="margin-top: 0.75rem;">    <span class="content-pill"><i data-lucide="tag" class="w-3 h-3"></i> Artigo</span>    <span class="content-pill"><i data-lucide="external-link" class="w-3 h-3"></i> <a href="https://www.novaconcursos.com.br/portal/artigos/raciocinio-logico-para-concursos/" target="_blank" rel="noopener noreferrer">https://www.novaconcursos.com.br/portal/artigos/raciocinio-logico-para-concursos/</a></span>    </div></div><div class="content-card">    <div class="content-card-header">        <div class="content-card-icon"><i data-lucide="globe" class="w-5 h-5"></i></div>        <div class="content-card-title">"Questões de Raciocínio Lógico - Equivalência Lógica e Negação de Proposições para Concurso"</div>    </div>    <p class="content-card-text"><strong>Descrição:</strong> Banco de questões reais de concurso sobre negação de proposições compostas e aplicação das Leis de De Morgan.</p>    <div class="content-pills" style="margin-top: 0.75rem;">    <span class="content-pill"><i data-lucide="tag" class="w-3 h-3"></i> Site oficial</span>    <span class="content-pill"><i data-lucide="external-link" class="w-3 h-3"></i> <a href="https://www.qconcursos.com/questoes-de-concursos/disciplinas/matematica-raciocinio-logico/equivalencia-logica-e-negacao-de-proposicoes/questoes" target="_blank" rel="noopener noreferrer">https://www.qconcursos.com/questoes-de-concursos/disciplinas/matematica-raciocinio-logico/equivalencia-logica-e-negacao-de-proposicoes/questoes</a></span>    </div></div><div class="content-card">    <div class="content-card-header">        <div class="content-card-icon"><i data-lucide="newspaper" class="w-5 h-5"></i></div>        <div class="content-card-title">"Raciocínio Lógico – Proposições, Conectivos e Tabela Verdade"</div>    </div>    <p class="content-card-text"><strong>Descrição:</strong> Material de curso preparatório que define proposição, apresenta os conectivos e a construção da tabela-verdade.</p>    <div class="content-pills" style="margin-top: 0.75rem;">    <span class="content-pill"><i data-lucide="tag" class="w-3 h-3"></i> Artigo</span>    <span class="content-pill"><i data-lucide="external-link" class="w-3 h-3"></i> <a href="https://sigmacursospreparatorios.com.br/raciocinio-logico-proposicoes-conectivos-e-tabela-verdade/" target="_blank" rel="noopener noreferrer">https://sigmacursospreparatorios.com.br/raciocinio-logico-proposicoes-conectivos-e-tabela-verdade/</a></span>    </div></div><div class="content-card">    <div class="content-card-header">        <div class="content-card-icon"><i data-lucide="newspaper" class="w-5 h-5"></i></div>        <div class="content-card-title">"argumentos logicos"</div>    </div>    <p class="content-card-text"><strong>Descrição:</strong> Artigo que apresenta as estruturas de Modus Ponens, Modus Tollens, silogismo hipotético e disjuntivo, além das falácias de afirmação do consequente e negação do antecedente.</p>    <div class="content-pills" style="margin-top: 0.75rem;">    <span class="content-pill"><i data-lucide="tag" class="w-3 h-3"></i> Artigo</span>    <span class="content-pill"><i data-lucide="external-link" class="w-3 h-3"></i> <a href="https://www.estrategiaconcursos.com.br/blog/argumentos-logicos/" target="_blank" rel="noopener noreferrer">https://www.estrategiaconcursos.com.br/blog/argumentos-logicos/</a></span>    </div></div><div class="content-card">    <div class="content-card-header">        <div class="content-card-icon"><i data-lucide="file-text" class="w-5 h-5"></i></div>        <div class="content-card-title">"Aula03 Regras de Inferência"</div>    </div>    <p class="content-card-text"><strong>Descrição:</strong> Material acadêmico da UFMG usado para confirmar a definição formal de argumento válido em lógica proposicional.</p>    <div class="content-pills" style="margin-top: 0.75rem;">    <span class="content-pill"><i data-lucide="tag" class="w-3 h-3"></i> PDF</span>    <span class="content-pill"><i data-lucide="external-link" class="w-3 h-3"></i> <a href="https://homepages.dcc.ufmg.br/~msalvim/courses/mat-disc/Aula03_Regras_de_Inferencia%5b2x2%5d.pdf" target="_blank" rel="noopener noreferrer">https://homepages.dcc.ufmg.br/~msalvim/courses/mat-disc/Aula03_Regras_de_Inferencia%5b2x2%5d.pdf</a></span>    </div></div><div class="content-card">    <div class="content-card-header">        <div class="content-card-icon"><i data-lucide="newspaper" class="w-5 h-5"></i></div>        <div class="content-card-title">"Silogismo: o que é, tipos e como usar na argumentação"</div>    </div>    <p class="content-card-text"><strong>Descrição:</strong> Artigo consultado para embasar a definição de silogismo e as condições de validade do raciocínio dedutivo.</p>    <div class="content-pills" style="margin-top: 0.75rem;">    <span class="content-pill"><i data-lucide="tag" class="w-3 h-3"></i> Artigo</span>    <span class="content-pill"><i data-lucide="external-link" class="w-3 h-3"></i> <a href="https://www.fm2s.com.br/blog/silogismo" target="_blank" rel="noopener noreferrer">https://www.fm2s.com.br/blog/silogismo</a></span>    </div></div>
+
+
+            <hr style="margin-top: 3rem;">
+        </article>
+
+        <nav style="margin-top: 2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;"><div><a href="0.html" class="btn btn-outline">← Tópico Anterior</a></div><div><a href="02-sequencias-logicas-e-reconhecimento-de-padroes.html" class="btn btn-primary">Próximo Tópico →</a></div></nav>
+
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>SEDUC-PA 2026 — Especialista em Educação</p>
+            <p style="margin-top: 0.5rem;">
+                <a href="https://github.com/nicacarvalho5/concursos" target="_blank">Repositório</a>
+            </p>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        if (typeof lucide !== 'undefined') {
+            lucide.createIcons();
+        }
+    </script>
+</body>
+</html>
