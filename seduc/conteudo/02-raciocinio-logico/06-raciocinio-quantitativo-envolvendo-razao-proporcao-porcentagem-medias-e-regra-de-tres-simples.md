@@ -92,7 +92,7 @@ Aplicável quando há **duas grandezas** relacionadas. O primeiro passo é sempr
 
 - **Tipo:** PDF (apostila institucional)
   **Título:** "Razão, Proporção e Regra de Três"
-  **URL:** https://portal1.iff.edu.br/nossos-campi/bom-jesus-do-itabapoana/arquivos/2020/razao-proporcao-e-regra-de-tres.pdf/@@download/file/Razão, Proporção e Regra de três.pdf
+  **URL:** https://portal1.iff.edu.br/nossos-campi/bom-jesus-do-itabapoana/arquivos/2020/razao-proporcao-e-regra-de-tres.pdf
   **Descrição:** Material didático do Instituto Federal Fluminense (IFF) com definição formal de razão, proporção e regra de três simples e composta, usado como base teórica deste tópico.
 
 - **Tipo:** Artigo

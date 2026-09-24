@@ -1,94 +1,237 @@
-# Tópico 9 – Problemas estruturais das frases
+# Tópico 09 – Problemas estruturais das frases
 
-## Introdução
+Este tópico aborda os principais **problemas estruturais das frases**, assunto importante para **concurso**, **prova**, **estudo**, **técnica**, **dica**, **exemplo**, **banca**, **FGV**, **Cespe**, **edital**, **estratégia**, **questão**, **gabarito** e **preparação** em Língua Portuguesa. O foco está na identificação de construções que prejudicam a clareza, a correção gramatical, a concisão, a precisão e a coerência, competências relevantes para a prova e para a atuação do Especialista em Educação.
 
-Este tópico aborda os principais **problemas estruturais das frases** em Língua Portuguesa, especialmente aqueles cobrados em concursos públicos em questões de correção gramatical, reescrita, clareza e interpretação de enunciados.[cite:129][cite:130] Em provas objetivas, esses problemas costumam aparecer ligados a vícios de linguagem, falhas de construção sintática e defeitos que comprometem a precisão, a concisão e a coerência da frase.[cite:136][cite:140]
+## 1. Conceito de problemas estruturais
 
-## Problemas mais cobrados
+Problemas estruturais das frases são falhas na organização dos termos, na relação entre palavras e orações ou na escolha de construções que comprometem a compreensão da mensagem. Eles podem ocorrer no plano sintático, semântico, lexical ou sonoro.
 
-Entre os problemas estruturais mais frequentes em materiais de gramática e preparação para concursos estão a **ambiguidade**, o **pleonasmo vicioso**, o **solecismo**, o **barbarismo** e a **cacofonia**.[cite:129][cite:130][cite:133] Em linhas gerais, eles prejudicam a qualidade da frase porque criam duplo sentido, repetição desnecessária, inadequação sintática, emprego incorreto de palavras ou sonoridade desagradável.[cite:129][cite:136]
+Em concursos, a banca pode apresentar uma frase para que o candidato identifique o erro, avalie a correção de uma reescrita ou escolha a alternativa que preserva clareza e sentido. Em documentos escolares e administrativos, a revisão deve verificar não apenas se a frase está gramaticalmente aceitável, mas também se o leitor consegue compreendê-la sem esforço ou dupla interpretação.
 
-## Ambiguidade
+## 2. Ambiguidade ou anfibologia
 
-A **ambiguidade**, também chamada de **anfibologia**, ocorre quando a frase permite duas ou mais interpretações, comprometendo a clareza da mensagem.[cite:129][cite:133][cite:142] Em textos objetivos, como provas, relatórios e documentos oficiais, ela é considerada problema estrutural porque o leitor não consegue identificar com segurança o sentido pretendido.[cite:136][cite:138]
+A **ambiguidade** ocorre quando uma frase permite duas ou mais interpretações. Ela pode ser intencional em textos literários, publicitários ou humorísticos, mas geralmente constitui problema quando impede a identificação do sentido pretendido.
 
-Exemplo clássico: “João encontrou Pedro com seu irmão”. A estrutura não deixa claro de quem é o irmão — de João ou de Pedro — e, por isso, gera duplo sentido.[cite:129][cite:142]
+Exemplo:
 
-## Pleonasmo vicioso
+> O coordenador informou ao professor que sua turma seria avaliada.
 
-O **pleonasmo vicioso** é a repetição inútil de uma ideia já expressa na frase, sem finalidade estilística válida.[cite:129][cite:131][cite:136] Expressões como “subir para cima”, “elo de ligação”, “há anos atrás” e “planejar antecipadamente” aparecem com frequência em listas de vícios de linguagem e em exercícios de concursos.[cite:131][cite:136][cite:137]
+O pronome **sua** pode referir-se ao coordenador ou ao professor. Para eliminar a dúvida, pode-se escrever:
 
-É importante distinguir o pleonasmo vicioso do **pleonasmo literário**, que pode ser usado intencionalmente como recurso expressivo.[cite:131][cite:142] Em provas de Língua Portuguesa, o interesse recai sobre o uso indevido, que compromete a concisão e a elegância da frase.[cite:129][cite:143]
+- O coordenador informou ao professor que **a turma do professor** seria avaliada.
+- O coordenador informou ao professor: **a turma dele** seria avaliada.
 
-## Solecismo
+A ambiguidade também pode ser provocada pela posição de adjuntos, pela ausência de pontuação ou pelo emprego de pronomes sem antecedente claro.
 
-O **solecismo** corresponde a falhas de natureza sintática, relacionadas principalmente a **concordância**, **regência** e **colocação pronominal**.[cite:129][cite:133][cite:137] É um dos problemas estruturais mais importantes para concursos porque se conecta diretamente à norma-padrão e à correção gramatical da frase.[cite:130][cite:135]
+## 3. Pleonasmo vicioso
 
-Exemplos comuns incluem construções como “Fazem anos que não o vejo” (em vez de “Faz anos...”), “Assisti o filme” em contexto que exige preposição, ou ainda usos inadequados de pronomes em posições não aceitas pela norma culta formal.[cite:132][cite:137]
+O **pleonasmo vicioso** é a repetição desnecessária de uma informação já contida na frase. Diferentemente do pleonasmo literário, que pode produzir ênfase expressiva, o pleonasmo vicioso não acrescenta sentido.
 
-## Barbarismo
+Exemplos frequentes:
 
-O **barbarismo** é o emprego incorreto de palavras quanto à grafia, pronúncia, morfologia ou significado.[cite:129][cite:130][cite:142] Embora muitas vezes seja tratado como problema de palavra, ele afeta a estrutura da frase porque compromete a forma correta do enunciado e pode gerar erro de compreensão ou inadequação à norma culta.[cite:132][cite:143]
+- subir **para cima** → subir;
+- descer **para baixo** → descer;
+- elo **de ligação** → elo;
+- há anos **atrás** → há anos ou anos atrás;
+- planejar **antecipadamente** → planejar;
+- conclusão **final** → conclusão.
 
-Materiais didáticos costumam citar casos como troca de letras, acentuação inadequada, deformação vocabular ou emprego semântico errado.[cite:129][cite:132]
+A correção deve preservar a informação relevante e retirar apenas o elemento redundante. Em uma questão, a banca pode apresentar uma expressão pleonástica em meio a uma frase correta para verificar se o candidato reconhece a falta de concisão.
 
-## Cacofonia
+## 4. Solecismo
 
-A **cacofonia** ou **cacófato** ocorre quando a aproximação de palavras produz um som desagradável, ridículo ou inconveniente.[cite:130][cite:133][cite:142] Em contextos de escrita formal, ela é vista como defeito de construção porque, embora nem sempre torne a frase gramaticalmente errada, pode prejudicar a elegância e a aceitabilidade do enunciado.[cite:129][cite:137]
+**Solecismo** é o desvio relacionado à estrutura sintática da frase. Pode envolver concordância, regência ou colocação pronominal.
 
-Por isso, em redação oficial, textos escolares e provas discursivas, recomenda-se revisar sequências sonoras que criem efeito cômico, obsceno ou de ruído fonético desnecessário.[cite:138][cite:140]
+### 4.1 Solecismo de concordância
 
-## Clareza, concisão e coerência
+- Inadequado: **Fazem** três anos que a escola foi inaugurada.
+- Adequado: **Faz** três anos que a escola foi inaugurada.
 
-Além dos vícios clássicos, materiais sobre escrita formal destacam que **falta de clareza**, **excesso de palavras**, **quebra de coerência** e **má organização sintática** também configuram problemas estruturais relevantes.[cite:140][cite:138] A clareza é apontada como qualidade essencial do texto, enquanto a concisão depende de transmitir a informação com o mínimo necessário de palavras, sem redundâncias e sem obscurecer o sentido.[cite:140]
+O verbo “fazer”, indicando tempo decorrido, é impessoal e permanece no singular.
 
-Assim, mesmo quando não há erro gramatical explícito, uma frase pode ser considerada estruturalmente ruim se for obscura, prolixa, mal articulada ou logicamente incoerente.[cite:138][cite:140]
+### 4.2 Solecismo de regência
 
-## Exemplos comparativos
+- Inadequado na norma-padrão formal: Os estudantes **assistiram o** filme.
+- Adequado: Os estudantes **assistiram ao** filme.
 
-### Ambiguidade vs clareza
+Nesse sentido, “assistir” exige a preposição “a”. A regência deve ser analisada de acordo com o sentido do verbo e com o padrão exigido pelo contexto.
 
-**Frase ambígua**: permite mais de uma interpretação e prejudica o entendimento objetivo da mensagem.[cite:129][cite:136]
+### 4.3 Solecismo de colocação pronominal
 
-**Frase clara**: organiza os termos de modo a deixar nítida a relação entre sujeito, verbo, complementos e modificadores, evitando duplo sentido.[cite:138][cite:140]
+Em situações formais, a posição do pronome oblíquo deve observar as regras de próclise, mesóclise e ênclise:
 
-### Pleonasmo vicioso vs concisão
+- Adequado: **Não se deve** ignorar o problema.
+- Adequado: **Deve-se** analisar a frase.
 
-**Pleonasmo vicioso**: repete ideia já expressa, como em “subir para cima”, criando redundância desnecessária.[cite:129][cite:131]
+A escolha da colocação depende da presença de palavras atrativas, do tempo verbal, do registro e da estrutura sintática.
 
-**Frase concisa**: transmite a mesma informação com economia verbal e precisão, eliminando repetições dispensáveis.[cite:140][cite:141]
+## 5. Barbarismo
 
-## Tabela de comparação
+O **barbarismo** consiste no emprego inadequado de uma palavra quanto à grafia, pronúncia, flexão ou significado.
 
-| Problema estrutural | Caracterização | Efeito na frase |
-|---|---|---|
-| Ambiguidade | Duplo sentido não intencional.[cite:129][cite:133] | Compromete a clareza e a interpretação objetiva.[cite:136][cite:138] |
-| Pleonasmo vicioso | Repetição desnecessária de ideia.[cite:129][cite:131] | Prejudica a concisão e torna a frase redundante.[cite:140][cite:141] |
-| Solecismo | Desvio sintático de concordância, regência ou colocação.[cite:133][cite:137] | Torna a frase inadequada à norma-padrão.[cite:130][cite:135] |
-| Barbarismo | Uso incorreto da palavra quanto à grafia, pronúncia, forma ou significado.[cite:129][cite:142] | Gera inadequação formal e possível ruído de compreensão.[cite:132][cite:143] |
-| Cacofonia | Som desagradável ou inconveniente criado pela união de palavras.[cite:130][cite:133] | Afeta a eufonia e a qualidade estilística do enunciado.[cite:137][cite:138] |
+Exemplos de atenção:
 
-## Dicas de prova
+- previlégio → **privilégio**;
+- excessão → **exceção**;
+- interviu → **interveio**;
+- menas informações → **menos informações**.
 
-Para identificar problemas estruturais em concursos, vale seguir um roteiro simples:[cite:135][cite:140]
+O barbarismo pode aparecer em questões de ortografia, morfologia ou vocabulário. Para evitá-lo, é recomendável consultar dicionários e o Vocabulário Ortográfico da Língua Portuguesa em caso de dúvida.
 
-- verificar se a frase admite **mais de um sentido**;
-- eliminar **palavras repetidas** sem necessidade;
-- conferir **concordância, regência e colocação pronominal**;
-- observar se há **palavra grafada ou empregada de forma inadequada**;
-- reler a frase em voz baixa para perceber possíveis **cacofonias** ou ruídos sonoros.[cite:129][cite:130][cite:137]
+## 6. Cacofonia ou cacófato
 
-Uma estratégia útil é testar a frase em ordem direta, com sujeito, verbo e complementos claramente identificados, porque isso ajuda a perceber ambiguidades e falhas sintáticas com mais facilidade.[cite:135][cite:140]
+A **cacofonia** ocorre quando a aproximação de sons ou sílabas de palavras diferentes produz efeito desagradável, ridículo ou inconveniente. Nem todo cacófato constitui erro gramatical, mas a construção pode ser inadequada em texto formal.
 
-## Aplicação ao contexto de Especialista em Educação
+O procedimento de revisão consiste em reler a frase em voz baixa e testar pequenas alterações, como substituição de palavras, mudança de ordem ou inclusão de preposição. A alteração não deve criar outro erro nem modificar o sentido original.
 
-Para o cargo de **Especialista em Educação**, reconhecer problemas estruturais das frases é importante tanto para a prova objetiva quanto para a produção de relatórios, pareceres, orientações pedagógicas e documentos escolares.[cite:138][cite:140] Esse domínio também ajuda na análise de textos de alunos e professores, permitindo corrigir falhas de clareza, concisão e coerência com base na norma-padrão.[cite:135][cite:143]
+## 7. Outros defeitos de construção
+
+Além dos vícios mais conhecidos, uma frase pode apresentar problemas de:
+
+- **falta de clareza:** o leitor não identifica imediatamente a mensagem;
+- **prolixidade:** há excesso de palavras ou explicações que não acrescentam informação;
+- **fragmentação:** o enunciado fica incompleto ou sem relação sintática adequada;
+- **quebra de paralelismo:** elementos coordenados não mantêm estrutura equivalente;
+- **incoerência:** as ideias se contradizem ou não formam relação lógica;
+- **imprecisão vocabular:** a palavra escolhida não expressa exatamente a ideia pretendida.
+
+O Manual de Redação da Presidência da República relaciona a redação oficial à clareza, precisão, objetividade, concisão, coesão, coerência, impessoalidade, formalidade, padronização e uso da norma-padrão. A clareza exige compreensão imediata, enquanto a concisão elimina palavras inúteis e redundâncias sem retirar informações necessárias. 
+
+## 8. Clareza, precisão e concisão
+
+### Clareza
+
+Clareza é a qualidade de uma frase cuja organização permite compreensão imediata. Para obter clareza, recomenda-se usar ordem sintática previsível, evitar pronomes ambíguos e controlar a extensão dos períodos.
+
+### Precisão
+
+Precisão é a escolha de palavras e construções que expressem exatamente a ideia pretendida. Em documentos administrativos, deve-se evitar expressão vaga, sinonímia desnecessária e vocabulário que permita duplo sentido.
+
+### Concisão
+
+Concisão consiste em transmitir o máximo de informação com o mínimo necessário de palavras. Ela não significa eliminar informações relevantes; significa retirar repetições, rodeios e expressões sem função.
+
+## 9. Exemplos comparativos
+
+### 9.1 Exemplo Comparativo: Frase ambígua vs frase clara
+
+#### Frase ambígua
+
+- Definição: construção que permite mais de uma interpretação.
+- Característica 1: geralmente apresenta pronome ou modificador com referência incerta.
+- Característica 2: pode levar o leitor a conclusões diferentes.
+
+Exemplo: “A diretora comunicou à professora que sua sala seria reformada.”
+
+#### Frase clara
+
+- Definição: construção que apresenta relações sintáticas e referências facilmente identificáveis.
+- Característica 1: explicita o referente do pronome.
+- Característica 2: reduz o risco de interpretação equivocada.
+
+Exemplo: “A diretora comunicou à professora que a sala da professora seria reformada.”
+
+### 9.2 Exemplo Comparativo: Pleonasmo vicioso vs frase concisa
+
+#### Pleonasmo vicioso
+
+- Definição: repetição desnecessária de uma ideia.
+- Característica 1: acrescenta palavras sem acrescentar informação.
+- Característica 2: prejudica a concisão e pode ser explorado em questões de correção.
+
+Exemplo: “A escola elaborou um planejamento prévio antecipado.”
+
+#### Frase concisa
+
+- Definição: construção que mantém a informação essencial sem redundância.
+- Característica 1: elimina termos semanticamente repetidos.
+- Característica 2: preserva o sentido com menor quantidade de palavras.
+
+Exemplo: “A escola elaborou um planejamento prévio.”
+
+### 9.3 Exemplo Comparativo: Solecismo vs construção adequada
+
+#### Solecismo
+
+- Definição: desvio sintático de concordância, regência ou colocação pronominal.
+- Característica 1: contraria a norma-padrão esperada no contexto formal.
+- Característica 2: pode ser corrigido pela análise do verbo e de seus complementos.
+
+Exemplo: “Fazem dois meses que o projeto começou.”
+
+#### Construção adequada
+
+- Definição: frase que respeita a relação sintática exigida pela norma-padrão.
+- Característica 1: considera a impessoalidade do verbo “fazer” na indicação de tempo.
+- Característica 2: mantém o verbo no singular.
+
+Exemplo: “Faz dois meses que o projeto começou.”
+
+## 10. Tabela comparativa
+
+| Problema ou qualidade | Caracterização | Exemplo ou solução | Efeito na comunicação |
+|---|---|---|---|
+| Ambiguidade | Duplo sentido não intencional. | “Sua turma será avaliada” → explicitar o referente. | Prejudica a interpretação. |
+| Pleonasmo vicioso | Repetição desnecessária. | “Subir para cima” → “subir”. | Reduz a concisão. |
+| Solecismo | Desvio de concordância, regência ou colocação. | “Faz dois anos”, não “fazem dois anos”. | Compromete a correção formal. |
+| Barbarismo | Uso incorreto de palavra. | “Privilégio”, não “previlégio”. | Afeta a norma ortográfica ou lexical. |
+| Cacofonia | Encontro sonoro desagradável ou inconveniente. | Reorganizar a frase durante a revisão. | Prejudica a eufonia e a formalidade. |
+| Clareza | Compreensão imediata da mensagem. | Explicitar referentes e organizar o período. | Facilita a leitura. |
+| Precisão | Escolha exata das palavras. | Evitar termos vagos e duplos sentidos. | Reduz interpretações indevidas. |
+| Concisão | Máximo de informação com o mínimo necessário. | Retirar redundâncias sem perder conteúdo. | Torna o texto objetivo. |
+
+## 11. Dicas de prova para concursos
+
+- **Leia globalmente:** avalie a frase inteira, não apenas a palavra destacada.
+- **Procure duplo sentido:** verifique pronomes, adjuntos e posições dos termos.
+- **Teste a referência:** substitua “seu”, “sua”, “ele” ou “ela” pelo nome correspondente.
+- **Elimine redundâncias:** retire termos repetidos e confira se o sentido permanece.
+- **Analise o verbo:** confira concordância, regência e complementos exigidos.
+- **Revise a colocação:** observe se há palavra atrativa ou estrutura que determine a posição pronominal.
+- **Leia em voz baixa:** detecte cacofonia e construções sonoramente inadequadas.
+- **Compare versões:** em questões de reescrita, verifique correção, sentido e clareza.
+- **Use a ordem direta:** reorganize mentalmente sujeito, verbo e complementos para localizar o problema.
+- **Considere o contexto:** uma construção aceitável na fala informal pode ser inadequada em documento oficial.
+
+### Regra de Ouro
+
+> **Regra de Ouro:** “Em questões sobre problemas estruturais, verifique simultaneamente a correção gramatical, a clareza, a precisão, a concisão e a preservação do sentido; uma frase pode estar formalmente correta e ainda ser inadequada por gerar ambiguidade.”
+
+## 12. Aplicação ao contexto de Especialista em Educação
+
+O Especialista em Educação produz e revisa relatórios, pareceres, planos de gestão, orientações pedagógicas, atas e comunicações institucionais. Nesses gêneros, uma ambiguidade pode gerar interpretação administrativa equivocada, enquanto uma frase prolixa pode dificultar a compreensão por professores, famílias e estudantes.
+
+O domínio deste tópico também contribui para a prova prática do edital, que prevê a avaliação da adequação da linguagem ao contexto escolar, da coerência e da organização da exposição.
+
+Na prática escolar, a revisão deve perguntar:
+
+- O leitor identificará imediatamente quem faz o quê?
+- Os pronomes possuem referente claro?
+- Há palavras repetidas sem necessidade?
+- A frase respeita concordância e regência?
+- O vocabulário é preciso e adequado ao público?
+- A construção mantém o sentido depois da correção?
 
 ## Referências
 
-- **Todo Matéria.** “Vícios de linguagem: o que e quais são (com exemplos)”. Disponível em: https://www.todamateria.com.br/vicios-de-linguagem/ [cite:129]
-- **Mundo Educação.** “Vícios de linguagem: o que são, principais, exemplos”. Disponível em: https://mundoeducacao.uol.com.br/gramatica/vicios-linguagem.htm [cite:130]
-- **Clube do Português.** “Vícios de linguagem: classificação e exemplos”. Disponível em: https://www.clubedoportugues.com.br/vicios-de-linguagem/ [cite:133]
-- **Degraus Concursos.** “Vícios de Linguagem” (PDF). Disponível em: https://painel.degrausconcursos.com.br/wp-content/uploads/2022/01/5.-Vicios-de-Linguagem.pdf [cite:136]
-- **Professor Décio Terror.** “Material gratuito sobre vícios de linguagem – FGV” (PDF). Disponível em: https://www.professordecioterror.com.br/wp-content/uploads/2023/08/Material-gratuito-sobre-vicios-de-linguagem-FGV-site.pdf [cite:141]
-- **Redação Oficial.** “Clareza, coerência, precisão e concisão” e exemplos de ambiguidade documental.[cite:138][cite:140]
+- **Tipo:** Manual oficial
+  **Título:** “Manual de Redação da Presidência da República”
+  **URL:** [https://www4.planalto.gov.br/centrodeestudos/assuntos/manual-de-redacao-da-presidencia-da-republica/manual-de-redacao.pdf](https://www4.planalto.gov.br/centrodeestudos/assuntos/manual-de-redacao-da-presidencia-da-republica/manual-de-redacao.pdf)
+  **Descrição:** Fonte utilizada para os conceitos de clareza, precisão, objetividade, concisão, coesão, coerência, impessoalidade e uso da norma-padrão em textos oficiais.
+- **Tipo:** Artigo didático
+  **Título:** “Vícios de linguagem: o que e quais são (com exemplos)”
+  **URL:** [https://www.todamateria.com.br/vicios-de-linguagem/](https://www.todamateria.com.br/vicios-de-linguagem/)
+  **Descrição:** Fonte consultada para ambiguidade, pleonasmo vicioso, solecismo, barbarismo e cacófato.
+- **Tipo:** Artigo didático
+  **Título:** “Vícios de linguagem: o que são, principais, exemplos”
+  **URL:** [https://mundoeducacao.uol.com.br/gramatica/vicios-linguagem.htm](https://mundoeducacao.uol.com.br/gramatica/vicios-linguagem.htm)
+  **Descrição:** Fonte consultada para a classificação dos vícios de linguagem e exemplos de duplo sentido, redundância e cacofonia.
+- **Tipo:** Material educacional
+  **Título:** “Vícios de linguagem”
+  **URL:** [https://pt.slideshare.net/slideshow/wwwcentroapoiocom-portugus-vcios-de-linguagem/6756638](https://pt.slideshare.net/slideshow/wwwcentroapoiocom-portugus-vcios-de-linguagem/6756638)
+  **Descrição:** Fonte complementar consultada para exemplos de ambiguidade, cacofonia e outros defeitos de construção.
+- **Tipo:** Arquivo local
+  **Título:** “Edital nº 001, de 28.08.2026 – SEDUC/PA”
+  **URL:** arquivo PDF anexado pelo usuário
+  **Descrição:** Fonte utilizada para contextualizar a adequação da linguagem ao contexto escolar e os critérios da prova prática para Especialista em Educação.
+
